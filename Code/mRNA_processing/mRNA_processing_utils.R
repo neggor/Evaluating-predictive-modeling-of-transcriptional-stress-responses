@@ -1,15 +1,5 @@
 library(DESeq2)
-library(dplyr)
-library(ggplot2)
-library(tidyr)
 library(stringr)
-library(splines)
-library(pheatmap)
-library(reshape2)
-library(clustra)
-library(tibble)
-library(gridExtra)
-library(grid)
 
 #These functions expect the column names to be <treatment>_<time>_<replicate>
 #Control is needed always, and as such it must follow the name control_<time>_<replicate>
