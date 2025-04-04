@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# mRNA stuff
+# mRNA stuff (This assumes you have access to the raw data!)
 echo "Parsing PTI data..."
 python Code/mRNA_processing/parse_data.py
 echo "Running R script..."
@@ -22,3 +22,9 @@ wget -O Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model https://w
 wget -O Data/RAW/DAPSeq/Dapseq.zip http://neomorph.salk.edu/dap_web/pages/dap_data_v4/fullset/dap_download_may2016_peaks.zip
 # Unzip DAP-seq files
 unzip Data/RAW/DAPSeq/Dapseq.zip -d Data/RAW/DAPSeq/
+# Remove the zip file
+rm Data/RAW/DAPSeq/Dapseq.zip
+# Donwload the JASPAR FILE
+wget -O Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_plants_non-redundant_pfms_meme.txt
+
+echo "ALL done!"
