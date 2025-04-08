@@ -54,6 +54,7 @@ def load_promoters(promoter_file_url, exclude_non_ACGT=False):
     print("Number of promoters: ", len(promoters))
     return promoters
 
+
 def encode(sequence, max_length):
     mapping = {"A": 0, "C": 1, "G": 2, "T": 3}
     one_hot = np.zeros((max_length, 4), dtype=np.int8)
@@ -63,9 +64,9 @@ def encode(sequence, max_length):
             break
         if base in mapping:
             one_hot[i, mapping[base]] = 1
-        
 
     return one_hot
+
 
 def generate_one_hot_representation(promoters: dict, folder: str):
     """
@@ -100,6 +101,7 @@ def generate_one_hot_representation(promoters: dict, folder: str):
 
     return urls
 
+
 def _make_kmer(promoters: dict, k: int):
     """
     Generates kmer representation of the promoters.
@@ -124,6 +126,7 @@ def _make_kmer(promoters: dict, k: int):
             kmer_rep[gene_name].append(promoter[i : i + k])
 
     return kmer_rep
+
 
 def _make_reverse_complement(dna_sequence: str):
     """
@@ -152,6 +155,7 @@ def _make_reverse_complement(dna_sequence: str):
 
     return reverse_complement
 
+
 def unique_kmers(k, use_rev_comp=True):
     kmers = set()
     for kmer_tuple in product("ACGT", repeat=k):
@@ -164,9 +168,8 @@ def unique_kmers(k, use_rev_comp=True):
             kmers.add(kmer)
     return sorted(kmers)  # Sorting ensures consistent order
 
-def generate_kmer_count_vector(
-    promoters: dict, folder, k = 6, reverse_complement=True
-):
+
+def generate_kmer_count_vector(promoters: dict, folder, k=6, reverse_complement=True):
     """
     Generate normalized count vectors for each promoter sequence
 
@@ -207,12 +210,12 @@ def generate_kmer_count_vector(
         urls = {}
         for gene_name, count_vector in count_vectors.items():
             if np.sum(count_vector) == 0:
-                print(f'{gene_name} has no counts')
+                print(f"{gene_name} has no counts")
             norm = np.linalg.norm(count_vector)
             if norm == 0:
                 count_vectors[gene_name] = np.zeros(count_vector.shape)
             else:
-                count_vectors[gene_name] = count_vector #/ norm
+                count_vectors[gene_name] = count_vector  # / norm
 
             np.save(f"{folder}/{gene_name}.npy", count_vectors[gene_name])
             urls[gene_name] = f"{folder}/{gene_name}.npy"
@@ -222,7 +225,7 @@ def generate_kmer_count_vector(
     else:
         ordered_kmer_list = unique_kmers(k, use_rev_comp=True)
         print(f"Number of unique kmers: {len(ordered_kmer_list)}")
-        # in the case of reverse complement there will not be exactly half, 
+        # in the case of reverse complement there will not be exactly half,
         # there are palindromic sequences that will be the same
         # Generate a dictionary of kmers and their index
         kmer_index = {}
@@ -251,15 +254,14 @@ def generate_kmer_count_vector(
         urls = {}
         for gene_name, count_vector in count_vectors.items():
             if np.sum(count_vector) == 0:
-               print(f'{gene_name} has no counts')
+                print(f"{gene_name} has no counts")
             norm = np.linalg.norm(count_vector)
             if norm == 0:
                 count_vectors[gene_name] = np.zeros(count_vector.shape)
             else:
-                count_vectors[gene_name] = count_vector# / norm
+                count_vectors[gene_name] = count_vector  # / norm
 
             np.save(f"{folder}/{gene_name}.npy", count_vectors[gene_name])
             urls[gene_name] = f"{folder}/{gene_name}.npy"
 
         return urls, kmer_index
-    

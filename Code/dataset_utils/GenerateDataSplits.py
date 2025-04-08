@@ -1,29 +1,19 @@
 import sys
 
 sys.path.append(".")
-from DNA_Parsing import get_representation
-from sklearn.model_selection import GroupShuffleSplit, GroupKFold
+from Code.DNA_processing import get_representation
+from sklearn.model_selection import GroupShuffleSplit
 import pandas as pd
 import os
 import numpy as np
 import subprocess
-from DNA_Parsing.get_gene_families import add_all_genes
+from Code.DNA_processing.get_gene_families import add_all_genes
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import matthews_corrcoef, roc_auc_score
-import itertools
-from DAPseq_parsing.generateDAP_seq import generate_peaks
-from sklearn.preprocessing import StandardScaler
+from Code.DAPseq_processing.generateDAP_seq import generate_peaks
 import pickle
-from sklearn.linear_model import LogisticRegression, LinearRegression
 import statsmodels.api as sm
-
-## This script handles the generation of on-hot encoded data and family wise splitting.
-## The class DataHandler will be used to construct the training dataset each time a different configuration is
-## needed.
-
-# The scope of this class is to do the neccesary handling for providing the splits pd.DataFrames and TFs for training
-# given the configuration of the DNA.
 
 
 def family_wise_train_test_splitting(
@@ -75,7 +65,7 @@ class DataHandler:
     Parameters:
     DNA_specification: list
         [<upstream_bp_TSS> <downstream_bp_TSS> <upstream_bp_TTS> <downstream_bp_TTS>]
-        Being all integers but the last one, being "true" or "false".
+        Being all integers.
     gene_families_file: str
         The file containing the gene families.
     data_path: str
@@ -91,23 +81,19 @@ class DataHandler:
     dna_folder: str
         The folder containing the DNA sequences. Default is "Data/RAW/DNA/Ath".
     mRNA_file: str
-        The file containing the mRNA data. Default is "Data/RAW/mRNA_counts/Ath/DESeq2_padj_results.csv".
+        The file containing the mRNA data. Default is "Data/Processed/mRNA/DESeq2_padj_results_ALL.csv".
     mask_exons: bool
         Whether to mask exons in the DNA sequences. Default is False.
-    plotty: bool
-        Whether to plot the data. Default is False.
+    kmer_rc: bool
+        Whether to use reverse complement for k-mers. Default is False.
 
     Attributes:
     TSS_dna: dict
         The dictionary of TSS DNA sequences.
     TTS_dna: dict
         The dictionary of TTS DNA sequences.
-    intron_dna: dict
-        The dictionary of intron DNA sequences.
     gene_names: list
         The list of gene names.
-    TFs: dict
-        The dictionary of TFs concentrations for condition x time.
     mRNA: pd.DataFrame
         The mRNA data, contains references to the.
     """
@@ -122,9 +108,8 @@ class DataHandler:
         random_state=42,
         dna_format="One_Hot_Encoding",
         dna_folder="Data/RAW/DNA/Ath",
-        mRNA_file="Data/RAW/mRNA_counts/Ath_GSR/HORMONE+Other.csv",  # "Data/RAW/mRNA_counts/Ath/DESeq2_padj_results.csv", #"Data/RAW/mRNA_counts/Ath_GSR/DESeq2_padj_results.csv",#
+        mRNA_file="Data/Processed/mRNA/DESeq2_padj_results_ALL.csv",
         mask_exons=False,
-        plotty=False,
         kmer_rc=False,
     ):
 
@@ -136,7 +121,6 @@ class DataHandler:
         self.dna_format = dna_format
         assert self.dna_format in ["One_Hot_Encoding", "String", "6-mer", "DAPseq"]
         self.mRNA_file = mRNA_file
-        self.plotty = plotty
         self.kmer_rc = kmer_rc
         self.metadata = {}
         self.mapping = {
@@ -237,20 +221,17 @@ class DataHandler:
             elif self.dna_format == "DAPseq" and "DAPseq" in previous_dna_format:
                 # load the DAP-seq data
                 DAPseq_TSS = pd.read_csv(
-                    "Data/Processed/DNA/DAPseq/genes_TSS.csv",
+                    "Data/Processed/DAPseq/genes_TSS.csv",
                     sep=",",
                     header=0,
                     index_col=0,
                 )
                 DAPseq_TTS = pd.read_csv(
-                    "Data/Processed/DNA/DAPseq/genes_TTS.csv",
+                    "Data/Processed/DAPseq/genes_TTS.csv",
                     sep=",",
                     header=0,
                     index_col=0,
                 )
-                # create a dap_seq directory
-                # now, transform the dataset into a dictionary using index as keys and the values will be a np.array
-                # with the values of the DAP-seq data
                 self.DAPseq_TSS_dict = {
                     gene: DAPseq_TSS.loc[gene].values for gene in DAPseq_TSS.index
                 }
@@ -271,7 +252,7 @@ class DataHandler:
 
         else:
             cmd = [
-                "DNA_Parsing/parse_dna_all.sh",  # Accepts a folder with a .fasta and a .gff file
+                "Code/DNA_processing/parse_dna_all.sh",  # Accepts a folder with a .fasta and a .gff file
                 str(DNA_specification[0]),
                 str(DNA_specification[1]),
                 str(DNA_specification[2]),
@@ -292,8 +273,8 @@ class DataHandler:
                     f"{dna_folder}/custom_promoter_coordinates_{DNA_specification[2]-1}up_{DNA_specification[3]}down_TTS.bed",
                     "Data/RAW/DAPseq/dap_data_v4/peaks",
                     "Data/RAW/DAPseq/dap_overlap",
-                    "Data/Processed/DNA/DAPseq",
-                    cutoff_percentile=0.25,
+                    "Data/Processed/DAPseq",
+                    cutoff_percentile=0.25,  # as per Niels et al. (2024).
                 )
 
                 DAPseq_TSS = pd.read_csv(
@@ -357,6 +338,7 @@ class DataHandler:
                         gene: np.load(url) for gene, url in self.urls_dict_TTS.items()
                     }
                     # save the kmer index in a pickle file
+                    os.makedirs(f"{data_path}/DNA/6-mer", exist_ok=True)
                     with open(f"{data_path}/DNA/6-mer/kmer_index_TSS.pkl", "wb") as f:
                         pickle.dump(self.kmer_index_TSS, f)
 
@@ -556,21 +538,7 @@ class DataHandler:
         )
 
         if problem_type == "log2FC":
-            # os.makedirs("log2FC", exist_ok=True)
-            # simply make wide the log2FC values
-            # drop if NA in pvalue
             mRNA_data_matrix = mRNA_data_matrix.dropna(subset=["padj"])
-
-            # do linear regression using the average of the log2FC values, get the r2 and p-value
-            print(
-                "Correlation between Log2_Fold_Change and average: ",
-                mRNA_data_matrix["Log2_Fold_Change"].corr(mRNA_data_matrix["average"]),
-            )
-            X = sm.add_constant(mRNA_data_matrix["average"].values)
-            model = sm.OLS(mRNA_data_matrix["Log2_Fold_Change"].values, X).fit()
-            print(model.summary())
-            print("R2 of the model using average: ", model.rsquared)
-            print("P-value of the model using average: ", model.pvalues[1])
             wide_lgFC = mRNA_data_matrix.pivot(
                 index="gene", columns="treatment", values="Log2_Fold_Change"
             )
@@ -583,22 +551,7 @@ class DataHandler:
             return wide_lgFC
 
         if problem_type == "amplitude":
-            # os.makedirs("amplitude", exist_ok=True)
-            # simply make wide the log2FC values
-            # drop if NA in pvalue
             mRNA_data_matrix = mRNA_data_matrix.dropna(subset=["padj"])
-
-            # do linear regression using the average of the log2FC values, get the r2 and p-value
-            print(
-                "Correlation between amplitude and average: ",
-                mRNA_data_matrix["amplitude"].corr(mRNA_data_matrix["average"]),
-            )
-            X = sm.add_constant(mRNA_data_matrix["average"].values)
-            model = sm.OLS(mRNA_data_matrix["amplitude"].values, X).fit()
-            print(model.summary())
-            print("R2 of the model using average: ", model.rsquared)
-            print("P-value of the model using average: ", model.pvalues[1])
-
             wide_amp = mRNA_data_matrix.pivot(
                 index="gene", columns="treatment", values="amplitude"
             )
@@ -611,7 +564,6 @@ class DataHandler:
             return wide_amp
 
         elif problem_type == "DE_per_treatment":
-            # os.makedirs("DE_per_treatment", exist_ok=True)
             fdr = 0.01
             print("FDA threshold: ", fdr)
             mRNA_data_matrix["padj"] = mRNA_data_matrix["padj"].fillna(1)
@@ -623,89 +575,22 @@ class DataHandler:
                     & (mRNA_data_matrix["padj"] < fdr),
                     "class",
                 ] = 1
-            # correlation between stat and average
-            print(
-                "Correlation between stat and average: ",
-                mRNA_data_matrix["stat"].corr(mRNA_data_matrix["average"]),
-            )
-            # my_reg = LogisticRegression().fit(mRNA_data_matrix["average"].values.reshape(-1, 1), mRNA_data_matrix["class"].values)
-            X = sm.add_constant(mRNA_data_matrix["average"].values)
-            model = sm.Logit(mRNA_data_matrix["class"].values, X).fit()
-            # print accuracy
-            # print the accuracy of predicting jus the majority class
-            # report the AUC
-            # print(X)
-            # print(model.predict(X))
-            # print(np.sum(model.predict(X) > 0.5))
-            print(
-                "AUC of the model using average: ",
-                roc_auc_score(mRNA_data_matrix["class"].values, model.predict(X)),
-            )
-            print(
-                "MCC of the model using average: ",
-                matthews_corrcoef(
-                    mRNA_data_matrix["class"].values, model.predict(X) > 0.5
-                ),
-            )
-            # Logistic regression using statsmodels
-            print(model.summary())
-            print("P-value of the model using average: ", model.pvalues[1])
-            # print the R2 of the model
-            # now into wide format with class as value, columns are treatment
-
-            # finally normal regression to calculate the pvalue in explaining the LR
-            # X = sm.add_constant(mRNA_data_matrix["average"].values)
-            # model = sm.OLS(mRNA_data_matrix["stat"].values, X).fit()
-            # print(model.summary())
-            # print("P-value of the model using average for predicting STAT: ", model.pvalues[1])
-            # print("R2 of the model using average: ", model.rsquared)
-
             wide_de = mRNA_data_matrix.pivot(
                 index="gene", columns="treatment", values="class"
             )
             wide_de = wide_de.fillna(3)
             wide_de = wide_de.astype(int)
-            # print the number of DE genes per hormone
-            print("Number of DE genes per treatment: ")
-            percentages = {}
-
-            for h in treatment:
-                percentages[self.mapping[h]] = sum(wide_de[h] == 1) / len(
-                    wide_de[wide_de[h] != 3]
-                )
-                print(h, percentages[self.mapping[h]])
-
-            # put gene as column
             wide_de = wide_de.reset_index()
             wide_de = wide_de.rename(columns={"gene": "Gene"})
             self.metadata["n_labels"] = len(treatment)
-            if self.plotty:
-                plt.figure(figsize=(12, 10))
-                sns.barplot(x=list(percentages.keys()), y=list(percentages.values()))
-                plt.title("Percentage of DE genes per treatment")
-                plt.xlabel("Hormone")
-                plt.ylabel("Percentage of DE genes")
-                plt.tight_layout()
-                plt.savefig("DE_per_treatment/DE_per_treatment.png", dpi=300)
             return wide_de
 
         elif problem_type == "quantiles_per_treatment":
-            # os.makedirs("Quantiles_per_hormone", exist_ok=True)
-            # if above or below the average LR per hormone.
-            # This means that we pass on a matrix on n columns, 0s and 1s
-            # change pvalue of nan to 1
-            mRNA_data_matrix["padj"] = mRNA_data_matrix["padj"].fillna(1)
-            # get the average LR per hormone
-            # avg_LR = mRNA_data_matrix.groupby("treatment")["padj"].mean()
-            # print("Average LR per hormone: ")
-            # print(avg_LR)
-            fdr = 0.01
-            # print the percentage of genes that are above the average LR
-            print("Percentage DEG per hormone: ")
-            # for h in hormone:
-            #    print(h, np.mean(mRNA_data_matrix.loc[mRNA_data_matrix["treatment"] == h, "padj"] < fdr))#avg_LR[h]))
 
-            # now make a binary array, iterating over hormone columns
+            mRNA_data_matrix["padj"] = mRNA_data_matrix["padj"].fillna(1)
+            fdr = 0.01
+            print("FDA threshold: ", fdr)
+            print("Percentage DEG per hormone: ")
 
             for h in treatment:
                 mRNA_data_matrix.loc[mRNA_data_matrix["treatment"] == h, "class"] = 3
@@ -728,137 +613,20 @@ class DataHandler:
                     & (mRNA_data_matrix["padj"] < fdr),
                     "class",
                 ] = 1
-                # make a histogram of the stat statictic with the quantiles colored per hormone
-                # correlation between stat and average
-                # Logistic regression using statsmodels
-
-                wide_de = mRNA_data_matrix.pivot(
-                    index="gene", columns="treatment", values="class"
-                )
-                if self.plotty:
-                    mRNA_data_matrix["name"] = mRNA_data_matrix["class"]
-                    class_mapping = {
-                        0: "non-affected",
-                        1: "affected",
-                        2: "affected",
-                        3: "unknown",
-                    }
-                    mRNA_data_matrix["name"] = mRNA_data_matrix["name"].map(
-                        class_mapping
-                    )
-                    plt.close("all")
-                    plt.figure(figsize=(12, 10))
-                    sns.histplot(
-                        data=mRNA_data_matrix.loc[
-                            (mRNA_data_matrix["treatment"] == h)
-                            & (mRNA_data_matrix["stat"] < 100)
-                        ],
-                        x="stat",
-                        bins=50,
-                        hue="name",
-                        multiple="stack",
-                        palette={
-                            "non-affected": "red",
-                            "affected": "green",
-                            "unknown": "gray",
-                        },
-                        kde=False,
-                    )
-                    plt.axvline(
-                        q_25, color="red", linestyle="--", label="25th percentile"
-                    )
-                    plt.axvline(
-                        q_75, color="green", linestyle="--", label="75th percentile"
-                    )
-                    plt.axvline(
-                        mRNA_data_matrix.loc[
-                            (mRNA_data_matrix["treatment"] == h)
-                            & (mRNA_data_matrix["padj"] < fdr),
-                            "stat",
-                        ].min(),
-                        color="black",
-                        linestyle="--",
-                        label="FDR 0.01",
-                    )
-                    plt.title(f"Stat distribution for {self.mapping[h]}")
-                    plt.xlabel("Stat")
-                    plt.ylabel("Frequency")
-                    plt.legend()
-                    plt.tight_layout()
-                    plt.savefig(f"Images/mRNA/Stat_{self.mapping[h]}_hist.png", dpi=300)
-                    # plt.show()
-                    plt.close("all")
-            # now into wide format with class as value, columns are treatment
-
-            # print("Correlation between stat and average: ", mRNA_data_matrix["stat"].corr(mRNA_data_matrix["average"]))
-            # mask for values == 3
-            mask = mRNA_data_matrix["class"] != 3
-            X = sm.add_constant(mRNA_data_matrix["average"].values[mask])
-            model = sm.Logit(mRNA_data_matrix["class"].values[mask], X).fit()
-            print(model.summary())
-            print("P-value of the model using average: ", model.pvalues[1])
-            print(
-                "AUC of the model using average: ",
-                roc_auc_score(mRNA_data_matrix["class"].values[mask], model.predict(X)),
-            )
-            print(
-                "MCC of the model using average: ",
-                matthews_corrcoef(
-                    mRNA_data_matrix["class"].values[mask], model.predict(X) > 0.5
-                ),
-            )
-            # now into wide format with class as value, columns are treatment
 
             wide_de = mRNA_data_matrix.pivot(
                 index="gene", columns="treatment", values="class"
             )
 
-            print(wide_de.shape)
             wide_de = wide_de.fillna(3)
             wide_de = wide_de.astype(int)
-            print(wide_de.shape)
-            # print the number of DE genes per hormone
-            print("Number of DE genes per hormone: ")
-            for h in treatment:
-                print(h, sum(wide_de[h] == 1) / len(wide_de[wide_de[h] != 3]))
+            # print the number of DE genes per hormon
             # put gene as column
             wide_de = wide_de.reset_index()
             wide_de = wide_de.rename(columns={"gene": "Gene"})
             self.metadata["n_labels"] = len(
                 treatment
             )  # bacause this is going to be elementwise sigmoid activation, there can be several 1s at the same time
-            return wide_de
-
-        elif problem_type == "LR":
-            # os.makedirs("LR", exist_ok=True)
-            # straight away predict the LR per hormone
-            # this is a regression problem
-
-            # put in wide format with stat as value, columns are treatment
-            wide_de = mRNA_data_matrix.pivot(
-                index="gene", columns="treatment", values="stat"
-            )
-            wide_de = wide_de.dropna()
-            # put gene as column
-            wide_de = wide_de.reset_index()
-            wide_de = wide_de.rename(columns={"gene": "Gene"})
-
-            # calculate rank of the matrix
-            rank = np.linalg.matrix_rank(wide_de[treatment])
-            print(f"Rank of the matrix: {rank}")
-            # print average correlation between treatments
-            corrs = []
-            for i, tr1 in enumerate(treatment):
-                for j, tr2 in enumerate(treatment):
-                    if i < j:
-                        corrs.append(
-                            np.corrcoef(
-                                wide_de[tr1].to_numpy(), wide_de[tr2].to_numpy()
-                            )[0, 1]
-                        )
-            print(f"Average correlation between treatments: {np.mean(corrs)}")
-
-            self.metadata["n_labels"] = len(treatment)
             return wide_de
 
     def get_data(self, treatments: list, problem_type: str):
@@ -1009,8 +777,7 @@ class DataHandler:
 
 
 if __name__ == "__main__":
-    from Utils.CustomDataset import get_dataloader
-
+    # To test
     DNA_specification = [500, 100, 100, 150]
     gene_families_file = "Data/Processed/gene_families.csv"
     data_path = "Data/Processed"
@@ -1024,7 +791,6 @@ if __name__ == "__main__":
         data_path,
         train_proportion,
         validation_proportion,
-        plotty=False,
         dna_format=dna_format,
         mask_exons=True,
     )
@@ -1032,17 +798,8 @@ if __name__ == "__main__":
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(
             treatments=["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
-            problem_type="quantiles_per_treatment",
+            problem_type="DE_per_treatment",
         )
     )
     print(mRNA_train)
     print(mRNA_train.shape, mRNA_validation.shape, mRNA_test.shape)
-    # print(metadata)
-    # print(TSS_sequences)
-    # print(TTS_sequences)
-    # dataset = get_dataloader(mRNA=mRNA_train, TSS_dna=TSS_sequences, TTS_dna=TTS_sequences)
-
-    # for batch in dataset:
-    #    print(batch["DE"].shape)
-    #    print(batch["DE"])
-    #    break

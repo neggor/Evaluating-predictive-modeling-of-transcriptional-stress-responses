@@ -8,118 +8,6 @@ import os
 import pandas as pd
 import numpy as np
 import subprocess
-import glob
-from tqdm import tqdm
-
-
-def aggregate_tf_binding(dap_data_folder, DNA_specs=[814, 200, 200, 814]):
-    """
-    Aggregates TF binding signals across all TFs and plots the average binding per genomic position.
-
-    Parameters:
-    - dap_data_folder: str, folder containing BED-like intersection files for each TF.
-    - DNA_specs: list, lengths of the upstream and downstream regions for TSS and TTS.
-    """
-    # load the TSS and TTS coordinates
-    TSS_coordinates_file = (
-        "Data/RAW/DNA/Ath/custom_promoter_coordinates_*up_*down_TSS.bed"
-    )
-    TSS_coordinates_file = glob.glob(TSS_coordinates_file)[0]
-    TTS_coordinates_file = (
-        "Data/RAW/DNA/Ath/custom_promoter_coordinates_*up_*down_TTS.bed"
-    )
-    TTS_coordinates_file = glob.glob(TTS_coordinates_file)[0]
-    df_TSS = pd.read_csv(
-        TSS_coordinates_file,
-        sep="\t",
-        header=None,
-        names=["chrom", "start", "end", "gene", "dot", "strand"],
-    )
-    df_TTS = pd.read_csv(
-        TTS_coordinates_file,
-        sep="\t",
-        header=None,
-        names=["chrom", "start", "end", "gene", "dot", "strand"],
-    )
-    files = os.listdir(dap_data_folder)
-    genes = df_TSS["gene"].unique()
-    n_genes = len(genes)
-    position_counts_TSS = np.zeros(
-        (n_genes, len(files), DNA_specs[0] + DNA_specs[1]), dtype=bool
-    )
-    position_counts_TTS = np.zeros(
-        (n_genes, len(files), DNA_specs[2] + DNA_specs[3]), dtype=bool
-    )
-    TF_names = {}  # List to store TF names
-
-    # Iterate over all DAP-seq intersection files
-    for i, file in tqdm(enumerate(files), total=len(files)):  # iterates over TFs
-        if not file.endswith(".bed"):  # Skip non-BED files
-            continue
-
-        TF_name = file.split(".")[0]  # Extract TF name
-        # check if TSS or TTS is in the name, generate a dummy variable for that
-        if "TSS" in TF_name:
-            TSS = True
-        elif "TTS" in TF_name:
-            TSS = False
-        else:
-            print("file name does not contain TSS or TTS")
-            continue
-        try:
-            df = pd.read_csv(os.path.join(dap_data_folder, file), sep="\t", header=None)
-        except:
-            print("Problems with: ", file)
-            continue
-        TF_names[i] = TF_name
-
-        # Assuming BED format: (chrom, start, end, ..., score column at 8)
-        for _, row in df.iterrows():  # iterates over the genes
-            gene = row[13]  # Get gene name
-            # get gene index
-            gene_idx = np.where(genes == gene)[0][0]
-            # get TSS and TTS coordinates
-            if TSS:
-                gene_coordinates = df_TSS[df_TSS["gene"] == gene]
-            else:
-                gene_coordinates = df_TTS[df_TTS["gene"] == gene]
-
-            # get the relative position of the match
-            if gene_coordinates.shape[0] == 0:
-                continue
-            start_gene = gene_coordinates["start"].values[0]
-            end_gene = gene_coordinates["end"].values[
-                0
-            ]  # Actually it should always be in between
-            # get the relative position of the match
-            tf_match_position = max(row[1] - start_gene, 0)
-            tf_end_position = min(row[2] - start_gene, end_gene - start_gene)
-
-            for pos in range(tf_match_position, tf_end_position):
-                if TSS:
-                    position_counts_TSS[gene_idx, i, pos] = 1
-                else:
-                    position_counts_TTS[gene_idx, i, pos] = 1
-
-    # store the arrays
-    np.save("Data/Processed/TF_binding_TSS.npy", position_counts_TSS)
-    np.save("Data/Processed/TF_binding_TTS.npy", position_counts_TTS)
-    # it is important, however, to know which dimension obeys to which TF
-    # save the dictionary as csv
-    with open("Data/Processed/TF_names.csv", "w") as f:
-        for key in TF_names.keys():
-            f.write("%s,%s\n" % (key, TF_names[key]))
-
-
-def calculate_verlap(df):
-    # columns 1, 2 and 11, 12 define the coordinates. make a function to calculate the overlap
-    coordinates = df[[1, 2, 11, 12]]
-    # get the maximum start and the minimum end
-    df["start"] = coordinates[[1, 11]].max(axis=1)
-    df["end"] = coordinates[[2, 12]].min(axis=1)
-    # now calculate how many bp overlap
-    df["overlap"] = df["end"] - df["start"]
-    return df
 
 
 def _generate_peaks(genes, dap_data_folder, cutoff_percentile, output_folder):
@@ -159,6 +47,7 @@ def _generate_peaks(genes, dap_data_folder, cutoff_percentile, output_folder):
 
     genes_TTS = genes.filter(like="_TTS")
     genes_TSS = genes.filter(like="_TSS")
+    os.makedirs(output_folder, exist_ok=True)
     # save the files
     genes_TSS.to_csv(output_folder + "/genes_TSS.csv")
     genes_TTS.to_csv(output_folder + "/genes_TTS.csv")
@@ -185,7 +74,3 @@ def generate_peaks(
     genes = genes.rename(columns={3: "gene"})
     genes.drop(columns="index", inplace=True)
     _generate_peaks(genes, DAPseq_folder_raw_output, cutoff_percentile, DAPseq_folder)
-
-
-if __name__ == "__main__":
-    aggregate_tf_binding("Data/RAW/DAPseq/dap_overlap", bin_size=10)

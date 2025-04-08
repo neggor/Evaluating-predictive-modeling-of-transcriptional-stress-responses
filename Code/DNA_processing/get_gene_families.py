@@ -183,6 +183,9 @@ def add_all_genes(gene_families_url: str, gene_names: list):
         {"family_id": i + 1 + np.max(gene_families["family_id"]), "gene_id": gene}
         for i, gene in enumerate(genes_not_in_families)
     ]
+    if len(new_rows) == 0:
+        print("No new genes to add.")
+        return
     new_rows = pd.DataFrame(new_rows)
     gene_families = pd.concat(
         [gene_families, new_rows], ignore_index=True
