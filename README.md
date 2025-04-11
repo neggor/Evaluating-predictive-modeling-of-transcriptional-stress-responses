@@ -33,6 +33,7 @@ bash scripts/prepare_data.sh
 Which takes care of conducting the differential expression analysis with DESeq2, downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting. This should take less than 1h.
 
 ## 📊  Run model performance evaluation
+### Check relationship with average expression
 
 ## 🧠 Run TF-Modisco Analysis
 
