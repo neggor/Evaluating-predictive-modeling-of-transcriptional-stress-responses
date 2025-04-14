@@ -63,7 +63,7 @@ def generate_peaks(
 ):
     # first call the bash script
     cmd = [
-        "DAPseq_parsing/intersect_dap_seq.sh",
+        "Code/DAPseq_processing/intersect_dap_seq.sh",
         TSS_file,
         TTS_file,
         DAPseq_folder_raw,

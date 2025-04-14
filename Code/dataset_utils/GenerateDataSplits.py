@@ -267,7 +267,7 @@ class DataHandler:
 
                 print("DAPseq data requested. Calling maker of peaks")
                 # create a dap_seq directory
-                os.makedirs(f"{data_path}/DNA/DAPseq", exist_ok=True)
+                os.makedirs(f"{data_path}/DAPseq", exist_ok=True)
                 generate_peaks(
                     f"{dna_folder}/custom_promoter_coordinates_{DNA_specification[0]}up_{DNA_specification[1]-1}down_TSS.bed",
                     f"{dna_folder}/custom_promoter_coordinates_{DNA_specification[2]-1}up_{DNA_specification[3]}down_TTS.bed",
@@ -278,13 +278,13 @@ class DataHandler:
                 )
 
                 DAPseq_TSS = pd.read_csv(
-                    "Data/Processed/DNA/DAPseq/genes_TSS.csv",
+                    "Data/Processed/DAPseq/genes_TSS.csv",
                     sep=",",
                     header=0,
                     index_col=0,
                 )
                 DAPseq_TTS = pd.read_csv(
-                    "Data/Processed/DNA/DAPseq/genes_TTS.csv",
+                    "Data/Processed/DAPseq/genes_TTS.csv",
                     sep=",",
                     header=0,
                     index_col=0,

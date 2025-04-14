@@ -36,6 +36,7 @@ def handle_data_train_linear_models(TSS_sequences, TTS_sequences, mRNA_train, mR
 
         X_train_TSS = np.array(X_train_TSS)
         X_train_TTS = np.array(X_train_TTS)
+        
         if not separated_segments:
             X_train = np.sum([X_train_TSS, X_train_TTS], axis=0)
             X_train = X_train / np.linalg.norm(X_train, axis=1)[:, None]

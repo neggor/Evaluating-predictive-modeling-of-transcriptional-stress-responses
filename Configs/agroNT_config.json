@@ -1,0 +1,23 @@
+{
+    "lr": 5e-5,
+    "weight_decay": 0.00001,
+    "n_epochs": 10,
+    "patience": 10,
+    "equivariant": "False",
+    "n_labels": 12,
+    "treatments":  ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
+    "batch_size": 1,
+    "dropout_rate": 0.25,
+    "upstream_TSS": 814,
+    "upstream_TTS": 200,
+    "downstream_TSS": 200,
+    "downstream_TTS": 814,
+    "dna_format": "String",
+    "mask_exons": "False",
+    "problem_type": "amplitude",
+    "device": "cuda",
+    "model_name": "AgroNT",
+    "logging_steps": 150,
+    "save_steps": 150,
+    "gradient_accumulation_steps": 1
+}

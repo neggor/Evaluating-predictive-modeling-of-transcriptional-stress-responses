@@ -5,10 +5,7 @@ import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
-from tqdm import tqdm
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.metrics import (
     roc_auc_score,
     f1_score,
@@ -16,24 +13,19 @@ from sklearn.metrics import (
     accuracy_score,
     r2_score,
 )
-from peft import get_peft_model, PeftModel, PeftConfig
-from peft import LoraConfig, TaskType, IA3Config
+from peft import get_peft_model
+from peft import LoraConfig, TaskType
 from transformers import (
     AutoTokenizer,
-    AutoModelForMaskedLM,
     TrainingArguments,
     Trainer,
     AutoModelForSequenceClassification,
     EarlyStoppingCallback,
 )
-from datasets import load_dataset, Dataset
-from sklearn.metrics import roc_curve
-from Training.train_model.train_cnn import get_loader
-from torch.utils.data import DataLoader
-import json
-import pandas as pd
+from datasets import Dataset
+from Code.Training.train_cnn import get_loader
 from scipy import stats
-
+import pandas as pd
 
 def handle_data_AgroNT(
     TSS_sequences, mRNA_train, mRNA_validation, mRNA_test, store_folder, n_tokens
@@ -253,159 +245,6 @@ class CustomTrainerRegression(Trainer):
 
         return (loss, outputs) if return_outputs else loss
 
-
-def finetune_agroNT(
-    ds_train,
-    ds_val,
-    ds_test,
-    treatment_names,
-    tokenizer,
-    n_heads,
-    batch_size,
-    epochs,
-    device,
-    output_dir,
-    problem_type="regression",
-    weights=None,
-    gradient_accumulation_steps=4,
-    logging_steps=300,
-    save_steps=300,
-    early_stopping_patience=8,
-):
-
-    peft_config = LoraConfig(
-        task_type=TaskType.SEQ_CLS,
-        inference_mode=False,
-        r=16,
-        lora_alpha=32,
-        lora_dropout=0.15,
-        target_modules=["query", "key", "value"],
-        modules_to_save=[
-            "classifier.out_proj.weight",
-            "classifier.dense.weight",
-            "classifier.dense.bias",
-            "classifier.out_proj.bias",
-        ],
-    )
-    # This is to ALSO save the classification head, just to be sure
-    # Indeed, with this configuration, the classification head is saved
-
-    # Load the model
-    if problem_type == "regression":
-        model = AutoModelForSequenceClassification.from_pretrained(
-            "InstaDeepAI/agro-nucleotide-transformer-1b",
-            problem_type="regression",
-            num_labels=n_heads,
-        )
-
-        model = get_peft_model(
-            model, peft_config
-        )  # transform our classifier into a peft model
-        model.print_trainable_parameters()
-        model.to(device)
-
-        args_promoter = TrainingArguments(
-            output_dir,
-            remove_unused_columns=False,
-            evaluation_strategy="steps",
-            save_strategy="steps",
-            learning_rate=5e-5,
-            gradient_accumulation_steps=gradient_accumulation_steps,
-            per_device_train_batch_size=batch_size,
-            per_device_eval_batch_size=batch_size,
-            num_train_epochs=epochs,
-            logging_steps=logging_steps,
-            save_steps=save_steps,
-            save_total_limit=1,  # This saves the BEST model and the last one
-            load_best_model_at_end=True,  # Keep the best model according to the evaluation
-            metric_for_best_model="mse",  # see above function
-            # label_names=["labels"],
-            dataloader_drop_last=True,
-            fp16=False,  # Use mixed precision
-            greater_is_better=False,  # This is for the metric if using mse, it should be False
-        )
-
-        trainer = CustomTrainerRegression(
-            model,
-            args_promoter,
-            train_dataset=ds_train,
-            eval_dataset=ds_val,
-            compute_metrics=compute_metrics_regression,
-            callbacks=[
-                EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)
-            ],
-        )
-
-    elif problem_type == "classification":
-        model = AutoModelForSequenceClassification.from_pretrained(
-            "InstaDeepAI/agro-nucleotide-transformer-1b",
-            problem_type="multi_label_classification",
-            num_labels=n_heads,
-        )
-        # Actually I do not need to change the problem type because I am making a custom loss function but ok
-
-        model = get_peft_model(
-            model, peft_config
-        )  # transform our classifier into a peft model
-        model.print_trainable_parameters()
-        model.to(device)
-
-        args_promoter = TrainingArguments(
-            output_dir,
-            remove_unused_columns=False,
-            evaluation_strategy="steps",
-            save_strategy="steps",
-            learning_rate=5e-5,
-            gradient_accumulation_steps=gradient_accumulation_steps,
-            per_device_train_batch_size=batch_size,
-            per_device_eval_batch_size=batch_size,
-            num_train_epochs=epochs,
-            logging_steps=logging_steps,
-            save_steps=save_steps,
-            save_total_limit=1,  # This saves the BEST model and the last one
-            load_best_model_at_end=True,  # Keep the best model according to the evaluation
-            metric_for_best_model="loss",  # see above function
-            # label_names=["labels"],
-            dataloader_drop_last=True,
-            fp16=False,  # Use mixed precision
-            greater_is_better=False,  # This is for the metric if using mse, it should be False
-        )
-
-        trainer = CustomTrainerClassification(
-            model,
-            args_promoter,
-            train_dataset=ds_train,
-            eval_dataset=ds_val,
-            compute_metrics=compute_metrics_classification,
-            callbacks=[
-                EarlyStoppingCallback(early_stopping_patience=early_stopping_patience)
-            ],
-            loss_weights=weights.to(device) if weights is not None else None,
-        )
-    else:
-        raise ValueError("Problem type must be either regression or classification")
-
-    train_results = trainer.train()
-    # save training results
-    train_metrics = format_metrics(problem_type, train_results.metrics, treatment_names)
-    # save
-    train_metrics.to_csv(f"{output_dir}/train_metrics.csv")
-
-    adapter_model = f"{output_dir}/adapter_model"
-    model.save_pretrained(f"{adapter_model}")  # Save ONLY the LoRA adapter
-    tokenizer.save_pretrained(
-        f"{adapter_model}"
-    )  # this actually does not matter but ok
-
-    # now predict
-    test_results = trainer.predict(ds_test)
-    test_metrics = format_metrics(problem_type, test_results.metrics, treatment_names)
-    # save
-    test_metrics.to_csv(f"{output_dir}/test_metrics.csv")
-
-    return test_results
-
-
 def format_metrics(type_metrics, metrics, treatment_names):
     head_metrics = {k: v for k, v in metrics.items() if "head" in k}
 
@@ -437,3 +276,109 @@ def format_metrics(type_metrics, metrics, treatment_names):
     print(df)
     # save the dataframe
     return df
+
+def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, weights = None):
+
+    # This is very tricky: https://huggingface.co/docs/peft/developer_guides/troubleshooting
+    peft_config = LoraConfig(   task_type=TaskType.SEQ_CLS,
+                                inference_mode=False,
+                                r=16,
+                                lora_alpha= 32,
+                                lora_dropout=0.15,
+                                target_modules = ["query", "key", "value"],
+                                modules_to_save = ['classifier.out_proj.weight', 'classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.bias'])
+                                # This is to ALSO save the classification head, just to be sure
+                                # Indeed, with this configuration, the classification head is saved
+    
+    # Load the model
+    if config['problem_type'] == "amplitude" or config['problem_type'] == "log2FC":
+        model = AutoModelForSequenceClassification.from_pretrained("InstaDeepAI/agro-nucleotide-transformer-1b", problem_type="regression", num_labels=config['n_labels'])
+        
+        model = get_peft_model(model, peft_config) # transform our classifier into a peft model
+        model.print_trainable_parameters()
+        model.to(config['device'])
+
+        args_promoter = TrainingArguments(
+            output_dir,
+            remove_unused_columns=False,
+            evaluation_strategy="steps",
+            save_strategy="steps",
+            learning_rate=5e-5,
+            gradient_accumulation_steps= config['gradient_accumulation_steps'],
+            per_device_train_batch_size= config['batch_size'],
+            per_device_eval_batch_size= config['batch_size'],
+            num_train_epochs= config['n_epochs'],
+            logging_steps= config['logging_steps'],
+            save_steps= config['save_steps'],
+            save_total_limit=1, # This saves the BEST model and the last one
+            load_best_model_at_end=True,  # Keep the best model according to the evaluation
+            metric_for_best_model="mse", # see above function
+            #label_names=["labels"],
+            dataloader_drop_last=True,
+            fp16=False, # Use mixed precision
+            greater_is_better=False, # This is for the metric if using mse, it should be False
+        )
+
+        trainer = Trainer(
+            model,
+            args_promoter,
+            train_dataset= ds_train,
+            eval_dataset= ds_val,
+            compute_metrics=compute_metrics_regression,
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=8)],
+        )
+        
+    elif config['problem_type'] == "quantiles_per_treatment" or config['problem_type'] == "DE_per_treatment":
+        model = AutoModelForSequenceClassification.from_pretrained("InstaDeepAI/agro-nucleotide-transformer-1b", problem_type="multi_label_classification", num_labels=config['n_labels'])
+        # Actually I do not need to change the problem type because I am making a custom loss function but ok
+
+        model = get_peft_model(model, peft_config) # transform our classifier into a peft model
+        model.print_trainable_parameters()
+        model.to(config['device'])
+
+        args_promoter = TrainingArguments(
+            output_dir,
+            remove_unused_columns=False,
+            evaluation_strategy="steps",
+            save_strategy="steps",
+            learning_rate=5e-5,
+            gradient_accumulation_steps= config['gradient_accumulation_steps'],
+            per_device_train_batch_size= config['batch_size'],
+            per_device_eval_batch_size= config['batch_size'],
+            num_train_epochs= config['n_epochs'],
+            logging_steps= config['logging_steps'],
+            save_steps= config['save_steps'],
+            save_total_limit=1, # This saves the BEST model and the last one
+            load_best_model_at_end=True,  # Keep the best model according to the evaluation
+            metric_for_best_model="loss", # see above function
+            #label_names=["labels"],
+            dataloader_drop_last=True,
+            fp16=False, # Use mixed precision
+            greater_is_better=False, # This is for the metric if using mse, it should be False
+        )
+
+        trainer = CustomTrainerClassification(
+            model,
+            args_promoter,
+            train_dataset= ds_train,
+            eval_dataset= ds_val,
+            compute_metrics=compute_metrics_classification,
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=8)],
+            loss_weights = weights.to(config['device']) if weights is not None else None)
+    else:
+        raise ValueError("Problem type must be either regression or classification")
+    
+    train_results = trainer.train()
+    
+
+    adapter_model = f"{output_dir}/adapter_model"
+    model.save_pretrained(f"{adapter_model}")  # Save ONLY the LoRA adapter
+    tokenizer.save_pretrained(f"{adapter_model}") # this actually does not matter but ok
+
+    # now predict
+    test_results = trainer.predict(ds_test)
+    test_metrics = format_metrics(config['problem_type'], test_results.metrics, config['treatments'])
+    # save
+    test_metrics.to_csv(f"{output_dir}/test_metrics.csv")
+
+    return test_results

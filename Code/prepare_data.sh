@@ -23,14 +23,14 @@ wget -O Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model https://w
 # generate protein families file
 python Code/DNA_processing/get_gene_families.py
 # Get DAP-seq files
-wget -O Data/RAW/DAPSeq/Dapseq.zip http://neomorph.salk.edu/dap_web/pages/dap_data_v4/fullset/dap_download_may2016_peaks.zip
+wget -O Data/RAW/DAPseq/Dapseq.zip http://neomorph.salk.edu/dap_web/pages/dap_data_v4/fullset/dap_download_may2016_peaks.zip
 # Unzip DAP-seq files
-unzip Data/RAW/DAPSeq/Dapseq.zip -d Data/RAW/DAPSeq/
+unzip Data/RAW/DAPseq/Dapseq.zip -d Data/RAW/DAPseq/
 # Remove the zip file
-rm Data/RAW/DAPSeq/Dapseq.zip
+rm Data/RAW/DAPseq/Dapseq.zip
 # Fix stuff with upper case
 # Loop through all .narrowPeak files in the folder
-for TF_family in Data/RAW/DAPSeq/dap_data_v4/peaks/*; do
+for TF_family in Data/RAW/DAPseq/dap_data_v4/peaks/*; do
     echo "Processing files in $TF_family"
     for TF in "$TF_family"/*; do
         # check if there is a chr1-5 named folder

@@ -1,16 +1,13 @@
 import sys
-
 sys.path.append(".")
-from Models.res_CNN import myCNN
-from Utils.GenerateDataSplits import DataHandler
-from Utils.CustomDataset import get_dataloader
+from Code.CNN_model.res_CNN import myCNN
+from Code.dataset_utils.CustomDataset import get_dataloader
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from tqdm import tqdm
 import os
 import pandas as pd
@@ -20,6 +17,7 @@ from sklearn.metrics import (
     f1_score,
     matthews_corrcoef,
     accuracy_score, )
+from torch.optim.lr_scheduler import LambdaLR
 
 def mse_loss(output, target, weights=None):
     #return F.mse_loss(output, target, reduction="mean")
@@ -433,6 +431,7 @@ def get_loader(mRNA, TSS_sequences, TTS_sequences, batch_size, shuffle):
 # and return the model, the training metrics and the validation metrics
 
 def train_cnn_model_from_specs(
+    model,
     training_specs,
     TSS_sequences,
     TTS_sequences,
@@ -473,9 +472,6 @@ def train_cnn_model_from_specs(
         weights = torch.tensor(weights).float().to(device)
         print("Weights:")
         print(weights)
-
-    # get the model
-    model = get_cnn(training_specs["n_labels"], training_specs["equivariant"])
     
     # train the model
     model, my_metrics, my_metrics_val = train_cnn_model(
@@ -493,7 +489,8 @@ def train_cnn_model_from_specs(
     return model, my_metrics, my_metrics_val
 
 
-def test_cnn(   training_specs,
+def test_cnn(   model,
+                training_specs,
                 TSS_sequences,
                 TTS_sequences,
                 mRNA_test,
@@ -504,9 +501,6 @@ def test_cnn(   training_specs,
                 return_model = False,
                 return_metrics = False):
     
-    # load model
-    model = get_cnn(training_specs["n_labels"], training_specs["equivariant"])
-    model.load_state_dict(torch.load(os.path.join(store_folder, "best_model.pt")))
     model.eval()
     model = model.to(device)
 
