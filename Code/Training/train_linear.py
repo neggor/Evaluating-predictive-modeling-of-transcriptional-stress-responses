@@ -271,6 +271,8 @@ def fit_regression(X, Y, family, model, folder, name, metadata, DNA_format, sepa
                 coeff_names = [x for x in metadata["TFs_TSS"]] + [x for x in metadata["TFs_TTS"]] if DNA_format == "DAPseq" else [metadata['kmer_dict_TSS'][x] + "_TSS" for x in metadata['kmer_dict_TSS']] + [metadata['kmer_dict_TTS'][x] + "_TTS" for x in metadata['kmer_dict_TTS']]
         else:
             coeff_names = [x for x in metadata["TFs_TSS"]] if DNA_format == "DAPseq" else [metadata['kmer_dict_TSS'][x] for x in metadata['kmer_dict_TSS']]
+            # remove the _TSS
+            coeff_names = [x.split("_")[0] for x in coeff_names]
 
         if model == "lasso":
             plt.figure(figsize=(10, 10))

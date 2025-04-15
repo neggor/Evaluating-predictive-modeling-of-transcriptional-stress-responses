@@ -47,6 +47,19 @@ def _generate_peaks(genes, dap_data_folder, cutoff_percentile, output_folder):
 
     genes_TTS = genes.filter(like="_TTS")
     genes_TSS = genes.filter(like="_TSS")
+    # now in both files we must have the same TFs
+    colanmes_TSS = [col.split("_")[0] for col in genes_TSS.columns]
+    colanmes_TTS = [col.split("_")[0] for col in genes_TTS.columns]
+    #  select the ones outside the intersection
+    intersect = set(colanmes_TSS).intersection(set(colanmes_TTS))
+    # select only the ones that in the intersection
+    genes_TSS = genes_TSS.loc[:, [col +"_TSS" for col in intersect]]
+    genes_TTS = genes_TTS.loc[:, [col +"_TTS" for col in intersect]]
+
+    # order the columns (which is critical)
+    genes_TSS = genes_TSS.reindex(sorted(genes_TSS.columns), axis=1)
+    genes_TTS = genes_TTS.reindex(sorted(genes_TTS.columns), axis=1)
+
     os.makedirs(output_folder, exist_ok=True)
     # save the files
     genes_TSS.to_csv(output_folder + "/genes_TSS.csv")
