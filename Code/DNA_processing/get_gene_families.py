@@ -20,7 +20,6 @@ def generate_gene_families():
 
     To be used blastp must be isntalled in the system!
     """
-    os.makedirs("Data/RAW/DNA/Protein_sequences", exist_ok=True)
 
     input_fasta_file = "Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model"
 
@@ -44,9 +43,9 @@ def generate_gene_families():
         "-dbtype",
         "prot",
         "-out",
-        "Data/RAW/DNA/Protein_sequences/tair_db",
+        "Data/RAW/Protein_sequences/tair_db",
     ]
-    blast_output_file = "Data/RAW/DNA/blast_output"
+    blast_output_file = "Data/RAW/blast_output"
 
     # Define the blastp command with the provided arguments
     blastp_cmd = [
@@ -54,7 +53,7 @@ def generate_gene_families():
         "-query",
         input_fasta_file,
         "-db",
-        "Data/RAW/DNA/Protein_sequences/tair_db",
+        "Data/RAW/Protein_sequences/tair_db",
         "-out",
         blast_output_file,
         "-outfmt",
@@ -73,7 +72,7 @@ def generate_gene_families():
     else:
         # Execute the blastp command using subprocess
         try:
-            if not os.path.exists("Data/RAW/DNA/Protein_sequences/tair_db.psq"):
+            if not os.path.exists("Data/RAW/Protein_sequences/tair_db.psq"):
                 print("Executing makeblastdb command...")
                 subprocess.run(mkblst_cmd, check=True)
                 print("makeblastdb command executed successfully.")
@@ -83,7 +82,7 @@ def generate_gene_families():
         except subprocess.CalledProcessError as e:
             print("Error while executing BLASTP command:", e)
 
-    blast_res = pd.read_csv("Data/RAW/DNA/blast_output", sep="\t")
+    blast_res = pd.read_csv("Data/RAW/blast_output", sep="\t")
     blast_res.columns = [
         "qseqid",
         "sseqid",
