@@ -1,5 +1,6 @@
 # Ignore data files
 Data/*
+!Data/.gitkeep
 # Ignore Results
 Results/*
 !Results/Results_table.csv
