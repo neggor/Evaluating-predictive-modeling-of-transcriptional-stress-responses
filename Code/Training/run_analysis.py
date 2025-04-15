@@ -50,8 +50,6 @@ def run_cnn():
     config_file = "Configs/cnn_config.json"
     with open(config_file, "r") as f:
         config = json.load(f)
-    print(config)
-    exit()
     for problem_type in outcome_types:
         for dna_length in [2048, 4096]:
             for exons_masked in [True, False]:

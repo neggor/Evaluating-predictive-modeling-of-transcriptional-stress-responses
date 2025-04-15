@@ -3,7 +3,7 @@
     "weight_decay": 1e-05,
     "n_epochs": 1500,
     "patience": 15,
-    "equivariant": false,
+    "equivariant": true,
     "n_labels": 12,
     "treatments":["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
     "batch_size": 64,
