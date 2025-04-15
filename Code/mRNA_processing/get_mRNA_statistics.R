@@ -80,7 +80,7 @@ print(colnames(X))
 
 
 
-final_results <- DE_analysis(X, treatments = c("B", "C", "D", "G", "H"), store_folder = "Data/Processed/mRNA/", name = "Hormone")
+final_results <- DE_analysis(X, treatments = c("B", "C", "D", "G", "H"), store_folder = "Data/Processed/mRNA", name = "Hormone")
 write.csv(final_results, "Data/Processed/mRNA/DESeq2_padj_results_Hormone.csv", row.names = FALSE)
 
 
@@ -90,7 +90,7 @@ rm() # clean the environment, just in case...
 X = read.csv("Data/RAW/mRNA/PTI_raw/RAW_COUNTS_PTI.csv",row.names = 1)
 # drop the time point 0
 X <- X[, !grepl('_000_', colnames(X))]
-final_results <- DE_analysis(X, treatments = c("X", "Y", "Z", "W", "V", "U", "T"), store_folder = "Data/Processed/mRNA/", name = "PTI")
+final_results <- DE_analysis(X, treatments = c("X", "Y", "Z", "W", "V", "U", "T"), store_folder = "Data/Processed/mRNA", name = "PTI")
 write.csv(final_results, "Data/Processed/mRNA/DESeq2_padj_results_PTI.csv", row.names = FALSE)
 
 

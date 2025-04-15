@@ -43,7 +43,7 @@ def generate_gene_families():
         "-dbtype",
         "prot",
         "-out",
-        "Data/RAW/Protein_sequences/tair_db",
+        "Data/RAW/Protein/tair_db",
     ]
     blast_output_file = "Data/RAW/blast_output"
 
@@ -53,7 +53,7 @@ def generate_gene_families():
         "-query",
         input_fasta_file,
         "-db",
-        "Data/RAW/Protein_sequences/tair_db",
+        "Data/RAW/Protein/tair_db",
         "-out",
         blast_output_file,
         "-outfmt",
@@ -72,7 +72,7 @@ def generate_gene_families():
     else:
         # Execute the blastp command using subprocess
         try:
-            if not os.path.exists("Data/RAW/Protein_sequences/tair_db.psq"):
+            if not os.path.exists("Data/RAW/Protein/tair_db.psq"):
                 print("Executing makeblastdb command...")
                 subprocess.run(mkblst_cmd, check=True)
                 print("makeblastdb command executed successfully.")

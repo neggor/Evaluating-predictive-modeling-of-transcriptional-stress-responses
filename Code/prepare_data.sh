@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # mRNA stuff (This assumes you have access to the raw data!)
+mkdir -p Data/Processed/mRNA
+
 echo "Parsing PTI data..."
 python Code/mRNA_processing/parse_data.py
 echo "Running R script..."
