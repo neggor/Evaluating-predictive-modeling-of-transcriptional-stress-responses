@@ -28,6 +28,7 @@ wget -O Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model https://w
 # generate protein families file
 python Code/DNA_processing/get_gene_families.py
 # Get DAP-seq files
+mkdir -p Data/RAW/DAPseq
 wget -O Data/RAW/DAPseq/Dapseq.zip http://neomorph.salk.edu/dap_web/pages/dap_data_v4/fullset/dap_download_may2016_peaks.zip
 # Unzip DAP-seq files
 unzip Data/RAW/DAPseq/Dapseq.zip -d Data/RAW/DAPseq/
@@ -56,6 +57,7 @@ for TF_family in Data/RAW/DAPseq/dap_data_v4/peaks/*; do
     done
 done
 # Donwload the JASPAR FILE
+mkdir -p Data/RAW/MOTIF
 wget -O Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_plants_non-redundant_pfms_meme.txt
 
 echo "ALL done!"
