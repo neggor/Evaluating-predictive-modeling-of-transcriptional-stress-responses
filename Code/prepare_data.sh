@@ -24,7 +24,7 @@ wget -O Data/RAW/DNA/Ath/TAIR10_GFF3_genes.gff https://www.arabidopsis.org/api/d
 
 # Get protein files
 mkdir -p Data/RAW/Protein
-wget -O Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_blastsets/TAIR10_seq_20110103_representative_gene_model_updated
+wget -O Data/RAW/Protein/TAIR10_pep_20110103_representative_gene_model https://www.arabidopsis.org/api/download-files/download?filePath=Genes/TAIR10_genome_release/TAIR10_blastsets/TAIR10_pep_20110103_representative_gene_model_updated
 # generate protein families file
 python Code/DNA_processing/get_gene_families.py
 # Get DAP-seq files
