@@ -28,7 +28,7 @@ conda install conda-forge::r-stringr
     - PAMPs/DAMPs: From https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9694, download "Processed Data" into Data/RAW/mRNA/PTI_raw/PRJEB25079_UncorrectedCounts.csv
 - Prepare the rest of the DNA and DAP-seq data with:
 ```bash
-bash scripts/prepare_data.sh
+bash Code/prepare_data.sh
 ```
 Which takes care of conducting the differential expression analysis with DESeq2, downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting. This should take less than 1h.
 
