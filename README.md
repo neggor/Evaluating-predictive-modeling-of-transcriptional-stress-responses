@@ -2,7 +2,7 @@
 
 ## 🛠️ Set-Up
 
-Before starting, ensure the following tools are **installed and available in your `PATH`**:
+Before starting, ensure the following tools are installed:
 
 - [`BEDTools`]
 - [`SAMtools`]
@@ -10,17 +10,24 @@ Before starting, ensure the following tools are **installed and available in you
 
 Then, run the following to install all the required dependencies in a new conda environment.
 ```bash
+# ✅ Create the environment with specific Python and R versions
 conda create -n epmsAT python=3.8.18 r-base=4.4.3 -c conda-forge -y
 
+# ✅ Activate the environment
 conda activate epmsAT
 
+# ✅ Install Python dependencies
 pip install -r requirements.txt
 
+# ✅ Install PyTorch with CUDA 11.8 support
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
-conda install -c bioconda bioconductor-deseq2
+# ✅ Install DESeq2 
+conda install -c conda-forge -c bioconda bioconductor-deseq2 -y
 
-conda install conda-forge::r-stringr
+# ✅ Install stringr 
+conda install conda-forge::r-stringr -y
+
 ```
 ## 📁 Gather the data.
 - Download mRNA-seq data: 
