@@ -17,7 +17,7 @@ def linear_models():
         config = json.load(f)
     
     for problem_type in outcome_types:
-        for dna_format in ["6-mer"]:
+        for dna_format in ["6-mer", "DAPseq"]:
             config["problem_type"] = problem_type
             config["dna_format"] = dna_format
             config["model_name"] = f"linear_{problem_type}_{dna_format}"
