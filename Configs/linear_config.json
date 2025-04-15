@@ -1,17 +1,14 @@
 {
-    "n_labels": 2,
-    "treatments": [
-        "B",
-        "C"
-    ],
+    "n_labels": 12,
+    "treatments":["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
     "upstream_TSS": 814,
     "upstream_TTS": 200,
     "downstream_TSS": 200,
     "downstream_TTS": 814,
     "dna_format": "DAPseq",
-    "mask_exons": "False",
+    "mask_exons": false,
     "problem_type": "amplitude",
     "linear_model_kind": "lasso",
     "model_name": "linear_amplitude_DAPseq",
-    "separated_segments": "False"
+    "separated_segments": false
 }

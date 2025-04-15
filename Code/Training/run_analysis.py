@@ -5,7 +5,7 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["quantiles_per_treatment", "amplitude"]#, "log2FC", "DE_per_treatment"]
+outcome_types = ["quantiles_per_treatment", "amplitude", "log2FC", "DE_per_treatment"]
 
 # 1 Run linear models
 def linear_models():
@@ -50,13 +50,14 @@ def run_cnn():
     config_file = "Configs/cnn_config.json"
     with open(config_file, "r") as f:
         config = json.load(f)
-    
+    print(config)
+    exit()
     for problem_type in outcome_types:
         for dna_length in [2048, 4096]:
             for exons_masked in [True, False]:
                 if exons_masked and dna_length == 4096:
                     continue
-            
+                
                 config["upstream_TSS"] = 814 if dna_length == 2048 else 1628
                 config["upstream_TTS"] = 200 if dna_length == 2048 else 410
                 config["downstream_TSS"] = 200 if dna_length == 2048 else 410
@@ -118,6 +119,6 @@ def run_agroNT():
 
 
 if __name__ == "__main__":
-    #linear_models()
+    linear_models()
     run_cnn()
-    #run_agroNT()
+    run_agroNT()

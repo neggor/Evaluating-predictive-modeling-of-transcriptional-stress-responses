@@ -72,13 +72,7 @@ def load_data(
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(treatments, problem_type)
     )
-
-    # get only 500 random samples
-    # TMP for fast performance!
-    mRNA_train = mRNA_train.sample(500)
-    mRNA_validation = mRNA_validation.sample(500)
-    mRNA_test = mRNA_test.sample(500)
-
+    
     return (
         mRNA_train,
         mRNA_validation,
