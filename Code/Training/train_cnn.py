@@ -21,7 +21,7 @@ from torch.optim.lr_scheduler import LambdaLR
 
 def mse_loss(output, target, weights=None):
     #return F.mse_loss(output, target, reduction="mean")
-    return F.l1_loss(output, target, reduction="mean", weight=weights)
+    return F.l1_loss(output, target, reduction="mean")
 
 def binary_cross_entropy(output, target, weights=None):
     # this is the simplest one

@@ -2,6 +2,7 @@
 Data/*
 # Ignore Results
 Results/*
+!Results/Results_table.csv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

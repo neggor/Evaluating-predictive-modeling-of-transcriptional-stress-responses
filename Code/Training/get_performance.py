@@ -73,10 +73,11 @@ def load_data(
         data_handler.get_data(treatments, problem_type)
     )
 
-    # get only 10 observations from train, validation and test
-    #mRNA_train = mRNA_train.iloc[:10]
-    #mRNA_validation = mRNA_validation.iloc[:10]
-    #mRNA_test = mRNA_test.iloc[:10]
+    # get only 500 random samples
+    # TMP for fast performance!
+    mRNA_train = mRNA_train.sample(500)
+    mRNA_validation = mRNA_validation.sample(500)
+    mRNA_test = mRNA_test.sample(500)
 
     return (
         mRNA_train,

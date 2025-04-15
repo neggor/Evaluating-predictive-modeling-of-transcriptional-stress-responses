@@ -1,11 +1,14 @@
 {
-    "lr": 5e-5,
-    "weight_decay": 0.00001,
-    "n_epochs": 10,
+    "lr": 5e-05,
+    "weight_decay": 1e-05,
+    "n_epochs": 1,
     "patience": 10,
     "equivariant": "False",
-    "n_labels": 12,
-    "treatments":  ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
+    "n_labels": 2,
+    "treatments": [
+        "B",
+        "C"
+    ],
     "batch_size": 1,
     "dropout_rate": 0.25,
     "upstream_TSS": 814,
@@ -17,7 +20,11 @@
     "problem_type": "amplitude",
     "device": "cuda",
     "model_name": "AgroNT",
-    "logging_steps": 150,
-    "save_steps": 150,
-    "gradient_accumulation_steps": 1
+    "logging_steps": 300,
+    "save_steps": 300,
+    "gradient_accumulation_steps": 1,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "early_stopping_patience": 10
 }

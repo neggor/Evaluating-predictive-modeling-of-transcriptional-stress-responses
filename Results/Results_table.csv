@@ -1,0 +1,289 @@
+outcome_type,in_type,treatment,metric,value,model_type,exons,length,rc,replicate
+quantiles_per_treatment,6-mer,MeJA,R2,-0.001841372878921,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,Pearson,,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,Spearman,,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,sign_accuracy,0.7726666666666666,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,R2,0.0011482391164019,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,Pearson,0.0762435137519148,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,Spearman,0.0720468242601221,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,sign_accuracy,0.7686666666666667,linear,not apply,2048,True,not apply
+quantiles_per_treatment,DAPseq,MeJA,R2,-0.004970828632925,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,Pearson,-7.477041596569717e-18,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,Spearman,,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,sign_accuracy,0.7913333333333333,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,R2,-0.0005942678574264,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,Pearson,,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,Spearman,,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,sign_accuracy,0.7633333333333333,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,One-Hot,MeJA,MCC,-0.0077586834026875,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5060240963855421,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4740731138190303,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5802047781569967,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5040983606557377,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.4877040919169522,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5341365461847389,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4776380606689136,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6963350785340314,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4959016393442623,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.4736612242155479,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.6630136986301369,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.465863453815261,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.5001944516463572,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4959016393442623,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.5054760464960022,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.6630136986301369,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.465863453815261,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.5062224526834327,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5040983606557377,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.5454881408318215,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0958867502998263,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5461847389558233,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.5495203526056521,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.7002652519893898,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4959016393442623,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.4443324598535241,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.6630136986301369,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.512396694214876,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.5362219792236195,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4978540772532189,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.4332449160035366,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.512396694214876,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4981547293603061,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.003989375811251,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5021459227467812,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.4520335985853227,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.5206611570247934,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.4876033057851239,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4784718425369054,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6555555555555556,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4978540772532189,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.4466180371352785,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.4876033057851239,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4465554948059049,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6555555555555556,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4978540772532189,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.4890951959917477,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.4876033057851239,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.5376230180426462,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6555555555555556,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5021459227467812,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.4399498968464486,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.6685714285714286,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5521739130434783,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.473855209846342,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.711484593837535,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4347826086956521,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.5231153846153845,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.4478260869565217,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4458374741992202,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5652173913043478,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.5076538461538461,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.7222222222222222,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5521739130434783,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4511887470376882,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.711484593837535,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5652173913043478,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.563,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.7222222222222222,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.5521739130434783,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4235150217873251,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.711484593837535,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.0,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.4347826086956521,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.5100384615384616,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.0,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.0,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.4478260869565217,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.4576867211986851,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.0,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,-0.0579576252836384,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5608695652173913,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.5473076923076923,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.7186629526462397,CNN,all,4096,True,4
+quantiles_per_treatment,String,MeJA,AUC,0.5492900985801972,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,MeJA,Accuracy,0.5,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,MeJA,MCC,0.0,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,MeJA,F1,0.6666666666666666,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,SA,AUC,0.5219385464109307,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,SA,Accuracy,0.476,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,SA,MCC,0.0,AgroNT,not apply,not apply,not apply,not apply
+quantiles_per_treatment,String,SA,F1,0.6449864498644986,AgroNT,not apply,not apply,not apply,not apply
+amplitude,6-mer,MeJA,R2,0.0200724104719552,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,Pearson,0.1531811695407611,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,Spearman,0.1409776156759569,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,sign_accuracy,0.5137813333333333,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,R2,0.0414475343805894,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,Pearson,0.2282965047720706,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,Spearman,0.2062810962397744,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,sign_accuracy,0.5100906666666667,linear,not apply,2048,True,not apply
+amplitude,DAPseq,MeJA,R2,0.0216533825408098,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,Pearson,0.1819071338024323,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,Spearman,0.1546763033173115,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,sign_accuracy,0.5222133333333333,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,R2,0.0351321038888367,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,Pearson,0.1963684999821888,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,Spearman,0.1859425289608896,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,sign_accuracy,0.5245902222222222,linear,not apply,2048,not apply,not apply
+amplitude,One-Hot,MeJA,R2,-0.020739197731018,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,Pearson,-0.0445804024016842,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.446,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,Spearman,-0.0343536414145656,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,R2,2.3543834686279297e-05,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,Pearson,0.011030359904211,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.468,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,Spearman,0.0302974331897327,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,R2,-0.0064201354980468,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,Pearson,0.0214009870114887,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.554,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,Spearman,0.0398201442362604,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,R2,-0.0031020641326904,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,Pearson,0.0329801578393894,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.532,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,Spearman,0.0319266557066228,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,R2,-0.0051382780075073,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,Pearson,-0.0034557973006192,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.554,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,Spearman,-0.0477573110292441,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,R2,-0.0025101900100708,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,Pearson,0.0377791104792362,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.532,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,Spearman,0.0291672206688826,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,R2,-0.0313470363616943,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,Pearson,-0.0148774226833937,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.446,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,Spearman,-0.0459125676502705,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,R2,-0.0011638402938842,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,Pearson,0.0322122061052092,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.532,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,Spearman,0.0407738590954363,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,R2,-0.0086898803710937,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,Pearson,-0.0322137453965875,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,sign_accuracy,0.554,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,Spearman,-0.030816603266413,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,R2,-0.006980538368225,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,Pearson,0.0818296793690814,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,sign_accuracy,0.532,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,Spearman,0.0197402709610838,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,R2,-0.0136710405349731,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,Pearson,0.0283610120455911,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.468,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,Spearman,0.006690458761835,CNN,all,2048,True,0
+amplitude,One-Hot,SA,R2,-0.0092540979385375,CNN,all,2048,True,0
+amplitude,One-Hot,SA,Pearson,0.0647192557536524,CNN,all,2048,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.55,CNN,all,2048,True,0
+amplitude,One-Hot,SA,Spearman,0.0918329113316453,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,R2,-0.0007715225219726,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,Pearson,-0.0788015433704546,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.532,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,Spearman,-0.0952111648446593,CNN,all,2048,True,1
+amplitude,One-Hot,SA,R2,-0.0003697872161865,CNN,all,2048,True,1
+amplitude,One-Hot,SA,Pearson,-0.0393136834532125,CNN,all,2048,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.45,CNN,all,2048,True,1
+amplitude,One-Hot,SA,Spearman,-0.0612228048912195,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,R2,-0.0150611400604248,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,Pearson,0.0313860721654845,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.468,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,Spearman,0.0263660254641018,CNN,all,2048,True,2
+amplitude,One-Hot,SA,R2,-0.0006074905395507,CNN,all,2048,True,2
+amplitude,One-Hot,SA,Pearson,-0.0604414107565988,CNN,all,2048,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.55,CNN,all,2048,True,2
+amplitude,One-Hot,SA,Spearman,-0.0435265741062964,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,R2,-0.0100557804107666,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,Pearson,-0.0082389161575104,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.468,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,Spearman,-0.0232109728438913,CNN,all,2048,True,3
+amplitude,One-Hot,SA,R2,-0.0021141767501831,CNN,all,2048,True,3
+amplitude,One-Hot,SA,Pearson,-0.0172569237049853,CNN,all,2048,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.55,CNN,all,2048,True,3
+amplitude,One-Hot,SA,Spearman,-0.0270863163452653,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,R2,-0.000495433807373,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,Pearson,-0.0266876783285113,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,sign_accuracy,0.532,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,Spearman,-0.0024761379045516,CNN,all,2048,True,4
+amplitude,One-Hot,SA,R2,-0.0004235506057739,CNN,all,2048,True,4
+amplitude,One-Hot,SA,Pearson,0.0073098605475324,CNN,all,2048,True,4
+amplitude,One-Hot,SA,sign_accuracy,0.55,CNN,all,2048,True,4
+amplitude,One-Hot,SA,Spearman,0.0101190164760659,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,R2,-0.0313329696655273,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,Pearson,-0.0307397534152059,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.426,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,Spearman,-0.0401445765783063,CNN,all,4096,True,0
+amplitude,One-Hot,SA,R2,-0.0019561052322387,CNN,all,4096,True,0
+amplitude,One-Hot,SA,Pearson,-0.0032711924287675,CNN,all,4096,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.432,CNN,all,4096,True,0
+amplitude,One-Hot,SA,Spearman,-0.018193512774051,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,R2,-0.020452857017517,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,Pearson,-0.060311534578817,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.574,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,Spearman,-0.0440390241560966,CNN,all,4096,True,1
+amplitude,One-Hot,SA,R2,-0.001970887184143,CNN,all,4096,True,1
+amplitude,One-Hot,SA,Pearson,-0.0273549725006591,CNN,all,4096,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.432,CNN,all,4096,True,1
+amplitude,One-Hot,SA,Spearman,-0.0532305341996696,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,R2,-0.0408121347427368,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,Pearson,-0.0417086804709137,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.426,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,Spearman,-0.0447406909627638,CNN,all,4096,True,2
+amplitude,One-Hot,SA,R2,-0.0015996694564819,CNN,all,4096,True,2
+amplitude,One-Hot,SA,Pearson,-0.0323072452916175,CNN,all,4096,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.432,CNN,all,4096,True,2
+amplitude,One-Hot,SA,Spearman,-0.0188097392389569,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,R2,-0.0119372606277465,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,Pearson,0.0042821470759163,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.574,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,Spearman,-0.0068095952383809,CNN,all,4096,True,3
+amplitude,One-Hot,SA,R2,-0.0057700872421264,CNN,all,4096,True,3
+amplitude,One-Hot,SA,Pearson,-0.0201859077803715,CNN,all,4096,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.432,CNN,all,4096,True,3
+amplitude,One-Hot,SA,Spearman,-0.036985780830782,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,R2,-0.011600375175476,CNN,all,4096,True,4
+amplitude,One-Hot,MeJA,Pearson,0.0328167543397938,CNN,all,4096,True,4
+amplitude,One-Hot,MeJA,sign_accuracy,0.574,CNN,all,4096,True,4
+amplitude,One-Hot,MeJA,Spearman,0.0446793467173868,CNN,all,4096,True,4
+amplitude,One-Hot,SA,R2,3.027915954589844e-05,CNN,all,4096,True,4
+amplitude,One-Hot,SA,Pearson,0.0191509899487889,CNN,all,4096,True,4
+amplitude,One-Hot,SA,sign_accuracy,0.568,CNN,all,4096,True,4
+amplitude,One-Hot,SA,Spearman,0.0203051372205488,CNN,all,4096,True,4
+amplitude,String,MeJA,sign_accuracy,0.552,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,MeJA,R2,0.0001402685418518,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,MeJA,Spearman,0.1099715118860475,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,MeJA,Pearson,0.0570931999098316,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,SA,sign_accuracy,0.586,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,SA,R2,-0.0478806280155728,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,SA,Spearman,-0.080626018504074,AgroNT,not apply,not apply,not apply,not apply
+amplitude,String,SA,Pearson,-0.077509462074909,AgroNT,not apply,not apply,not apply,not apply

@@ -212,7 +212,7 @@ class MaskedBCELoss(nn.Module):
         mask = torch.ones(target.shape[0], output.shape[1]).to(target.device)
         mask[target == 3] = 0
         loss = self.loss_fn(output, target)
-        return (loss * mask).sum() / mask.sum()
+        return (loss * mask).sum() / mask.sum() if mask.sum() > 0 else loss.mean()
 
 
 class CustomTrainerClassification(Trainer):
@@ -229,7 +229,6 @@ class CustomTrainerClassification(Trainer):
         loss = self.loss_fn(logits, labels)
 
         return (loss, outputs) if return_outputs else loss
-
 
 class CustomTrainerRegression(Trainer):
     def __init__(self, *args, **kwargs):
@@ -282,9 +281,9 @@ def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, we
     # This is very tricky: https://huggingface.co/docs/peft/developer_guides/troubleshooting
     peft_config = LoraConfig(   task_type=TaskType.SEQ_CLS,
                                 inference_mode=False,
-                                r=16,
-                                lora_alpha= 32,
-                                lora_dropout=0.15,
+                                r=config['lora_r'],
+                                lora_alpha= config['lora_alpha'],
+                                lora_dropout= config['lora_dropout'],
                                 target_modules = ["query", "key", "value"],
                                 modules_to_save = ['classifier.out_proj.weight', 'classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.bias'])
                                 # This is to ALSO save the classification head, just to be sure
@@ -303,7 +302,7 @@ def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, we
             remove_unused_columns=False,
             evaluation_strategy="steps",
             save_strategy="steps",
-            learning_rate=5e-5,
+            learning_rate=config['lr'],
             gradient_accumulation_steps= config['gradient_accumulation_steps'],
             per_device_train_batch_size= config['batch_size'],
             per_device_eval_batch_size= config['batch_size'],
@@ -325,7 +324,7 @@ def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, we
             train_dataset= ds_train,
             eval_dataset= ds_val,
             compute_metrics=compute_metrics_regression,
-            callbacks=[EarlyStoppingCallback(early_stopping_patience=8)],
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=config['early_stopping_patience'])],
         )
         
     elif config['problem_type'] == "quantiles_per_treatment" or config['problem_type'] == "DE_per_treatment":
@@ -341,7 +340,7 @@ def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, we
             remove_unused_columns=False,
             evaluation_strategy="steps",
             save_strategy="steps",
-            learning_rate=5e-5,
+            learning_rate=config['lr'],
             gradient_accumulation_steps= config['gradient_accumulation_steps'],
             per_device_train_batch_size= config['batch_size'],
             per_device_eval_batch_size= config['batch_size'],
@@ -363,7 +362,7 @@ def finetune_agroNT(ds_train, ds_val, ds_test, tokenizer, config, output_dir, we
             train_dataset= ds_train,
             eval_dataset= ds_val,
             compute_metrics=compute_metrics_classification,
-            callbacks=[EarlyStoppingCallback(early_stopping_patience=8)],
+            callbacks=[EarlyStoppingCallback(early_stopping_patience=config['early_stopping_patience'])],
             loss_weights = weights.to(config['device']) if weights is not None else None)
     else:
         raise ValueError("Problem type must be either regression or classification")
