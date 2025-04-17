@@ -44,8 +44,56 @@ def set_plot_style():
     sns.set_palette("deep")  # Set default color palette
     sns.color_palette("viridis", as_cmap=True)
 
-
-def figure_1a(figsize = (10, 7)):
+def figure_1a(figsize = (10, 7),fitted_values_file = "Data/Processed/mRNA/fitted_values_PTI_X.csv"):
+    
+    X = pd.read_csv(fitted_values_file)
+    # select a subset of genes and make a nice scatterplot on time
+    # set Unnamed: 0 name as "gene"
+    X = X.rename(columns={"Unnamed: 0": "gene"})
+    X.set_index("gene", inplace=True)
+    X = X.sample(n=100, random_state=42)
+    X_control = X.filter(like="control")
+    # select columns that have treatment
+    treatment = fitted_values_file.split("/")[-1].split("_")[-1].split(".")[0]
+    X_treatment = X.filter(like=treatment)
+    # Random gene selection
+    treatment = fitted_values_file.split("/")[-1].split("_")[-1].split(".")[0]
+    X_treatment = X.filter(like=treatment)
+    # put in long format, with the columns as features.
+    # They ae separated by _, being treatment, time, replication
+    X_control = pd.melt(X_control.reset_index(), id_vars=["gene"], var_name="features", value_name="fitted_values")
+    X_control["treatment"] = "control"
+    X_treatment = pd.melt(X_treatment.reset_index(), id_vars=["gene"], var_name="features", value_name="fitted_values")
+    X_treatment["treatment"] = mapping[treatment]
+    # merge the two dataframes
+    X = pd.concat([X_control, X_treatment])
+    # split the features column into three columns
+    X[["treatment", "time", "replication"]] = X["features"].str.split("_", expand=True)
+    # if treatment =! "control" then set treatment to the value in the mapping
+    X["treatment"] = X["treatment"].replace(mapping)
+    # drop the features column
+    X = X.drop(columns=["features"])
+    # goup by by replication and take the average (the are actually the same value!)
+    X = X.groupby(["treatment", "time", "gene"]).mean().reset_index()
+    # set the time as int
+    X["time"] = X["time"].astype(int)
+    # now make a lineplot for treatment and control
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
+    for gene in X["gene"].unique():
+        #import pdb; pdb.set_trace()
+        X_gene_treatment = X[(X["gene"] == gene) & ((X["treatment"] != "control"))]
+        X_gene_control = X[(X["gene"] == gene) & ((X["treatment"] == "control"))]
+        fold_change = X_gene_treatment["fitted_values"].values / X_gene_control["fitted_values"].values
+        # make a new dataframe with the time and the fold change
+        X_gene_treatment = X_gene_treatment.copy()
+        X_gene_treatment["fitted_values"] = np.log2(fold_change)
+        # make the lineplot
+        #  add a column for the ration
+        sns.lineplot(data=X_gene_treatment, x="time", y="fitted_values", ax=ax)
+    
+    plt.show()
+        
+def figure_1b(figsize = (10, 7)):
     res = pd.read_csv("Data/Processed/mRNA/DESeq2_padj_results_ALL.csv")
     res = res[res["treatment"] == "T"]
     # drop if NA in pvalue 
@@ -93,9 +141,9 @@ def figure_1a(figsize = (10, 7)):
     # put legent on the right upper
     #plt.title("Likelihood ratio between including or excluding the treatment effect \n Pep1 treatment")
     # save
-    plt.savefig("Images/figure_1a.pdf", bbox_inches='tight')
+    plt.savefig("Images/figure_1b.pdf", bbox_inches='tight')
 
-def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
+def figure_2a(figsize = (10, 7), pvals = False, metric = "AUC"):
     """
     Plot the figure 1b
     """
@@ -103,9 +151,8 @@ def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)", "embeddings": "L. (AgroNT emb.)"}
     )
-
-    res = res[res["length"] != "4096"]
-    res = res[res["exons"] != "masked"]
+    res = res[(res["length"] == "2048") | (res["length"] == "not apply")]
+    res = res[res["exons"] != "all"]
     res = res[res['rc'] != 'False']
     res = res[
         (
@@ -183,7 +230,7 @@ def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
     plt.savefig("Images/figure_2a.pdf", bbox_inches='tight')
 
 def figure_1c(figsize = (10, 7),
-               fitted_values_file = "Data/Processed/fitted_values_PTI_X.csv",
+               fitted_values_file = "Data/Processed/mRNA/fitted_values_PTI_X.csv",
                gene_selected = "AT3G56400"):
     X = pd.read_csv(fitted_values_file)
     # set Unnamed: 0 name as "gene"
@@ -377,6 +424,4 @@ def figure_2b(figsize = (10, 7), pvals = True, metric = "Spearman"):
 if __name__ == "__main__":
     set_plot_style()
     figure_2a()
-    figure_2b()
-
     plt.show()

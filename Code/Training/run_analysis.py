@@ -87,7 +87,7 @@ def run_cnn():
 
                 command = [
                     "python", "Code/Training/get_performance.py",
-                    "--n_rep", "1",
+                    "--n_rep", "5",
                     "--model", "CNN",
                     "--train_proportion", "0.85",
                     "--val_proportion", "0.05",
@@ -133,4 +133,4 @@ def run_agroNT():
 if __name__ == "__main__":
     #linear_models()
     run_cnn()
-    #run_agroNT()
+    run_agroNT()

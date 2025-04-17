@@ -20,6 +20,9 @@ import torch
 import os
 import shutil
 
+torch.manual_seed(19998)
+np.random.seed(19998)
+
 mapping = {
     "B": "MeJA",
     "C": "SA",
