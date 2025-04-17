@@ -2,7 +2,7 @@
     "lr": 7e-05,
     "weight_decay": 1e-05,
     "n_epochs": 1500,
-    "patience": 15,
+    "patience": 10,
     "equivariant": true,
     "n_labels": 12,
     "treatments": [
