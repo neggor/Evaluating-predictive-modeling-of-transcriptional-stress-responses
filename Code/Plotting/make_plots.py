@@ -95,7 +95,7 @@ def figure_1a(figsize = (10, 7)):
     # save
     plt.savefig("Images/figure_1a.pdf", bbox_inches='tight')
 
-def figure_1b(figsize = (10, 7), pvals = True, metric = "MCC"):
+def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
     """
     Plot the figure 1b
     """
@@ -180,7 +180,7 @@ def figure_1b(figsize = (10, 7), pvals = True, metric = "MCC"):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     plt.grid(axis='y', color='black', alpha=0.3, linestyle='--', linewidth=0.5)
-    plt.savefig("Images/figure_1b.pdf", bbox_inches='tight')
+    plt.savefig("Images/figure_2a.pdf", bbox_inches='tight')
 
 def figure_1c(figsize = (10, 7),
                fitted_values_file = "Data/Processed/fitted_values_PTI_X.csv",
@@ -281,7 +281,7 @@ def figure_1c(figsize = (10, 7),
 
     plt.savefig("Images/figure_1c.pdf", bbox_inches='tight')
 
-def figure_1d(figsize = (10, 7), pvals = True, metric = "Spearman"):
+def figure_2b(figsize = (10, 7), pvals = True, metric = "Spearman"):
     res = pd.read_csv("Results/Results_table.csv")
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)",  "embeddings": "L. (AgroNT emb.)"}
@@ -371,10 +371,11 @@ def figure_1d(figsize = (10, 7), pvals = True, metric = "Spearman"):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     plt.grid(axis='y', color='black', alpha=0.3, linestyle='--', linewidth=0.5)
-    plt.savefig("Images/figure_1d.pdf", bbox_inches='tight')
+    plt.savefig("Images/figure_2b.pdf", bbox_inches='tight')
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1b()
+    figure_2a()
+    figure_2b()
 
     plt.show()

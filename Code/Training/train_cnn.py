@@ -19,8 +19,7 @@ from sklearn.metrics import (
     accuracy_score, )
 from torch.optim.lr_scheduler import LambdaLR
 
-def mse_loss(output, target, weights=None):
-    #return F.mse_loss(output, target, reduction="mean")
+def l1_loss(output, target, weights=None):
     return F.l1_loss(output, target, reduction="mean")
 
 def binary_cross_entropy(output, target, weights=None):
@@ -34,7 +33,7 @@ def loss_fnc(loss_name):
     # Intended usage is
     # loss = loss_fnc("mse")(output, target)
     if loss_name == "log2FC" or loss_name == "amplitude":
-        return mse_loss
+        return l1_loss
     elif loss_name == "DE_per_treatment" or loss_name == "quantiles_per_treatment":
         return binary_cross_entropy
     else:

@@ -1,6 +1,6 @@
 {
     "lr": 7e-05,
-    "weight_decay": 1e-05,
+    "weight_decay": 0.00001,
     "n_epochs": 1500,
     "patience": 15,
     "equivariant": true,

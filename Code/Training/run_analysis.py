@@ -34,7 +34,7 @@ def linear_models():
                 "python", "Code/Training/get_performance.py",
                 "--model", "linear",
                 "--train_proportion", "0.85",
-                "--val_proportion", "0.1",
+                "--val_proportion", "0.05",
                 "--store_folder", store_folder,
                 "--config_file", config_file,
             ]
@@ -52,15 +52,28 @@ def run_cnn():
     with open(config_file, "r") as f:
         config = json.load(f)
     for problem_type in outcome_types:
-        for dna_length in [2048, 4096]:
+        for dna_length in [2048, 4096, 8192]:
             for exons_masked in [True, False]:
-                if exons_masked and dna_length == 4096:
+                if exons_masked and dna_length != 2048:
                     continue
                 print(f"Running CNN for {problem_type} with dna_length {dna_length} and exons_masked {exons_masked}")
-                config["upstream_TSS"] = 814 if dna_length == 2048 else 1628
-                config["upstream_TTS"] = 200 if dna_length == 2048 else 410
-                config["downstream_TSS"] = 200 if dna_length == 2048 else 410
-                config["downstream_TTS"] = 814 if dna_length == 2048 else 1628
+                if dna_length == 2048:
+                    config["upstream_TSS"] = 814
+                    config["upstream_TTS"] = 200
+                    config["downstream_TSS"] = 200
+                    config["downstream_TTS"] = 814
+                elif dna_length == 4096:
+                    config["upstream_TSS"] = 1628
+                    config["upstream_TTS"] = 410
+                    config["downstream_TSS"] = 410
+                    config["downstream_TTS"] = 1628
+                elif dna_length == 8192:
+                    config["upstream_TSS"] = 3256
+                    config["upstream_TTS"] = 830
+                    config["downstream_TSS"] = 830
+                    config["downstream_TTS"] = 3256
+                else:
+                    raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked
                 config["problem_type"] = problem_type
 
@@ -74,10 +87,10 @@ def run_cnn():
 
                 command = [
                     "python", "Code/Training/get_performance.py",
-                    "--n_rep", "5",
+                    "--n_rep", "1",
                     "--model", "CNN",
                     "--train_proportion", "0.85",
-                    "--val_proportion", "0.1",
+                    "--val_proportion", "0.05",
                     "--store_folder", store_folder,
                     "--config_file", config_file,
                 ]
@@ -107,7 +120,7 @@ def run_agroNT():
             "python", "Code/Training/get_performance.py",
             "--model", "AgroNT",
             "--train_proportion", "0.85",
-            "--val_proportion", "0.1",
+            "--val_proportion", "0.05",
             "--store_folder", store_folder,
             "--config_file", config_file,
         ]
