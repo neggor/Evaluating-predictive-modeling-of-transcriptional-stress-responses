@@ -105,7 +105,7 @@ def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
     )
 
     res = res[res["length"] != "4096"]
-    res = res[res["exons"] != "masked"] # TODO
+    res = res[res["exons"] != "masked"]
     res = res[res['rc'] != 'False']
     res = res[
         (
@@ -132,7 +132,7 @@ def figure_2a(figsize = (10, 7), pvals = True, metric = "MCC"):
     ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
     # print the average of the values per in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].mean())
-    sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, color=".25", legend=False)
+    sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, marker=".", color=".25", legend=False)
     # pairs: For plots grouped by hue: `[
     #           ((cat1, hue1), (cat2, hue2)), ((cat3, hue3), (cat4, hue4))
     #        ]`
@@ -317,7 +317,8 @@ def figure_2b(figsize = (10, 7), pvals = True, metric = "Spearman"):
     print(res[res["in_type"] == "L. (6mer)"])
 
     ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
-    sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, color=".25", legend=False)
+    #sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, color=".25", legend=False)
+    sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, marker=".", color=".25", legend=False)
     # pairs: For plots grouped by hue: `[
     #           ((cat1, hue1), (cat2, hue2)), ((cat3, hue3), (cat4, hue4))
     #        ]`

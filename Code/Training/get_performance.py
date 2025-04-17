@@ -67,7 +67,7 @@ def load_data(
         data_path,
         train_proportion,
         val_proportion,
-        random_state=123,
+        random_state=19998,
         mask_exons=mask_exons,
         dna_format=dna_format,
         kmer_rc=kmer_rc,
