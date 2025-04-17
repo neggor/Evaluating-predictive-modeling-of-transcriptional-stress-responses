@@ -121,7 +121,7 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
 
         # Train the model with early stopping
         # returns the best model
-        model, my_metrics, my_metrics_val = train_cnn_model_from_specs(
+        best_model, my_metrics, my_metrics_val = train_cnn_model_from_specs(
             model,
             cnn_config,
             TSS_sequences=TSS_sequences,
@@ -133,8 +133,6 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
             name =cnn_config["model_name"],
         )
 
-        # load the best model
-        best_model = model.load_state_dict(torch.load(f"{i_store_folder}/best_model.pth"))
 
         Y_hat, Y, m = test_cnn( best_model,
                                 training_specs=cnn_config,

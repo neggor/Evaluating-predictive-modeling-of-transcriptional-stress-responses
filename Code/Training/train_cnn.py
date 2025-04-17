@@ -405,7 +405,7 @@ def train_cnn_model(
             best_model = model.state_dict()
             print(f"New best model with loss: {best_loss}")
             # save
-            torch.save(best_model, os.path.join(store_folder, "best_model.pt"))
+            torch.save(best_model, os.path.join(store_folder, "best_model.pth"))
             epochs_no_improve = 0
 
         else:
@@ -413,7 +413,11 @@ def train_cnn_model(
             if epochs_no_improve >= training_specs["patience"]:
                 print("Early stopping!")
                 break
-        
+    
+    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    print("LOADING BEST MODEL")
+    model.load_state_dict(best_model)
+
     return model, my_metrics, my_metrics_val
 
 def get_loader(mRNA, TSS_sequences, TTS_sequences, batch_size, shuffle):
