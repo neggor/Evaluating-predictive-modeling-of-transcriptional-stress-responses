@@ -52,7 +52,7 @@ def run_cnn():
     with open(config_file, "r") as f:
         config = json.load(f)
     for problem_type in outcome_types:
-        for dna_length in [2048, 4096, 8192]:
+        for dna_length in [2048, 4096]:
             for exons_masked in [True, False]:
                 if exons_masked and dna_length != 2048:
                     continue
@@ -87,7 +87,7 @@ def run_cnn():
 
                 command = [
                     "python", "Code/Training/get_performance.py",
-                    "--n_rep", "5",
+                    "--n_rep", "1",
                     "--model", "CNN",
                     "--train_proportion", "0.85",
                     "--val_proportion", "0.05",
