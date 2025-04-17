@@ -17,6 +17,8 @@ import argparse
 import json
 import numpy as np
 import torch
+import os
+import shutil
 
 mapping = {
     "B": "MeJA",
@@ -45,6 +47,17 @@ def load_data(
     mask_exons=False,
     kmer_rc=True,
 ):
+    # reset data calling if files exist
+    if os.path.exists("Data/RAW/DNA/Ath/previous_run_DNA_format.txt"):
+        os.remove("Data/RAW/DNA/Ath/previous_run_DNA_format.txt")
+    # remove all contents of Processed/DNA folder
+    for filename in os.listdir("Data/Processed/DNA"):
+        file_path = os.path.join("Data/Processed/DNA", filename)
+        if os.path.isfile(file_path) or os.path.islink(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            shutil.rmtree(file_path)  # Remove subdirectories
+
     """
     Loads the DNA and mRNA outcome.
     """

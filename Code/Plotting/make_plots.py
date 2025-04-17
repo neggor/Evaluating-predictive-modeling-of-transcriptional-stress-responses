@@ -46,7 +46,7 @@ def set_plot_style():
 
 
 def figure_1a(figsize = (10, 7)):
-    res = pd.read_csv("Data/RAW/mRNA_counts/Ath_GSR/HORMONE+Other.csv")
+    res = pd.read_csv("Data/Processed/mRNA/DESeq2_padj_results_ALL.csv")
     res = res[res["treatment"] == "T"]
     # drop if NA in pvalue 
     res = res.dropna(subset=["padj"])
@@ -58,13 +58,19 @@ def figure_1a(figsize = (10, 7)):
     # get the stat value corresponding to padj of 0.01
     stat_001 = res[res["padj"] < 0.01]["stat"].min()
     # Add the class color to specify the class of each bin, 1 if below 0.25q and 2 if above 0.75q, 3 if between 0.25q and 0.75q
-    res["class"] = "Not known / neutral"
-    res.loc[res["stat"] < quantiles[0.25], "class"] = 'Not sensitive'
-    res.loc[res["stat"] > quantiles[0.75], "class"] = 'Sensitive'
-    # Make histogram witht he hlines for the quartiles and the stat_001, put colors on the bins of each class
+    res["class"] = "Neutral"
+    res.loc[res["stat"] < quantiles[0.25], "class"] = 'Below Lower Quartile'
+    res.loc[res["stat"] > quantiles[0.75], "class"] = 'Above Upper Quartile'
+    # Make histogram with the hlines for the quartiles and the stat_001, put colors on the bins of each class
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
-    # put legend upper right
-    sns.histplot(res, x="stat", bins = 200)
+    # Define custom colors for the classes with stronger shades
+    colors = {
+        "Neutral": "lightgrey",
+        "Below Lower Quartile": "dimgray",
+        "Above Upper Quartile": "dimgray"
+    }
+    # Plot the histogram with custom colors
+    sns.histplot(res, x="stat", bins=200, hue="class", palette=colors, legend=False)
     #sns.move_legend(ax, "upper right", bbox_to_anchor=(1, 1), fontsize=12)
     ax.axvline(quantiles[0.25], color='r', linestyle='dashed', linewidth=2)
     # add label for the ax line
@@ -99,7 +105,7 @@ def figure_1b(figsize = (10, 7), pvals = True, metric = "MCC"):
     )
 
     res = res[res["length"] != "4096"]
-    res = res[res["exons"] != "masked"]
+    res = res[res["exons"] != "masked"] # TODO
     res = res[res['rc'] != 'False']
     res = res[
         (
@@ -299,7 +305,7 @@ def figure_1d(figsize = (10, 7), pvals = True, metric = "Spearman"):
     print(res)
 
     # get the pvalues for quantiles and DE, comparing AgroNT to CNN and Linear
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=figsize, dpi=300)
     print(res)
     # print the res just for the CNN
     print(res[res["in_type"] == "CNN"])
@@ -369,5 +375,6 @@ def figure_1d(figsize = (10, 7), pvals = True, metric = "Spearman"):
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1c()
+    figure_1b()
+
     plt.show()

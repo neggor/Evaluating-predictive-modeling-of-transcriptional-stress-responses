@@ -18,10 +18,10 @@
     "upstream_TTS": 200,
     "downstream_TSS": 200,
     "downstream_TTS": 814,
-    "dna_format": "6-mer",
+    "dna_format": "DAPseq",
     "mask_exons": false,
-    "problem_type": "quantiles_per_treatment",
+    "problem_type": "DE_per_treatment",
     "linear_model_kind": "logistic_l1",
-    "model_name": "linear_quantiles_per_treatment_6-mer",
+    "model_name": "linear_DE_per_treatment_DAPseq",
     "separated_segments": false
 }

@@ -56,7 +56,7 @@ def run_cnn():
             for exons_masked in [True, False]:
                 if exons_masked and dna_length == 4096:
                     continue
-                
+                print(f"Running CNN for {problem_type} with dna_length {dna_length} and exons_masked {exons_masked}")
                 config["upstream_TSS"] = 814 if dna_length == 2048 else 1628
                 config["upstream_TTS"] = 200 if dna_length == 2048 else 410
                 config["downstream_TSS"] = 200 if dna_length == 2048 else 410
@@ -120,4 +120,4 @@ def run_agroNT():
 if __name__ == "__main__":
     #linear_models()
     run_cnn()
-    run_agroNT()
+    #run_agroNT()
