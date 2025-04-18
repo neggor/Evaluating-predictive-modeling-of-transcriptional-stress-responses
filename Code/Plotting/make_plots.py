@@ -143,16 +143,16 @@ def figure_1b(figsize = (10, 7)):
     # save
     plt.savefig("Images/figure_1b.pdf", bbox_inches='tight')
 
-def figure_2a(figsize = (10, 7), pvals = False, metric = "AUC"):
+def figure_2a(figsize = (10, 7), pvals = False, metric = "MCC"):
     """
-    Plot the figure 1b
+    Plot the figure 2a
     """
     res = pd.read_csv("Results/Results_table.csv")
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)", "embeddings": "L. (AgroNT emb.)"}
     )
-    res = res[(res["length"] == "2048") | (res["length"] == "not apply")]
-    res = res[res["exons"] != "all"]
+    res = res[(res["length"] == 2048) | (res["length"] == "not apply")]
+    res = res[res["exons"] != "masked"]
     res = res[res['rc'] != 'False']
     res = res[
         (
@@ -334,7 +334,7 @@ def figure_2b(figsize = (10, 7), pvals = True, metric = "Spearman"):
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)",  "embeddings": "L. (AgroNT emb.)"}
     )
 
-    res = res[res["length"] != "4096"]
+    res = res[(res["length"] == 2048) | (res["length"] == "not apply")]
     res = res[res["exons"] != "masked"]
     res = res[res['rc'] != "False"]
     res = res[

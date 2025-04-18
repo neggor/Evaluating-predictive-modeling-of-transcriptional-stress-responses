@@ -133,7 +133,8 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
             name =cnn_config["model_name"],
         )
 
-
+        best_model.load_state_dict(torch.load(f"{i_store_folder}/best_model.pth"))
+        
         Y_hat, Y, m = test_cnn( best_model,
                                 training_specs=cnn_config,
                                 TSS_sequences=TSS_sequences,

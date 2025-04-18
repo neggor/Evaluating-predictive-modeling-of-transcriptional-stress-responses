@@ -359,7 +359,7 @@ def train_cnn_model(
         lr=training_specs["lr"],
         weight_decay=training_specs["weight_decay"],
     )
-    scheduler = get_warmup_scheduler(optimizer, 100, training_specs["n_epochs"] * len(train_loader))
+    scheduler = get_warmup_scheduler(optimizer, 1000, training_specs["n_epochs"] * len(train_loader))
     my_metrics = metrics(training_specs["problem_type"])
     my_metrics_val = metrics(training_specs["problem_type"])
     my_loss_fnc = loss_fnc(training_specs["problem_type"])
@@ -413,10 +413,6 @@ def train_cnn_model(
             if epochs_no_improve >= training_specs["patience"]:
                 print("Early stopping!")
                 break
-    
-    print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-    print("LOADING BEST MODEL")
-    model.load_state_dict(best_model)
 
     return model, my_metrics, my_metrics_val
 
