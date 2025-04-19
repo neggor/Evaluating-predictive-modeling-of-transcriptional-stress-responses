@@ -63,10 +63,10 @@ def run_cnn():
                     config["downstream_TSS"] = 200
                     config["downstream_TTS"] = 814
                 elif dna_length == 4096:
-                    config["upstream_TSS"] = 1628
-                    config["upstream_TTS"] = 410
-                    config["downstream_TSS"] = 410
-                    config["downstream_TTS"] = 1628
+                    config["upstream_TSS"] = 1500
+                    config["upstream_TTS"] = 538
+                    config["downstream_TSS"] = 538
+                    config["downstream_TTS"] = 1500
                 else:
                     raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked
