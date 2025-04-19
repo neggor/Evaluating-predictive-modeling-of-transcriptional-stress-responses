@@ -151,7 +151,7 @@ def figure_2a(figsize = (10, 7), pvals = False, metric = "MCC"):
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)", "embeddings": "L. (AgroNT emb.)"}
     )
-    res = res[(res["length"] == 2048) | (res["length"] == "not apply")]
+    res = res[(res["length"] == 5020) | (res["length"] == "not apply")]
     res = res[res["exons"] != "masked"]
     res = res[res['rc'] != 'False']
     res = res[
