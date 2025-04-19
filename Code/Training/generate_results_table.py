@@ -71,7 +71,7 @@ def generate_table():
                                     )
         # CNN models
         for exons in [True, False]:
-            for length in [5020, 4096, 8192]:
+            for length in [2048, 4096]:
                 for model_num in range(5):
                     file = f"Results/CNN/{outcome_type}/{length}/exons_masked_{exons}/model_{model_num}/test_metrics.csv"
                     # Results/CNN/amplitude/2048/exons_masked_False/model_0/test_metrics.csv

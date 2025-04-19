@@ -1,0 +1,1777 @@
+outcome_type,in_type,treatment,metric,value,model_type,exons,length,rc,replicate
+quantiles_per_treatment,6-mer,MeJA,Accuracy,0.6186395286555972,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,MCC,0.235899650750601,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,F1,0.600448933782267,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,MeJA,AUC,0.6592237493279662,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,Accuracy,0.610657966286025,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,MCC,0.2207599017485815,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,F1,0.5963923337091318,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA,AUC,0.6506174157503292,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA+MeJA,Accuracy,0.6172967374417401,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA+MeJA,MCC,0.232850027934173,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA+MeJA,F1,0.597713663581927,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,SA+MeJA,AUC,0.6561976711650631,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA,Accuracy,0.5724381625441696,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA,MCC,0.1444599357450349,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA,F1,0.561367167270844,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA,AUC,0.6157919419296958,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA+MeJA,Accuracy,0.6104092976250631,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA+MeJA,MCC,0.2195499218058334,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA+MeJA,F1,0.5931398416886544,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,ABA+MeJA,AUC,0.6618214295224888,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,3-OH10,Accuracy,0.7170111287758346,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,3-OH10,MCC,0.2949243880408814,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,3-OH10,F1,0.4539877300613497,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,3-OH10,AUC,0.7432036585611539,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,chitooct,Accuracy,0.708667152221413,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,chitooct,MCC,0.3195435704795365,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,chitooct,F1,0.4858611825192802,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,chitooct,AUC,0.7433796393340575,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,elf18,Accuracy,0.6032803690415172,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,elf18,MCC,0.2056860889149166,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,elf18,F1,0.5891719745222931,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,elf18,AUC,0.6453145395595604,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,flg22,Accuracy,0.6475485661424607,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,flg22,MCC,0.2952820470097995,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,flg22,F1,0.6481994459833795,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,flg22,AUC,0.7107134298723083,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,nlp20,Accuracy,0.5906579608237067,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,nlp20,MCC,0.1811796381806804,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,nlp20,F1,0.5831202046035805,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,nlp20,AUC,0.6222308848241986,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,OGs,Accuracy,0.628707627118644,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,OGs,MCC,0.2537328504279053,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,OGs,F1,0.5936231884057972,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,OGs,AUC,0.679696584178055,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,Pep1,Accuracy,0.6376518218623481,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,Pep1,MCC,0.2740652801569551,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,Pep1,F1,0.6219640971488911,linear,not apply,2048,True,not apply
+quantiles_per_treatment,6-mer,Pep1,AUC,0.6926334006700827,linear,not apply,2048,True,not apply
+quantiles_per_treatment,DAPseq,MeJA,Accuracy,0.6057846813069094,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,MCC,0.2092679749888473,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,F1,0.5730858468677494,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,MeJA,AUC,0.6450823212619989,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,Accuracy,0.5872756933115824,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,MCC,0.1686705406645039,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,F1,0.5408348457350273,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA,AUC,0.6359554227014459,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA+MeJA,Accuracy,0.5981356809943035,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA+MeJA,MCC,0.192051622603565,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA+MeJA,F1,0.5650224215246636,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,SA+MeJA,AUC,0.6342039560061127,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA,Accuracy,0.5830388692579506,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA,MCC,0.1655440209854053,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA,F1,0.552546045503792,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA,AUC,0.6172110757686975,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA+MeJA,Accuracy,0.6154623547246084,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA+MeJA,MCC,0.2267072605995776,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA+MeJA,F1,0.5807162534435263,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,ABA+MeJA,AUC,0.6529363325187381,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,3-OH10,Accuracy,0.7209856915739269,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,3-OH10,MCC,0.2549449576706363,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,3-OH10,F1,0.4217462932454695,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,3-OH10,AUC,0.6778814191026855,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,chitooct,Accuracy,0.7203204661325564,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,chitooct,MCC,0.2889920151278743,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,chitooct,F1,0.4606741573033708,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,chitooct,AUC,0.7270597912736374,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,elf18,Accuracy,0.5996924654023578,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,elf18,MCC,0.1956533122892567,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,elf18,F1,0.5595036661026509,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,elf18,AUC,0.6323360983620363,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,flg22,Accuracy,0.6151711378353376,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,flg22,MCC,0.2301300649970968,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,flg22,F1,0.6049382716049383,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,flg22,AUC,0.6666392797233919,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,nlp20,Accuracy,0.5946760421898544,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,nlp20,MCC,0.1876385694028613,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,nlp20,F1,0.5695999999999999,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,nlp20,AUC,0.6182362695514478,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,OGs,Accuracy,0.6159957627118644,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,OGs,MCC,0.2149272356687003,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,OGs,F1,0.5477230193387399,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,OGs,AUC,0.6498144120235473,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,Pep1,Accuracy,0.6229757085020243,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,Pep1,MCC,0.2421448012864839,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,Pep1,F1,0.5779036827195466,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,DAPseq,Pep1,AUC,0.6678040007883327,linear,not apply,2048,not apply,not apply
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2143660416829465,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6031233171782445,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6587955110481192,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6230179028132993,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.2055277539845692,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5992282249173098,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.6464089642540505,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.6147323794382619,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1951678712736132,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5931398416886543,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6499546903842927,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6019617965926691,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1751175952770199,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5867895545314901,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6310146624612033,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,F1,0.5930408472012102,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2451954284940626,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6231514533401326,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6714052277364747,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6079575596816976,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2277199330222177,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6448,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6892741909200535,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.4111405835543766,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2064982833816933,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6194690265486725,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6862845312803261,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4162895927601809,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2024792584576251,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6020565552699229,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,AUC,0.656274869198598,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,F1,0.5494761350407451,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,MCC,0.2949714426352903,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6471135940409684,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7235499585163685,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,F1,0.6316812439261419,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1547897600750219,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5760649087221096,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6391746532078532,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,F1,0.504739336492891,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2423904519978686,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6248654467168999,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6632365766999725,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,F1,0.5838805970149255,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.247241128763362,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6238532110091743,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6798842122221588,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6040772532188842,CNN,masked,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2425544999661641,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6182014001077006,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6759090592253536,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6316883116883116,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.2513149266785952,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.6262403528114664,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.673767061895344,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.6107921928817452,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2199478892267777,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6058047493403694,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.666447390501762,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6127527216174182,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2104345783873521,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6041986687147978,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6515677102679199,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,F1,0.612531328320802,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2730282930828561,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.63488016318205,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6825429826152022,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6376518218623483,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2945470572864659,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.7464,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.7473030668448326,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.448695652173913,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.3458161518829961,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.7396755162241888,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.7707672899010156,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,F1,0.5035161744022504,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,MCC,0.3063784532503255,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6529562982005142,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,AUC,0.7138348939196397,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,F1,0.6497145822522055,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3750680596934568,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6871508379888268,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7670756944065154,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,F1,0.6750483558994197,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.2358820236180986,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.6171399594320487,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6685815162151818,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5770308123249299,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2938767472105086,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6496232508073198,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,AUC,0.7030039627489888,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,F1,0.6154754873006497,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.321176960081193,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6600407747196738,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.7188851528679302,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6300610094287298,CNN,masked,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2402623023483376,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6165858912224017,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6725144636260136,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6326109391124871,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.2260241689462113,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.6124586549062845,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.6582189378513459,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.6079196876742888,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2332391525539683,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6137203166226913,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6731957263522963,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6147368421052631,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,MCC,0.206592669939269,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6036866359447005,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6423278624536486,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,F1,0.5896076352067868,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2539257217275418,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6257011728709841,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6784229251730456,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6262729124236253,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2612933672379698,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6808,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.7124914447739791,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.4324324324324324,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.3019510425983771,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.7146017699115044,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.7332955942291518,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,F1,0.473469387755102,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2315421161944437,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.616452442159383,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,AUC,0.679053996850607,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,F1,0.5967567567567568,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3383932173404015,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6689944134078212,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7357366964117743,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,F1,0.6586653864618339,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.2135092135099195,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.6064908722109533,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6533930283565077,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5726872246696035,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2526100430347699,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6334768568353067,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6737129845880088,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,F1,0.565965583173996,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2773047470029604,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6386340468909276,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6879280328030724,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,F1,0.612779901693064,CNN,masked,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.229197841300397,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.613354873451804,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6706370965868166,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6156316916488223,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.2026639418353033,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5953693495038589,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.647939785270993,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.6228160328879754,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2185788187276181,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6010554089709762,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6597085640767467,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6235059760956174,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1717458422027917,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5842293906810035,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6383301540534245,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,F1,0.6,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2470133883585712,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6231514533401326,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6799183804479906,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6168999481596682,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2250480733020387,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6152,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6791912459668221,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.4098159509202453,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2293465851769824,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6238938053097345,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6849162191887171,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4308035714285714,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,MCC,0.232701976805242,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.616452442159383,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6650648080732826,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,F1,0.608604407135362,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3239223583456628,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6610800744878957,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7288080196485898,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,F1,0.6761565836298932,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1994585170432802,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5998985801217038,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6406982342508427,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5875588081547308,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2716364273414919,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6329386437029063,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,AUC,0.672948531090312,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,F1,0.6215316315205327,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.266737922016962,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6325178389398572,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6794850873865118,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6414719045251118,CNN,masked,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2252339815952037,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6122778675282714,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6587014103487534,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6069868995633187,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,0.2083732655125142,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.6003307607497244,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.6563404243918123,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.6174142480211082,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2362672469098167,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6163588390501319,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6646562622363932,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6118526428190069,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1847660549439164,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5929339477726574,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6373490891310598,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,F1,0.5732689210950082,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2410774990596507,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6200917899031106,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6690771113014733,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6145887221934817,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2477416728235276,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6392,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.701060033243164,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.4240102171136653,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.253623648969344,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6386430678466076,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.7090962023678591,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4457013574660633,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2376103968995818,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6154241645244216,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6654362586565976,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,F1,0.6361867704280156,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3293105226948087,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6643389199255121,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,AUC,0.726843940918986,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,F1,0.672719019518838,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.2154123408919828,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.6064908722109533,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6454767851925618,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,F1,0.623666343355965,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,MCC,0.258593048711993,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.628632938643703,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6700768550874789,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,F1,0.608843537414966,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2536278642067163,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6258919469928644,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6860010082059651,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6359126984126984,CNN,masked,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2324398217714998,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.617124394184168,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6616673249843166,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5967101531480431,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.1636955758293221,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5782800441014333,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.6161390185208641,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.595879556259905,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1895668393448402,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5883905013192612,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6383308161324608,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.6056622851365017,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2010441146944679,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5980542754736303,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,AUC,0.65050690103101,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA,F1,0.6191169335274139,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2352831976958671,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.617542070372259,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6595895678707426,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6089676746611052,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.192106729023427,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6272,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6564017534139426,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3884514435695538,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2116716362809674,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6600294985250738,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6681244743481918,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4142312579415502,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2293191728785001,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6143958868894601,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6657288685890381,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,elf18,F1,0.61139896373057,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3471755290588121,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6731843575418994,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7238403872845951,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,flg22,F1,0.6823529411764706,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1947083958212298,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5968559837728195,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6323833498619416,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,nlp20,F1,0.6054590570719603,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2476653205889383,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6264800861141012,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6614290480622333,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,OGs,F1,0.591283863368669,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2367138369105662,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6182466870540265,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6582909349811092,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5841199333703497,CNN,all,2048,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2468181497404697,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6235864297253635,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6598724412741932,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6131710016602103,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.183449553416015,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5931642778390298,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.6218981693475317,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.5648584905660377,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1968357061773453,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5963060686015831,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6426816579963082,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.593733404142326,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1921800725145816,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5949820788530465,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6473549020718832,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA,F1,0.6046976511744129,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2022180040691409,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.5976542580316165,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6591320731908117,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6126656848306333,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2079044161995888,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.644,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6719070820975785,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3978349120433018,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2103763562871711,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6733038348082596,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6837096461150287,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4101198402130492,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2399870289032098,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6200514138817481,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6611809800369122,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,elf18,F1,0.6128863279203771,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3286002651551344,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6629422718808193,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7232005770429497,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,flg22,F1,0.681618293755497,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.2060462099585226,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.6029411764705882,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6369556361182324,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,nlp20,F1,0.6027397260273973,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2407311846453913,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.623789020452099,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6621572105056749,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,OGs,F1,0.5841760856632956,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2274854505658553,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6131498470948012,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6548994132657039,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6199298948422635,CNN,all,2048,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2579934929190308,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.630048465266559,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.668772508654941,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6067544361763023,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.1799780117624263,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5893054024255788,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.62566615679894,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.5858810450250139,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2163548998876042,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6073878627968338,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6490205291715612,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5974025974025974,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2090392279071524,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6041986687147978,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6426394948407528,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA,F1,0.6041986687147978,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.215991318190607,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6083630800611932,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6499290310075096,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5949367088607594,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2061484775915606,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.7096,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.671096372584167,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3837011884550084,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2447327090641135,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.7123893805309734,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6849194539690756,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4264705882352941,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2480402447799363,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6246786632390745,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6629525135881069,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,elf18,F1,0.6054054054054054,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,MCC,0.332431191658222,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6657355679702048,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7255794920877666,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,flg22,F1,0.6504381694255111,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1974241155519107,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5988843813387424,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6367437132992886,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5808161102278749,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2525061006950679,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6334768568353067,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6624024677916893,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,OGs,F1,0.5654116145500958,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.235358947751525,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6167176350662589,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6557714594560885,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5673187571921748,CNN,all,2048,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2281624121769195,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6155088852988692,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6596726225051697,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5829439252336448,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.1652542049831529,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5810363836824697,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.6140979238316072,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.5851528384279476,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1862754581417692,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.59155672823219,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6336331599261621,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.586096256684492,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2095775055941426,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6052227342549923,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6499549864329739,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA,F1,0.5896753592336349,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2240864577835219,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6139724630290668,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6503573460723195,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5696418419556565,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.1974623003691117,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.688,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6518104487827135,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3829113924050633,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2206210269018506,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6814159292035398,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6689816911431714,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4162162162162162,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2469719848796042,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6241645244215939,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6691729880289202,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,elf18,F1,0.6042230644288035,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3438712439659587,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6717877094972067,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,AUC,0.725857783534336,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,flg22,F1,0.6628407460545193,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1926399274094438,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5963488843813387,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6359042520358993,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5678610206297503,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2410894611841273,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6291711517761034,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,AUC,0.664979717983388,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,OGs,F1,0.5440105890138981,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.21431518003861,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6060142711518859,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6546962129913055,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,Pep1,F1,0.548744892002335,CNN,all,2048,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2260675329645618,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6144318793753366,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6519981876902343,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5541718555417185,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,0.1807214059572782,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5909592061742006,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.6206827680946211,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.5745412844036697,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2179279217992096,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6121372031662269,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.643251104771494,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5694200351493849,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2291237367244464,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6149513568868408,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6472531231441084,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA,F1,0.5780022446689114,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2345098157337075,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.61907190209077,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6500426230806587,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5782044042913609,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.2173332920522126,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.7144,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6547355212984389,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3918228279386712,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2150090996759055,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.7197640117994101,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6682409264410947,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,chitooct,F1,0.3949044585987261,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2428224991649142,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.622107969151671,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6667178160822229,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,elf18,F1,0.6016260162601627,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3365891077173865,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6680633147113594,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7228433930056082,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,flg22,F1,0.6748746010031921,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.2208436329853979,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.6105476673427992,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6362782032236959,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,nlp20,F1,0.6020725388601036,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2301220062773253,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6216361679224973,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6616877681586972,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,OGs,F1,0.5603502188868041,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2258365683363721,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6131498470948012,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.65587851637815,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,Pep1,F1,0.589063345966432,CNN,all,2048,True,4
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2321987073041919,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6176628971459343,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6600124305862125,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5738295318127251,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,MCC,0.1585871932440036,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5810363836824697,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,AUC,0.6123344959616528,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA,F1,0.5476190476190476,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1756130277899704,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5910290237467019,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.63252391340829,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5481049562682215,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1862465580405008,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5919098822324629,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6441451934114407,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA,F1,0.6028898854010962,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.204551934806498,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6042835288118307,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6489379662225112,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5615819209039548,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.1630071009906287,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6592,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.645524394615911,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3622754491017964,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.1895921126905472,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6430678466076696,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6503590606197839,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4009900990099009,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,elf18,MCC,0.1969373267649314,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.5994858611825192,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6451779153050339,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,elf18,F1,0.5660167130919221,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,flg22,MCC,0.2811975718511765,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6405959031657356,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7030058077084129,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,flg22,F1,0.6361922714420358,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1656585606128152,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5826572008113591,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6283501294169448,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5409927495817067,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,OGs,MCC,0.1971686624276112,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6033369214208827,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6397960676886696,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,OGs,F1,0.5546827794561935,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2122858682438138,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6055045871559633,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6398521990842996,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5556831228473019,CNN,all,4096,True,0
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2351329028374182,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6165858912224017,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6665814726178583,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,F1,0.6167922497308934,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,MCC,0.1730861860962685,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5887541345093715,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,AUC,0.616185296324081,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA,F1,0.5434516523867808,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.1933695512965937,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5968337730870712,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.638183140347933,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5806805708013173,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1774427037539858,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5878136200716846,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6423068771077156,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA,F1,0.5956805625313912,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2026258768435219,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.5981642019377869,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6537494763301215,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.6114398422090729,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.1846059236336903,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6224,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6474758009321122,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3838120104438642,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.1730106686983449,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6718289085545722,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6492851135407905,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,chitooct,F1,0.3793584379358438,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2378616994977905,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6174807197943445,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6508692578607833,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,elf18,F1,0.625754527162978,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3146382433519498,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.654562383612663,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7087684346409564,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,flg22,F1,0.6823630136986303,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1842306210108541,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.592292089249493,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6288315851415357,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5799373040752351,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2095513253189032,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6065662002152853,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6433496643077481,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,OGs,F1,0.5747527632344387,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.1959938348095277,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.5968399592252803,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6424537862291537,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,Pep1,F1,0.6113022113022113,CNN,all,4096,True,1
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2343943488229907,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6182014001077006,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6568211389669834,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,F1,0.596011396011396,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,MCC,0.1951704857622154,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5959206174200662,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,AUC,0.6248282849933263,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA,F1,0.6001091107474086,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.19820786168697,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.5978891820580475,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.634336857414555,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5903225806451613,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1914627205078473,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.5949820788530465,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6418913672582436,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA,F1,0.6007067137809188,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2257653732734728,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6139724630290668,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6616467307367644,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5914732865623313,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.1834208040346186,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.7264,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6595794087931428,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3547169811320755,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.1763619016017958,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.7028023598820059,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6431746134437472,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,chitooct,F1,0.3673469387755101,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,elf18,MCC,0.212867552943318,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6071979434447301,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6428888907702467,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,elf18,F1,0.5852334419109663,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,flg22,MCC,0.2935062129275674,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6466480446927374,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7072560376673108,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,flg22,F1,0.6373626373626373,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1791441395451145,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5897565922920892,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6276742396497307,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5685333333333333,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2267719926942001,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6205597416576965,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6410697666251075,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,OGs,F1,0.5540796963946869,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.187635897221458,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.5932721712538226,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.633234418280749,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5381944444444445,CNN,all,4096,True,2
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.24011379685081,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6203554119547657,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6629266479239759,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,F1,0.543097861309138,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,MCC,0.1882000322518015,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5942668136714443,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,AUC,0.6208008982765172,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA,F1,0.582766439909297,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2152495958089153,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6079155672823219,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6421569614588577,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5910842047330765,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA,MCC,0.2068790752931789,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.6036866359447005,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6445344715784966,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA,F1,0.5934873949579832,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.1914762841373937,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.5976542580316165,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6418931734290424,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5594639865996649,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.1817448860850074,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.644,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6576117068083304,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3793584379358438,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.2217832174967922,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6349557522123894,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6656757456168726,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,chitooct,F1,0.4250871080139373,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2162189539027516,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6087403598971722,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6501231819028429,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,elf18,F1,0.5906401291016675,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,flg22,MCC,0.29152278996674,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6457169459962756,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,flg22,AUC,0.702106778954231,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,flg22,F1,0.6481738326398521,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1989029846595699,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5993914807302231,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6406817742260702,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5985772357723577,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2031639608618344,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.604951560818084,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,OGs,AUC,0.6416527648515287,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,OGs,F1,0.564650059311981,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2056376615839009,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6029561671763507,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.6445419159031499,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5953246753246754,CNN,all,4096,True,3
+quantiles_per_treatment,One-Hot,MeJA,MCC,0.2459262225853139,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,Accuracy,0.6241249326871298,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,AUC,0.6667789679128233,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,MeJA,F1,0.5664596273291926,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,MCC,0.160069175888575,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,Accuracy,0.5826901874310915,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,AUC,0.6108937948772908,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA,F1,0.5223974763406941,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,MCC,0.2053738131924918,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,Accuracy,0.6058047493403694,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,AUC,0.6371136096660514,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,SA+MeJA,F1,0.5639229422066551,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA,MCC,0.1795800363667063,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA,Accuracy,0.590373783922171,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA,AUC,0.6466340554390868,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA,F1,0.5694294940796555,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,MCC,0.2079497108762347,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,Accuracy,0.6058133605303416,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,AUC,0.6508033773320245,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,ABA+MeJA,F1,0.5683975432719152,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,3-OH10,MCC,0.186163361499326,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,3-OH10,Accuracy,0.6008,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,3-OH10,AUC,0.6509997392693022,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,3-OH10,F1,0.3862238622386224,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,chitooct,MCC,0.1909642753183907,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,chitooct,Accuracy,0.6607669616519174,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,chitooct,AUC,0.6457721420715534,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,chitooct,F1,0.3979057591623037,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,elf18,MCC,0.2211743006150967,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,elf18,Accuracy,0.6113110539845759,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,elf18,AUC,0.6480055960988164,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,elf18,F1,0.590465872156013,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,flg22,MCC,0.3045096699457039,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,flg22,Accuracy,0.6522346368715084,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,flg22,AUC,0.7019221182747317,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,flg22,F1,0.6533642691415312,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,nlp20,MCC,0.1711450457087845,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,nlp20,Accuracy,0.5856997971602435,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,nlp20,AUC,0.6259521095579249,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,nlp20,F1,0.5576610720086628,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,OGs,MCC,0.2147816699317761,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,OGs,Accuracy,0.6076426264800862,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,OGs,AUC,0.639963474809911,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,OGs,F1,0.5831903945111492,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,Pep1,MCC,0.2085889408770001,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,Pep1,Accuracy,0.6044852191641182,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,Pep1,AUC,0.633037974025704,CNN,all,4096,True,4
+quantiles_per_treatment,One-Hot,Pep1,F1,0.5745614035087719,CNN,all,4096,True,4
+amplitude,6-mer,MeJA,R2,0.0394178410263827,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,Pearson,0.2011348165822355,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,Spearman,0.2222881404319282,linear,not apply,2048,True,not apply
+amplitude,6-mer,MeJA,sign_accuracy,0.5098545992583009,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,R2,0.050586487825332,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,Pearson,0.2351457925242011,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,Spearman,0.2330876513890665,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA,sign_accuracy,0.5003275960144808,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA+MeJA,R2,0.0241218269352484,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA+MeJA,Pearson,0.1816832045633166,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA+MeJA,Spearman,0.1854418768110166,linear,not apply,2048,True,not apply
+amplitude,6-mer,SA+MeJA,sign_accuracy,0.4998001896649265,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA,R2,0.0519169877721893,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA,Pearson,0.2433391180055489,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA,Spearman,0.2306742851900441,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA,sign_accuracy,0.4988534139493171,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA+MeJA,R2,0.0373596605605847,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA+MeJA,Pearson,0.2069075868570462,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA+MeJA,Spearman,0.1838455257854092,linear,not apply,2048,True,not apply
+amplitude,6-mer,ABA+MeJA,sign_accuracy,0.5379918441758191,linear,not apply,2048,True,not apply
+amplitude,6-mer,3-OH10,R2,0.0615782184385136,linear,not apply,2048,True,not apply
+amplitude,6-mer,3-OH10,Pearson,0.2482876120836559,linear,not apply,2048,True,not apply
+amplitude,6-mer,3-OH10,Spearman,0.1707204276476814,linear,not apply,2048,True,not apply
+amplitude,6-mer,3-OH10,sign_accuracy,0.4897647543087975,linear,not apply,2048,True,not apply
+amplitude,6-mer,chitooct,R2,0.0493823340781702,linear,not apply,2048,True,not apply
+amplitude,6-mer,chitooct,Pearson,0.230890347608735,linear,not apply,2048,True,not apply
+amplitude,6-mer,chitooct,Spearman,0.159688182201194,linear,not apply,2048,True,not apply
+amplitude,6-mer,chitooct,sign_accuracy,0.4881457484736388,linear,not apply,2048,True,not apply
+amplitude,6-mer,elf18,R2,0.0961301247133523,linear,not apply,2048,True,not apply
+amplitude,6-mer,elf18,Pearson,0.317853393704037,linear,not apply,2048,True,not apply
+amplitude,6-mer,elf18,Spearman,0.2403022752575132,linear,not apply,2048,True,not apply
+amplitude,6-mer,elf18,sign_accuracy,0.4931936700395632,linear,not apply,2048,True,not apply
+amplitude,6-mer,flg22,R2,0.1002556214274821,linear,not apply,2048,True,not apply
+amplitude,6-mer,flg22,Pearson,0.3254985938375894,linear,not apply,2048,True,not apply
+amplitude,6-mer,flg22,Spearman,0.254817148154896,linear,not apply,2048,True,not apply
+amplitude,6-mer,flg22,sign_accuracy,0.4956413466442125,linear,not apply,2048,True,not apply
+amplitude,6-mer,nlp20,R2,0.0701584063207958,linear,not apply,2048,True,not apply
+amplitude,6-mer,nlp20,Pearson,0.2708961488886819,linear,not apply,2048,True,not apply
+amplitude,6-mer,nlp20,Spearman,0.2059563002265478,linear,not apply,2048,True,not apply
+amplitude,6-mer,nlp20,sign_accuracy,0.4903533428927347,linear,not apply,2048,True,not apply
+amplitude,6-mer,OGs,R2,0.089339020440301,linear,not apply,2048,True,not apply
+amplitude,6-mer,OGs,Pearson,0.3038460337783327,linear,not apply,2048,True,not apply
+amplitude,6-mer,OGs,Spearman,0.2193716508727732,linear,not apply,2048,True,not apply
+amplitude,6-mer,OGs,sign_accuracy,0.485014224869494,linear,not apply,2048,True,not apply
+amplitude,6-mer,Pep1,R2,0.1011358896866967,linear,not apply,2048,True,not apply
+amplitude,6-mer,Pep1,Pearson,0.3199327498014725,linear,not apply,2048,True,not apply
+amplitude,6-mer,Pep1,Spearman,0.2664040147326522,linear,not apply,2048,True,not apply
+amplitude,6-mer,Pep1,sign_accuracy,0.4955942982804307,linear,not apply,2048,True,not apply
+amplitude,DAPseq,MeJA,R2,0.0287949853523952,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,Pearson,0.1712796848803808,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,Spearman,0.1768192519626593,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,MeJA,sign_accuracy,0.5152657419372076,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,R2,0.0466685118509351,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,Pearson,0.2202627404054531,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,Spearman,0.2207538533943843,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA,sign_accuracy,0.5060241267107308,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA+MeJA,R2,0.0216497619239495,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA+MeJA,Pearson,0.1583033497681797,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA+MeJA,Spearman,0.1602707074244553,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,SA+MeJA,sign_accuracy,0.5003275960144808,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA,R2,0.0388283576080583,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA,Pearson,0.2005841283575932,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA,Spearman,0.1875597498606549,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA,sign_accuracy,0.5007440611605496,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA+MeJA,R2,0.046249543360064,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA+MeJA,Pearson,0.2158532528925466,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA+MeJA,Spearman,0.1935441000123291,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,ABA+MeJA,sign_accuracy,0.5260589850951558,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,3-OH10,R2,0.0413207003376211,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,3-OH10,Pearson,0.20661745344694,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,3-OH10,Spearman,0.1502377120212643,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,3-OH10,sign_accuracy,0.4981951240857031,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,chitooct,R2,0.0461016340734673,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,chitooct,Pearson,0.2223142172525773,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,chitooct,Spearman,0.1537663943260961,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,chitooct,sign_accuracy,0.4936043267456588,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,elf18,R2,0.0759836101068158,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,elf18,Pearson,0.2832482421398916,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,elf18,Spearman,0.2282830401605934,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,elf18,sign_accuracy,0.5043284494679275,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,flg22,R2,0.0731666748558041,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,flg22,Pearson,0.2785778879379432,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,flg22,Spearman,0.2222700013958619,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,flg22,sign_accuracy,0.4987935870175945,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,nlp20,R2,0.0543092983784252,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,nlp20,Pearson,0.2370630264626682,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,nlp20,Spearman,0.1891242037283564,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,nlp20,sign_accuracy,0.4961524893618422,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,OGs,R2,0.0649011669355699,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,OGs,Pearson,0.2611116506407814,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,OGs,Spearman,0.1922188835857971,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,OGs,sign_accuracy,0.4955081397541636,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,Pep1,R2,0.0678205857434166,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,Pep1,Pearson,0.2649735236363069,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,Pep1,Spearman,0.2222652121735666,linear,not apply,2048,not apply,not apply
+amplitude,DAPseq,Pep1,sign_accuracy,0.5029291962784164,linear,not apply,2048,not apply,not apply
+amplitude,One-Hot,MeJA,R2,-0.0115538835525512,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,Pearson,0.0527389092015342,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.5292470441817051,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,Spearman,0.0600291415461666,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,R2,-0.0663467645645141,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,Pearson,-0.0209695435743029,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.5180460485376478,CNN,masked,2048,True,0
+amplitude,One-Hot,SA,Spearman,0.0020058327100221,CNN,masked,2048,True,0
+amplitude,One-Hot,SA+MeJA,R2,-0.0363873243331909,CNN,masked,2048,True,0
+amplitude,One-Hot,SA+MeJA,Pearson,0.0128206204960931,CNN,masked,2048,True,0
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5006222775357809,CNN,masked,2048,True,0
+amplitude,One-Hot,SA+MeJA,Spearman,0.0293843485593261,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA,R2,0.0039862990379333,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA,Pearson,0.118452833795881,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA,sign_accuracy,0.5647168637212197,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA,Spearman,0.1300659357127385,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA+MeJA,R2,0.0052823424339294,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0970336513772544,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5612943372744243,CNN,masked,2048,True,0
+amplitude,One-Hot,ABA+MeJA,Spearman,0.0897365245198406,CNN,masked,2048,True,0
+amplitude,One-Hot,3-OH10,R2,-0.0430772304534912,CNN,masked,2048,True,0
+amplitude,One-Hot,3-OH10,Pearson,0.0572902535247079,CNN,masked,2048,True,0
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5463596764156814,CNN,masked,2048,True,0
+amplitude,One-Hot,3-OH10,Spearman,0.0278653350941438,CNN,masked,2048,True,0
+amplitude,One-Hot,chitooct,R2,-0.0236172676086425,CNN,masked,2048,True,0
+amplitude,One-Hot,chitooct,Pearson,0.0416275156795429,CNN,masked,2048,True,0
+amplitude,One-Hot,chitooct,sign_accuracy,0.5367143746110765,CNN,masked,2048,True,0
+amplitude,One-Hot,chitooct,Spearman,-0.000536376591836,CNN,masked,2048,True,0
+amplitude,One-Hot,elf18,R2,-0.0375357866287231,CNN,masked,2048,True,0
+amplitude,One-Hot,elf18,Pearson,0.0529949433257034,CNN,masked,2048,True,0
+amplitude,One-Hot,elf18,sign_accuracy,0.5460485376477909,CNN,masked,2048,True,0
+amplitude,One-Hot,elf18,Spearman,0.045735496498155,CNN,masked,2048,True,0
+amplitude,One-Hot,flg22,R2,-0.0353471040725708,CNN,masked,2048,True,0
+amplitude,One-Hot,flg22,Pearson,0.0623712828977034,CNN,masked,2048,True,0
+amplitude,One-Hot,flg22,sign_accuracy,0.5224019912881145,CNN,masked,2048,True,0
+amplitude,One-Hot,flg22,Spearman,0.045273722584024,CNN,masked,2048,True,0
+amplitude,One-Hot,nlp20,R2,-0.0290397405624389,CNN,masked,2048,True,0
+amplitude,One-Hot,nlp20,Pearson,0.0607563601672213,CNN,masked,2048,True,0
+amplitude,One-Hot,nlp20,sign_accuracy,0.5469819539514623,CNN,masked,2048,True,0
+amplitude,One-Hot,nlp20,Spearman,0.0535368021426539,CNN,masked,2048,True,0
+amplitude,One-Hot,OGs,R2,-0.0615659952163696,CNN,masked,2048,True,0
+amplitude,One-Hot,OGs,Pearson,0.0072023646064734,CNN,masked,2048,True,0
+amplitude,One-Hot,OGs,sign_accuracy,0.5588052271313005,CNN,masked,2048,True,0
+amplitude,One-Hot,OGs,Spearman,-0.0020058484331133,CNN,masked,2048,True,0
+amplitude,One-Hot,Pep1,R2,-0.0324816703796386,CNN,masked,2048,True,0
+amplitude,One-Hot,Pep1,Pearson,0.0429337688197329,CNN,masked,2048,True,0
+amplitude,One-Hot,Pep1,sign_accuracy,0.5348475420037336,CNN,masked,2048,True,0
+amplitude,One-Hot,Pep1,Spearman,0.0369566520031645,CNN,masked,2048,True,0
+amplitude,One-Hot,MeJA,R2,0.0164269208908081,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,Pearson,0.1328680805179624,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.5392034847542003,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,Spearman,0.1202269922657587,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,R2,0.0036907792091369,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,Pearson,0.1972375069337736,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.5780958307405103,CNN,masked,2048,True,1
+amplitude,One-Hot,SA,Spearman,0.2068459950405091,CNN,masked,2048,True,1
+amplitude,One-Hot,SA+MeJA,R2,0.0046812891960144,CNN,masked,2048,True,1
+amplitude,One-Hot,SA+MeJA,Pearson,0.1532053685586622,CNN,masked,2048,True,1
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5538270068450529,CNN,masked,2048,True,1
+amplitude,One-Hot,SA+MeJA,Spearman,0.1574340659476549,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA,R2,-0.0080940723419189,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA,Pearson,0.1052637711565219,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA,sign_accuracy,0.5684505289359054,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA,Spearman,0.1222055057869882,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA+MeJA,R2,-0.0118403434753417,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0625300645499008,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.537647790914748,CNN,masked,2048,True,1
+amplitude,One-Hot,ABA+MeJA,Spearman,0.0581995028430504,CNN,masked,2048,True,1
+amplitude,One-Hot,3-OH10,R2,0.0390359759330749,CNN,masked,2048,True,1
+amplitude,One-Hot,3-OH10,Pearson,0.2612352604176963,CNN,masked,2048,True,1
+amplitude,One-Hot,3-OH10,sign_accuracy,0.590230242688239,CNN,masked,2048,True,1
+amplitude,One-Hot,3-OH10,Spearman,0.1783708620263676,CNN,masked,2048,True,1
+amplitude,One-Hot,chitooct,R2,0.0506643652915954,CNN,masked,2048,True,1
+amplitude,One-Hot,chitooct,Pearson,0.262222209176812,CNN,masked,2048,True,1
+amplitude,One-Hot,chitooct,sign_accuracy,0.5740510267579341,CNN,masked,2048,True,1
+amplitude,One-Hot,chitooct,Spearman,0.1534217253464597,CNN,masked,2048,True,1
+amplitude,One-Hot,elf18,R2,0.075943648815155,CNN,masked,2048,True,1
+amplitude,One-Hot,elf18,Pearson,0.298244608917467,CNN,masked,2048,True,1
+amplitude,One-Hot,elf18,sign_accuracy,0.589607965152458,CNN,masked,2048,True,1
+amplitude,One-Hot,elf18,Spearman,0.2087323914285558,CNN,masked,2048,True,1
+amplitude,One-Hot,flg22,R2,0.0863988399505615,CNN,masked,2048,True,1
+amplitude,One-Hot,flg22,Pearson,0.3191965201249914,CNN,masked,2048,True,1
+amplitude,One-Hot,flg22,sign_accuracy,0.588985687616677,CNN,masked,2048,True,1
+amplitude,One-Hot,flg22,Spearman,0.2359633770450742,CNN,masked,2048,True,1
+amplitude,One-Hot,nlp20,R2,0.0551090836524963,CNN,masked,2048,True,1
+amplitude,One-Hot,nlp20,Pearson,0.2709071457721087,CNN,masked,2048,True,1
+amplitude,One-Hot,nlp20,sign_accuracy,0.5846297448662103,CNN,masked,2048,True,1
+amplitude,One-Hot,nlp20,Spearman,0.1977949921953232,CNN,masked,2048,True,1
+amplitude,One-Hot,OGs,R2,0.0639280080795288,CNN,masked,2048,True,1
+amplitude,One-Hot,OGs,Pearson,0.2940665578332869,CNN,masked,2048,True,1
+amplitude,One-Hot,OGs,sign_accuracy,0.5945861854387057,CNN,masked,2048,True,1
+amplitude,One-Hot,OGs,Spearman,0.2033331654686789,CNN,masked,2048,True,1
+amplitude,One-Hot,Pep1,R2,0.0693879723548889,CNN,masked,2048,True,1
+amplitude,One-Hot,Pep1,Pearson,0.2897801436995138,CNN,masked,2048,True,1
+amplitude,One-Hot,Pep1,sign_accuracy,0.5930304915992533,CNN,masked,2048,True,1
+amplitude,One-Hot,Pep1,Spearman,0.2215624197027486,CNN,masked,2048,True,1
+amplitude,One-Hot,MeJA,R2,0.0237672328948974,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,Pearson,0.1567985444641149,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.5500933416303672,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,Spearman,0.1419212107975139,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,R2,0.0121809840202331,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,Pearson,0.1877869648449396,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.5678282514001245,CNN,masked,2048,True,2
+amplitude,One-Hot,SA,Spearman,0.1846116292893935,CNN,masked,2048,True,2
+amplitude,One-Hot,SA+MeJA,R2,0.0074765682220458,CNN,masked,2048,True,2
+amplitude,One-Hot,SA+MeJA,Pearson,0.1602494728855455,CNN,masked,2048,True,2
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5485376477909147,CNN,masked,2048,True,2
+amplitude,One-Hot,SA+MeJA,Spearman,0.1631263958651508,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA,R2,-0.0035794973373413,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA,Pearson,0.1152499279544118,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA,sign_accuracy,0.5578718108276292,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA,Spearman,0.1231865365741167,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA+MeJA,R2,-0.0038371086120605,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0953744699956738,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5472930927193528,CNN,masked,2048,True,2
+amplitude,One-Hot,ABA+MeJA,Spearman,0.088889376299098,CNN,masked,2048,True,2
+amplitude,One-Hot,3-OH10,R2,0.0583971738815307,CNN,masked,2048,True,2
+amplitude,One-Hot,3-OH10,Pearson,0.2705645613354959,CNN,masked,2048,True,2
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5924082140634723,CNN,masked,2048,True,2
+amplitude,One-Hot,3-OH10,Spearman,0.1928321085959054,CNN,masked,2048,True,2
+amplitude,One-Hot,chitooct,R2,0.0591103434562683,CNN,masked,2048,True,2
+amplitude,One-Hot,chitooct,Pearson,0.2600560076061683,CNN,masked,2048,True,2
+amplitude,One-Hot,chitooct,sign_accuracy,0.5737398879900436,CNN,masked,2048,True,2
+amplitude,One-Hot,chitooct,Spearman,0.1716002086777142,CNN,masked,2048,True,2
+amplitude,One-Hot,elf18,R2,0.0830665230751037,CNN,masked,2048,True,2
+amplitude,One-Hot,elf18,Pearson,0.3101933790882332,CNN,masked,2048,True,2
+amplitude,One-Hot,elf18,sign_accuracy,0.5995644057249533,CNN,masked,2048,True,2
+amplitude,One-Hot,elf18,Spearman,0.2317003557889406,CNN,masked,2048,True,2
+amplitude,One-Hot,flg22,R2,0.0819324851036071,CNN,masked,2048,True,2
+amplitude,One-Hot,flg22,Pearson,0.3171474813143876,CNN,masked,2048,True,2
+amplitude,One-Hot,flg22,sign_accuracy,0.5840074673304294,CNN,masked,2048,True,2
+amplitude,One-Hot,flg22,Spearman,0.2453160029347299,CNN,masked,2048,True,2
+amplitude,One-Hot,nlp20,R2,0.0579927563667297,CNN,masked,2048,True,2
+amplitude,One-Hot,nlp20,Pearson,0.2725745439178421,CNN,masked,2048,True,2
+amplitude,One-Hot,nlp20,sign_accuracy,0.5833851897946484,CNN,masked,2048,True,2
+amplitude,One-Hot,nlp20,Spearman,0.2027377211754046,CNN,masked,2048,True,2
+amplitude,One-Hot,OGs,R2,0.0578795075416564,CNN,masked,2048,True,2
+amplitude,One-Hot,OGs,Pearson,0.2845090836796508,CNN,masked,2048,True,2
+amplitude,One-Hot,OGs,sign_accuracy,0.6004978220286248,CNN,masked,2048,True,2
+amplitude,One-Hot,OGs,Spearman,0.2030761699870701,CNN,masked,2048,True,2
+amplitude,One-Hot,Pep1,R2,0.0795003771781921,CNN,masked,2048,True,2
+amplitude,One-Hot,Pep1,Pearson,0.2942838947202431,CNN,masked,2048,True,2
+amplitude,One-Hot,Pep1,sign_accuracy,0.5827629122588674,CNN,masked,2048,True,2
+amplitude,One-Hot,Pep1,Spearman,0.2342329280311419,CNN,masked,2048,True,2
+amplitude,One-Hot,MeJA,R2,0.0218156576156616,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,Pearson,0.156401523643114,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.5494710640945862,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,Spearman,0.1329794661118026,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,R2,-0.00858736038208,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,Pearson,0.1786028947218489,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.5703173615432483,CNN,masked,2048,True,3
+amplitude,One-Hot,SA,Spearman,0.1675350414635441,CNN,masked,2048,True,3
+amplitude,One-Hot,SA+MeJA,R2,-0.0218621492385864,CNN,masked,2048,True,3
+amplitude,One-Hot,SA+MeJA,Pearson,0.1234785822280911,CNN,masked,2048,True,3
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5401369010578718,CNN,masked,2048,True,3
+amplitude,One-Hot,SA+MeJA,Spearman,0.1199936577757071,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA,R2,-0.0226873159408569,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA,Pearson,0.1069462232037924,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA,sign_accuracy,0.5628500311138768,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA,Spearman,0.107431635718906,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA+MeJA,R2,-0.0290560722351074,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0722284013665121,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5395146235220909,CNN,masked,2048,True,3
+amplitude,One-Hot,ABA+MeJA,Spearman,0.0614873153015646,CNN,masked,2048,True,3
+amplitude,One-Hot,3-OH10,R2,0.0330416560173034,CNN,masked,2048,True,3
+amplitude,One-Hot,3-OH10,Pearson,0.2727569659743419,CNN,masked,2048,True,3
+amplitude,One-Hot,3-OH10,sign_accuracy,0.588985687616677,CNN,masked,2048,True,3
+amplitude,One-Hot,3-OH10,Spearman,0.1704793784498024,CNN,masked,2048,True,3
+amplitude,One-Hot,chitooct,R2,0.064026653766632,CNN,masked,2048,True,3
+amplitude,One-Hot,chitooct,Pearson,0.2870373520842523,CNN,masked,2048,True,3
+amplitude,One-Hot,chitooct,sign_accuracy,0.5612943372744243,CNN,masked,2048,True,3
+amplitude,One-Hot,chitooct,Spearman,0.1331818011679702,CNN,masked,2048,True,3
+amplitude,One-Hot,elf18,R2,0.0589381456375122,CNN,masked,2048,True,3
+amplitude,One-Hot,elf18,Pearson,0.2927707568252369,CNN,masked,2048,True,3
+amplitude,One-Hot,elf18,sign_accuracy,0.5849408836341008,CNN,masked,2048,True,3
+amplitude,One-Hot,elf18,Spearman,0.1819800711917279,CNN,masked,2048,True,3
+amplitude,One-Hot,flg22,R2,0.0569772124290466,CNN,masked,2048,True,3
+amplitude,One-Hot,flg22,Pearson,0.307064581738526,CNN,masked,2048,True,3
+amplitude,One-Hot,flg22,sign_accuracy,0.5790292470441817,CNN,masked,2048,True,3
+amplitude,One-Hot,flg22,Spearman,0.2114941024932458,CNN,masked,2048,True,3
+amplitude,One-Hot,nlp20,R2,0.0363371968269348,CNN,masked,2048,True,3
+amplitude,One-Hot,nlp20,Pearson,0.260410952775182,CNN,masked,2048,True,3
+amplitude,One-Hot,nlp20,sign_accuracy,0.5830740510267579,CNN,masked,2048,True,3
+amplitude,One-Hot,nlp20,Spearman,0.1745733045395116,CNN,masked,2048,True,3
+amplitude,One-Hot,OGs,R2,0.0515201091766357,CNN,masked,2048,True,3
+amplitude,One-Hot,OGs,Pearson,0.2930030823148911,CNN,masked,2048,True,3
+amplitude,One-Hot,OGs,sign_accuracy,0.5777846919726198,CNN,masked,2048,True,3
+amplitude,One-Hot,OGs,Spearman,0.1685242024257755,CNN,masked,2048,True,3
+amplitude,One-Hot,Pep1,R2,0.0559046864509582,CNN,masked,2048,True,3
+amplitude,One-Hot,Pep1,Pearson,0.2830532873312336,CNN,masked,2048,True,3
+amplitude,One-Hot,Pep1,sign_accuracy,0.582451773490977,CNN,masked,2048,True,3
+amplitude,One-Hot,Pep1,Spearman,0.1926555656181275,CNN,masked,2048,True,3
+amplitude,One-Hot,MeJA,R2,0.0283258557319641,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,Pearson,0.1769989858933697,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,sign_accuracy,0.5578718108276292,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,Spearman,0.1581595521125382,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,R2,0.0039260983467102,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,Pearson,0.2073604595658574,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,sign_accuracy,0.5774735532047293,CNN,masked,2048,True,4
+amplitude,One-Hot,SA,Spearman,0.2087680828145085,CNN,masked,2048,True,4
+amplitude,One-Hot,SA+MeJA,R2,-0.0075621604919433,CNN,masked,2048,True,4
+amplitude,One-Hot,SA+MeJA,Pearson,0.1625264196772275,CNN,masked,2048,True,4
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5553827006845052,CNN,masked,2048,True,4
+amplitude,One-Hot,SA+MeJA,Spearman,0.1719893716634601,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA,R2,-0.0121338367462158,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA,Pearson,0.1154581549584812,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA,sign_accuracy,0.5715619166148102,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA,Spearman,0.1256726347860034,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA+MeJA,R2,-0.0126712322235107,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0881297381580894,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5482265090230243,CNN,masked,2048,True,4
+amplitude,One-Hot,ABA+MeJA,Spearman,0.0907104185516255,CNN,masked,2048,True,4
+amplitude,One-Hot,3-OH10,R2,0.0527402758598327,CNN,masked,2048,True,4
+amplitude,One-Hot,3-OH10,Pearson,0.2761891932047292,CNN,masked,2048,True,4
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5964530180460486,CNN,masked,2048,True,4
+amplitude,One-Hot,3-OH10,Spearman,0.1870710428317062,CNN,masked,2048,True,4
+amplitude,One-Hot,chitooct,R2,0.0754063129425048,CNN,masked,2048,True,4
+amplitude,One-Hot,chitooct,Pearson,0.3016146799778578,CNN,masked,2048,True,4
+amplitude,One-Hot,chitooct,sign_accuracy,0.5849408836341008,CNN,masked,2048,True,4
+amplitude,One-Hot,chitooct,Spearman,0.1788603581416301,CNN,masked,2048,True,4
+amplitude,One-Hot,elf18,R2,0.0821796059608459,CNN,masked,2048,True,4
+amplitude,One-Hot,elf18,Pearson,0.3260983785927887,CNN,masked,2048,True,4
+amplitude,One-Hot,elf18,sign_accuracy,0.6004978220286248,CNN,masked,2048,True,4
+amplitude,One-Hot,elf18,Spearman,0.2308405262280498,CNN,masked,2048,True,4
+amplitude,One-Hot,flg22,R2,0.0829614996910095,CNN,masked,2048,True,4
+amplitude,One-Hot,flg22,Pearson,0.3405963517593425,CNN,masked,2048,True,4
+amplitude,One-Hot,flg22,sign_accuracy,0.5871188550093341,CNN,masked,2048,True,4
+amplitude,One-Hot,flg22,Spearman,0.2520282129619469,CNN,masked,2048,True,4
+amplitude,One-Hot,nlp20,R2,0.0487095117568969,CNN,masked,2048,True,4
+amplitude,One-Hot,nlp20,Pearson,0.2814046396673116,CNN,masked,2048,True,4
+amplitude,One-Hot,nlp20,sign_accuracy,0.5858742999377723,CNN,masked,2048,True,4
+amplitude,One-Hot,nlp20,Spearman,0.2040841489567205,CNN,masked,2048,True,4
+amplitude,One-Hot,OGs,R2,0.0756580829620361,CNN,masked,2048,True,4
+amplitude,One-Hot,OGs,Pearson,0.3223684063425426,CNN,masked,2048,True,4
+amplitude,One-Hot,OGs,sign_accuracy,0.5964530180460486,CNN,masked,2048,True,4
+amplitude,One-Hot,OGs,Spearman,0.2157042365790263,CNN,masked,2048,True,4
+amplitude,One-Hot,Pep1,R2,0.0749933719635009,CNN,masked,2048,True,4
+amplitude,One-Hot,Pep1,Pearson,0.3145733494199448,CNN,masked,2048,True,4
+amplitude,One-Hot,Pep1,sign_accuracy,0.598008711885501,CNN,masked,2048,True,4
+amplitude,One-Hot,Pep1,Spearman,0.2328696078807728,CNN,masked,2048,True,4
+amplitude,One-Hot,MeJA,R2,0.0405401587486267,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,Pearson,0.2037786845408095,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.5780958307405103,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,Spearman,0.2055801467741055,CNN,all,2048,True,0
+amplitude,One-Hot,SA,R2,0.0746201276779174,CNN,all,2048,True,0
+amplitude,One-Hot,SA,Pearson,0.3035991610751239,CNN,all,2048,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.6073428749222153,CNN,all,2048,True,0
+amplitude,One-Hot,SA,Spearman,0.3022970176865051,CNN,all,2048,True,0
+amplitude,One-Hot,SA+MeJA,R2,0.0435772538185119,CNN,all,2048,True,0
+amplitude,One-Hot,SA+MeJA,Pearson,0.2348095842718034,CNN,all,2048,True,0
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5905413814561294,CNN,all,2048,True,0
+amplitude,One-Hot,SA+MeJA,Spearman,0.2603198077298471,CNN,all,2048,True,0
+amplitude,One-Hot,ABA,R2,0.0370930433273315,CNN,all,2048,True,0
+amplitude,One-Hot,ABA,Pearson,0.2109193814019657,CNN,all,2048,True,0
+amplitude,One-Hot,ABA,sign_accuracy,0.6076540136901057,CNN,all,2048,True,0
+amplitude,One-Hot,ABA,Spearman,0.2312220829398302,CNN,all,2048,True,0
+amplitude,One-Hot,ABA+MeJA,R2,0.0458045005798339,CNN,all,2048,True,0
+amplitude,One-Hot,ABA+MeJA,Pearson,0.2228102445535712,CNN,all,2048,True,0
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.6001866832607343,CNN,all,2048,True,0
+amplitude,One-Hot,ABA+MeJA,Spearman,0.2347585644296806,CNN,all,2048,True,0
+amplitude,One-Hot,3-OH10,R2,0.0948385596275329,CNN,all,2048,True,0
+amplitude,One-Hot,3-OH10,Pearson,0.3611073293167416,CNN,all,2048,True,0
+amplitude,One-Hot,3-OH10,sign_accuracy,0.6166770379589297,CNN,all,2048,True,0
+amplitude,One-Hot,3-OH10,Spearman,0.2679993662029928,CNN,all,2048,True,0
+amplitude,One-Hot,chitooct,R2,0.1259591579437255,CNN,all,2048,True,0
+amplitude,One-Hot,chitooct,Pearson,0.3862418162532843,CNN,all,2048,True,0
+amplitude,One-Hot,chitooct,sign_accuracy,0.6141879278158059,CNN,all,2048,True,0
+amplitude,One-Hot,chitooct,Spearman,0.2662421663503917,CNN,all,2048,True,0
+amplitude,One-Hot,elf18,R2,0.1844928860664367,CNN,all,2048,True,0
+amplitude,One-Hot,elf18,Pearson,0.4462982999742262,CNN,all,2048,True,0
+amplitude,One-Hot,elf18,sign_accuracy,0.641568139390168,CNN,all,2048,True,0
+amplitude,One-Hot,elf18,Spearman,0.3535050106849327,CNN,all,2048,True,0
+amplitude,One-Hot,flg22,R2,0.1876976490020752,CNN,all,2048,True,0
+amplitude,One-Hot,flg22,Pearson,0.4567078459668089,CNN,all,2048,True,0
+amplitude,One-Hot,flg22,sign_accuracy,0.6362787803360299,CNN,all,2048,True,0
+amplitude,One-Hot,flg22,Spearman,0.3735945716488489,CNN,all,2048,True,0
+amplitude,One-Hot,nlp20,R2,0.1404394507408142,CNN,all,2048,True,0
+amplitude,One-Hot,nlp20,Pearson,0.3975202304799861,CNN,all,2048,True,0
+amplitude,One-Hot,nlp20,sign_accuracy,0.634411947728687,CNN,all,2048,True,0
+amplitude,One-Hot,nlp20,Spearman,0.3304947647386443,CNN,all,2048,True,0
+amplitude,One-Hot,OGs,R2,0.1477394104003906,CNN,all,2048,True,0
+amplitude,One-Hot,OGs,Pearson,0.4209245922806729,CNN,all,2048,True,0
+amplitude,One-Hot,OGs,sign_accuracy,0.6449906658369633,CNN,all,2048,True,0
+amplitude,One-Hot,OGs,Spearman,0.3161540969551129,CNN,all,2048,True,0
+amplitude,One-Hot,Pep1,R2,0.1690250635147094,CNN,all,2048,True,0
+amplitude,One-Hot,Pep1,Pearson,0.4263775882576515,CNN,all,2048,True,0
+amplitude,One-Hot,Pep1,sign_accuracy,0.6418792781580585,CNN,all,2048,True,0
+amplitude,One-Hot,Pep1,Spearman,0.3562750317593519,CNN,all,2048,True,0
+amplitude,One-Hot,MeJA,R2,0.0440427064895629,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,Pearson,0.21082969925848,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.5840074673304294,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,Spearman,0.2148222297632551,CNN,all,2048,True,1
+amplitude,One-Hot,SA,R2,0.0746413469314575,CNN,all,2048,True,1
+amplitude,One-Hot,SA,Pearson,0.298356941964142,CNN,all,2048,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.6219663970130678,CNN,all,2048,True,1
+amplitude,One-Hot,SA,Spearman,0.2988714768684012,CNN,all,2048,True,1
+amplitude,One-Hot,SA+MeJA,R2,0.0404691100120544,CNN,all,2048,True,1
+amplitude,One-Hot,SA+MeJA,Pearson,0.2292723807564828,CNN,all,2048,True,1
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5883634100808961,CNN,all,2048,True,1
+amplitude,One-Hot,SA+MeJA,Spearman,0.2497860182886304,CNN,all,2048,True,1
+amplitude,One-Hot,ABA,R2,0.0223846435546875,CNN,all,2048,True,1
+amplitude,One-Hot,ABA,Pearson,0.1872226950249118,CNN,all,2048,True,1
+amplitude,One-Hot,ABA,sign_accuracy,0.5927193528313628,CNN,all,2048,True,1
+amplitude,One-Hot,ABA,Spearman,0.2027989194215059,CNN,all,2048,True,1
+amplitude,One-Hot,ABA+MeJA,R2,0.0411955118179321,CNN,all,2048,True,1
+amplitude,One-Hot,ABA+MeJA,Pearson,0.2187074959032196,CNN,all,2048,True,1
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.6154324828873677,CNN,all,2048,True,1
+amplitude,One-Hot,ABA+MeJA,Spearman,0.2422688395697771,CNN,all,2048,True,1
+amplitude,One-Hot,3-OH10,R2,0.1209865808486938,CNN,all,2048,True,1
+amplitude,One-Hot,3-OH10,Pearson,0.3746415276762334,CNN,all,2048,True,1
+amplitude,One-Hot,3-OH10,sign_accuracy,0.6250777846919726,CNN,all,2048,True,1
+amplitude,One-Hot,3-OH10,Spearman,0.2740330912550077,CNN,all,2048,True,1
+amplitude,One-Hot,chitooct,R2,0.1448550820350647,CNN,all,2048,True,1
+amplitude,One-Hot,chitooct,Pearson,0.3938988614905018,CNN,all,2048,True,1
+amplitude,One-Hot,chitooct,sign_accuracy,0.6235220908525202,CNN,all,2048,True,1
+amplitude,One-Hot,chitooct,Spearman,0.272359386403896,CNN,all,2048,True,1
+amplitude,One-Hot,elf18,R2,0.20000821352005,CNN,all,2048,True,1
+amplitude,One-Hot,elf18,Pearson,0.4529062873442808,CNN,all,2048,True,1
+amplitude,One-Hot,elf18,sign_accuracy,0.6403235843186061,CNN,all,2048,True,1
+amplitude,One-Hot,elf18,Spearman,0.3608977545209554,CNN,all,2048,True,1
+amplitude,One-Hot,flg22,R2,0.2036123871803283,CNN,all,2048,True,1
+amplitude,One-Hot,flg22,Pearson,0.4575474532188703,CNN,all,2048,True,1
+amplitude,One-Hot,flg22,sign_accuracy,0.6322339763534537,CNN,all,2048,True,1
+amplitude,One-Hot,flg22,Spearman,0.3731622752655915,CNN,all,2048,True,1
+amplitude,One-Hot,nlp20,R2,0.1509459614753723,CNN,all,2048,True,1
+amplitude,One-Hot,nlp20,Pearson,0.395498497694744,CNN,all,2048,True,1
+amplitude,One-Hot,nlp20,sign_accuracy,0.6306782825140013,CNN,all,2048,True,1
+amplitude,One-Hot,nlp20,Spearman,0.3319502032500075,CNN,all,2048,True,1
+amplitude,One-Hot,OGs,R2,0.1683548092842102,CNN,all,2048,True,1
+amplitude,One-Hot,OGs,Pearson,0.4273597266485099,CNN,all,2048,True,1
+amplitude,One-Hot,OGs,sign_accuracy,0.6375233354075918,CNN,all,2048,True,1
+amplitude,One-Hot,OGs,Spearman,0.3167467216248514,CNN,all,2048,True,1
+amplitude,One-Hot,Pep1,R2,0.1789725422859192,CNN,all,2048,True,1
+amplitude,One-Hot,Pep1,Pearson,0.4337846790481474,CNN,all,2048,True,1
+amplitude,One-Hot,Pep1,sign_accuracy,0.6418792781580585,CNN,all,2048,True,1
+amplitude,One-Hot,Pep1,Spearman,0.3631937247994001,CNN,all,2048,True,1
+amplitude,One-Hot,MeJA,R2,0.0157135128974914,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,Pearson,0.1283348186529808,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.5466708151835719,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,Spearman,0.1220412093295724,CNN,all,2048,True,2
+amplitude,One-Hot,SA,R2,0.0283065438270568,CNN,all,2048,True,2
+amplitude,One-Hot,SA,Pearson,0.256726788376714,CNN,all,2048,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.5917859365276914,CNN,all,2048,True,2
+amplitude,One-Hot,SA,Spearman,0.2565189833030855,CNN,all,2048,True,2
+amplitude,One-Hot,SA+MeJA,R2,0.0074707269668579,CNN,all,2048,True,2
+amplitude,One-Hot,SA+MeJA,Pearson,0.202933306394176,CNN,all,2048,True,2
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5653391412570006,CNN,all,2048,True,2
+amplitude,One-Hot,SA+MeJA,Spearman,0.2143611707897201,CNN,all,2048,True,2
+amplitude,One-Hot,ABA,R2,0.0127770900726318,CNN,all,2048,True,2
+amplitude,One-Hot,ABA,Pearson,0.1566876807778416,CNN,all,2048,True,2
+amplitude,One-Hot,ABA,sign_accuracy,0.5793403858120721,CNN,all,2048,True,2
+amplitude,One-Hot,ABA,Spearman,0.1593314994944393,CNN,all,2048,True,2
+amplitude,One-Hot,ABA+MeJA,R2,0.0093196034431457,CNN,all,2048,True,2
+amplitude,One-Hot,ABA+MeJA,Pearson,0.136586743339345,CNN,all,2048,True,2
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5833851897946484,CNN,all,2048,True,2
+amplitude,One-Hot,ABA+MeJA,Spearman,0.1482717783531332,CNN,all,2048,True,2
+amplitude,One-Hot,3-OH10,R2,0.025296926498413,CNN,all,2048,True,2
+amplitude,One-Hot,3-OH10,Pearson,0.2673950045372193,CNN,all,2048,True,2
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5958307405102676,CNN,all,2048,True,2
+amplitude,One-Hot,3-OH10,Spearman,0.2253119166227168,CNN,all,2048,True,2
+amplitude,One-Hot,chitooct,R2,0.0425139069557189,CNN,all,2048,True,2
+amplitude,One-Hot,chitooct,Pearson,0.2666971760802539,CNN,all,2048,True,2
+amplitude,One-Hot,chitooct,sign_accuracy,0.5908525202240199,CNN,all,2048,True,2
+amplitude,One-Hot,chitooct,Spearman,0.2036565380159528,CNN,all,2048,True,2
+amplitude,One-Hot,elf18,R2,0.0818250775337219,CNN,all,2048,True,2
+amplitude,One-Hot,elf18,Pearson,0.3443847364860183,CNN,all,2048,True,2
+amplitude,One-Hot,elf18,sign_accuracy,0.6228998133167393,CNN,all,2048,True,2
+amplitude,One-Hot,elf18,Spearman,0.2877894280835864,CNN,all,2048,True,2
+amplitude,One-Hot,flg22,R2,0.0971813797950744,CNN,all,2048,True,2
+amplitude,One-Hot,flg22,Pearson,0.3615604776851237,CNN,all,2048,True,2
+amplitude,One-Hot,flg22,sign_accuracy,0.6172993154947106,CNN,all,2048,True,2
+amplitude,One-Hot,flg22,Spearman,0.3091960641099702,CNN,all,2048,True,2
+amplitude,One-Hot,nlp20,R2,0.0591725707054138,CNN,all,2048,True,2
+amplitude,One-Hot,nlp20,Pearson,0.3032741683086954,CNN,all,2048,True,2
+amplitude,One-Hot,nlp20,sign_accuracy,0.6126322339763535,CNN,all,2048,True,2
+amplitude,One-Hot,nlp20,Spearman,0.2677145980984811,CNN,all,2048,True,2
+amplitude,One-Hot,OGs,R2,0.0542015433311462,CNN,all,2048,True,2
+amplitude,One-Hot,OGs,Pearson,0.3198094496777996,CNN,all,2048,True,2
+amplitude,One-Hot,OGs,sign_accuracy,0.6225886745488488,CNN,all,2048,True,2
+amplitude,One-Hot,OGs,Spearman,0.2666158594385077,CNN,all,2048,True,2
+amplitude,One-Hot,Pep1,R2,0.0816592574119567,CNN,all,2048,True,2
+amplitude,One-Hot,Pep1,Pearson,0.3307548264142165,CNN,all,2048,True,2
+amplitude,One-Hot,Pep1,sign_accuracy,0.6135656502800249,CNN,all,2048,True,2
+amplitude,One-Hot,Pep1,Spearman,0.2858272812080247,CNN,all,2048,True,2
+amplitude,One-Hot,MeJA,R2,0.0394642949104309,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,Pearson,0.201270685343991,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.5830740510267579,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,Spearman,0.21400482205926,CNN,all,2048,True,3
+amplitude,One-Hot,SA,R2,0.0816682577133178,CNN,all,2048,True,3
+amplitude,One-Hot,SA,Pearson,0.3105307930066526,CNN,all,2048,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.6197884256378344,CNN,all,2048,True,3
+amplitude,One-Hot,SA,Spearman,0.3117526725530614,CNN,all,2048,True,3
+amplitude,One-Hot,SA+MeJA,R2,0.0361647009849548,CNN,all,2048,True,3
+amplitude,One-Hot,SA+MeJA,Pearson,0.2319434823001379,CNN,all,2048,True,3
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5880522713130056,CNN,all,2048,True,3
+amplitude,One-Hot,SA+MeJA,Spearman,0.2537886143001036,CNN,all,2048,True,3
+amplitude,One-Hot,ABA,R2,0.0261956453323364,CNN,all,2048,True,3
+amplitude,One-Hot,ABA,Pearson,0.1956245970780145,CNN,all,2048,True,3
+amplitude,One-Hot,ABA,sign_accuracy,0.6017423771001866,CNN,all,2048,True,3
+amplitude,One-Hot,ABA,Spearman,0.2172033520691052,CNN,all,2048,True,3
+amplitude,One-Hot,ABA+MeJA,R2,0.0415802001953125,CNN,all,2048,True,3
+amplitude,One-Hot,ABA+MeJA,Pearson,0.2151444654808572,CNN,all,2048,True,3
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.6029869321717486,CNN,all,2048,True,3
+amplitude,One-Hot,ABA+MeJA,Spearman,0.2401887392209727,CNN,all,2048,True,3
+amplitude,One-Hot,3-OH10,R2,0.116077184677124,CNN,all,2048,True,3
+amplitude,One-Hot,3-OH10,Pearson,0.3709386213115223,CNN,all,2048,True,3
+amplitude,One-Hot,3-OH10,sign_accuracy,0.6228998133167393,CNN,all,2048,True,3
+amplitude,One-Hot,3-OH10,Spearman,0.2865530930475417,CNN,all,2048,True,3
+amplitude,One-Hot,chitooct,R2,0.126727819442749,CNN,all,2048,True,3
+amplitude,One-Hot,chitooct,Pearson,0.3744025699427655,CNN,all,2048,True,3
+amplitude,One-Hot,chitooct,sign_accuracy,0.6176104542626011,CNN,all,2048,True,3
+amplitude,One-Hot,chitooct,Spearman,0.268624432994931,CNN,all,2048,True,3
+amplitude,One-Hot,elf18,R2,0.1976969838142395,CNN,all,2048,True,3
+amplitude,One-Hot,elf18,Pearson,0.4540317491127126,CNN,all,2048,True,3
+amplitude,One-Hot,elf18,sign_accuracy,0.6474797759800871,CNN,all,2048,True,3
+amplitude,One-Hot,elf18,Spearman,0.3672960207198257,CNN,all,2048,True,3
+amplitude,One-Hot,flg22,R2,0.1967892050743103,CNN,all,2048,True,3
+amplitude,One-Hot,flg22,Pearson,0.4573153317895641,CNN,all,2048,True,3
+amplitude,One-Hot,flg22,sign_accuracy,0.6434349719975109,CNN,all,2048,True,3
+amplitude,One-Hot,flg22,Spearman,0.3799640057590633,CNN,all,2048,True,3
+amplitude,One-Hot,nlp20,R2,0.1425954699516296,CNN,all,2048,True,3
+amplitude,One-Hot,nlp20,Pearson,0.3951244801601852,CNN,all,2048,True,3
+amplitude,One-Hot,nlp20,sign_accuracy,0.634411947728687,CNN,all,2048,True,3
+amplitude,One-Hot,nlp20,Spearman,0.3382538158717043,CNN,all,2048,True,3
+amplitude,One-Hot,OGs,R2,0.1624398827552795,CNN,all,2048,True,3
+amplitude,One-Hot,OGs,Pearson,0.4231298427225434,CNN,all,2048,True,3
+amplitude,One-Hot,OGs,sign_accuracy,0.6397013067828251,CNN,all,2048,True,3
+amplitude,One-Hot,OGs,Spearman,0.3206956085372983,CNN,all,2048,True,3
+amplitude,One-Hot,Pep1,R2,0.1868480443954467,CNN,all,2048,True,3
+amplitude,One-Hot,Pep1,Pearson,0.4368225133145428,CNN,all,2048,True,3
+amplitude,One-Hot,Pep1,sign_accuracy,0.6459240821406347,CNN,all,2048,True,3
+amplitude,One-Hot,Pep1,Spearman,0.3661383099336176,CNN,all,2048,True,3
+amplitude,One-Hot,MeJA,R2,0.0343484878540039,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,Pearson,0.188784240635495,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,sign_accuracy,0.5731176104542626,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,Spearman,0.1859864482919652,CNN,all,2048,True,4
+amplitude,One-Hot,SA,R2,0.0858100056648254,CNN,all,2048,True,4
+amplitude,One-Hot,SA,Pearson,0.3025069737325654,CNN,all,2048,True,4
+amplitude,One-Hot,SA,sign_accuracy,0.6129433727442439,CNN,all,2048,True,4
+amplitude,One-Hot,SA,Spearman,0.3060529622649639,CNN,all,2048,True,4
+amplitude,One-Hot,SA+MeJA,R2,0.0473546385765075,CNN,all,2048,True,4
+amplitude,One-Hot,SA+MeJA,Pearson,0.2314101645866633,CNN,all,2048,True,4
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5920970752955819,CNN,all,2048,True,4
+amplitude,One-Hot,SA+MeJA,Spearman,0.2464193820198987,CNN,all,2048,True,4
+amplitude,One-Hot,ABA,R2,0.0246890187263488,CNN,all,2048,True,4
+amplitude,One-Hot,ABA,Pearson,0.1864922423958514,CNN,all,2048,True,4
+amplitude,One-Hot,ABA,sign_accuracy,0.5911636589919104,CNN,all,2048,True,4
+amplitude,One-Hot,ABA,Spearman,0.2038296754475748,CNN,all,2048,True,4
+amplitude,One-Hot,ABA+MeJA,R2,0.0272308588027954,CNN,all,2048,True,4
+amplitude,One-Hot,ABA+MeJA,Pearson,0.1835192372109255,CNN,all,2048,True,4
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5976975731176104,CNN,all,2048,True,4
+amplitude,One-Hot,ABA+MeJA,Spearman,0.202776681805109,CNN,all,2048,True,4
+amplitude,One-Hot,3-OH10,R2,0.1099135875701904,CNN,all,2048,True,4
+amplitude,One-Hot,3-OH10,Pearson,0.3538410774507757,CNN,all,2048,True,4
+amplitude,One-Hot,3-OH10,sign_accuracy,0.6235220908525202,CNN,all,2048,True,4
+amplitude,One-Hot,3-OH10,Spearman,0.2715799001900819,CNN,all,2048,True,4
+amplitude,One-Hot,chitooct,R2,0.1258756518363952,CNN,all,2048,True,4
+amplitude,One-Hot,chitooct,Pearson,0.3565233295686993,CNN,all,2048,True,4
+amplitude,One-Hot,chitooct,sign_accuracy,0.6098319850653391,CNN,all,2048,True,4
+amplitude,One-Hot,chitooct,Spearman,0.2522729391520826,CNN,all,2048,True,4
+amplitude,One-Hot,elf18,R2,0.181171715259552,CNN,all,2048,True,4
+amplitude,One-Hot,elf18,Pearson,0.4268020786137809,CNN,all,2048,True,4
+amplitude,One-Hot,elf18,sign_accuracy,0.6353453640323584,CNN,all,2048,True,4
+amplitude,One-Hot,elf18,Spearman,0.3367805795379857,CNN,all,2048,True,4
+amplitude,One-Hot,flg22,R2,0.189732015132904,CNN,all,2048,True,4
+amplitude,One-Hot,flg22,Pearson,0.4386098880795591,CNN,all,2048,True,4
+amplitude,One-Hot,flg22,sign_accuracy,0.6303671437461108,CNN,all,2048,True,4
+amplitude,One-Hot,flg22,Spearman,0.3654312972986303,CNN,all,2048,True,4
+amplitude,One-Hot,nlp20,R2,0.1485255360603332,CNN,all,2048,True,4
+amplitude,One-Hot,nlp20,Pearson,0.3870960003238715,CNN,all,2048,True,4
+amplitude,One-Hot,nlp20,sign_accuracy,0.6185438705662726,CNN,all,2048,True,4
+amplitude,One-Hot,nlp20,Spearman,0.3311753175533628,CNN,all,2048,True,4
+amplitude,One-Hot,OGs,R2,0.1689628958702087,CNN,all,2048,True,4
+amplitude,One-Hot,OGs,Pearson,0.4120600425570943,CNN,all,2048,True,4
+amplitude,One-Hot,OGs,sign_accuracy,0.6328562538892346,CNN,all,2048,True,4
+amplitude,One-Hot,OGs,Spearman,0.3169703530914947,CNN,all,2048,True,4
+amplitude,One-Hot,Pep1,R2,0.1747773289680481,CNN,all,2048,True,4
+amplitude,One-Hot,Pep1,Pearson,0.418097459880242,CNN,all,2048,True,4
+amplitude,One-Hot,Pep1,sign_accuracy,0.6369010578718108,CNN,all,2048,True,4
+amplitude,One-Hot,Pep1,Spearman,0.3569813967149949,CNN,all,2048,True,4
+amplitude,One-Hot,MeJA,R2,0.0391624569892883,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,Pearson,0.1978958933462427,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,sign_accuracy,0.5892968263845675,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,Spearman,0.2174114435175544,CNN,all,4096,True,0
+amplitude,One-Hot,SA,R2,0.0765700936317443,CNN,all,4096,True,0
+amplitude,One-Hot,SA,Pearson,0.3132394896147701,CNN,all,4096,True,0
+amplitude,One-Hot,SA,sign_accuracy,0.6250777846919726,CNN,all,4096,True,0
+amplitude,One-Hot,SA,Spearman,0.3232298286419617,CNN,all,4096,True,0
+amplitude,One-Hot,SA+MeJA,R2,0.0387837290763855,CNN,all,4096,True,0
+amplitude,One-Hot,SA+MeJA,Pearson,0.2430877497826138,CNN,all,4096,True,0
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5998755444928439,CNN,all,4096,True,0
+amplitude,One-Hot,SA+MeJA,Spearman,0.2699087695588515,CNN,all,4096,True,0
+amplitude,One-Hot,ABA,R2,0.0298733115196228,CNN,all,4096,True,0
+amplitude,One-Hot,ABA,Pearson,0.1914396737082912,CNN,all,4096,True,0
+amplitude,One-Hot,ABA,sign_accuracy,0.5886745488487866,CNN,all,4096,True,0
+amplitude,One-Hot,ABA,Spearman,0.2171416850089547,CNN,all,4096,True,0
+amplitude,One-Hot,ABA+MeJA,R2,0.0278146862983703,CNN,all,4096,True,0
+amplitude,One-Hot,ABA+MeJA,Pearson,0.1791573478126455,CNN,all,4096,True,0
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.6048537647790915,CNN,all,4096,True,0
+amplitude,One-Hot,ABA+MeJA,Spearman,0.211450426056568,CNN,all,4096,True,0
+amplitude,One-Hot,3-OH10,R2,0.0663488507270813,CNN,all,4096,True,0
+amplitude,One-Hot,3-OH10,Pearson,0.3163636827014507,CNN,all,4096,True,0
+amplitude,One-Hot,3-OH10,sign_accuracy,0.6247666459240822,CNN,all,4096,True,0
+amplitude,One-Hot,3-OH10,Spearman,0.2974982480047259,CNN,all,4096,True,0
+amplitude,One-Hot,chitooct,R2,0.0498580932617187,CNN,all,4096,True,0
+amplitude,One-Hot,chitooct,Pearson,0.3120145710673885,CNN,all,4096,True,0
+amplitude,One-Hot,chitooct,sign_accuracy,0.6172993154947106,CNN,all,4096,True,0
+amplitude,One-Hot,chitooct,Spearman,0.2658761579700681,CNN,all,4096,True,0
+amplitude,One-Hot,elf18,R2,0.1426116824150085,CNN,all,4096,True,0
+amplitude,One-Hot,elf18,Pearson,0.4039653007394224,CNN,all,4096,True,0
+amplitude,One-Hot,elf18,sign_accuracy,0.6680149346608587,CNN,all,4096,True,0
+amplitude,One-Hot,elf18,Spearman,0.3843000185464374,CNN,all,4096,True,0
+amplitude,One-Hot,flg22,R2,0.1701629757881164,CNN,all,4096,True,0
+amplitude,One-Hot,flg22,Pearson,0.4334716886390161,CNN,all,4096,True,0
+amplitude,One-Hot,flg22,sign_accuracy,0.6639701306782825,CNN,all,4096,True,0
+amplitude,One-Hot,flg22,Spearman,0.4147617202345803,CNN,all,4096,True,0
+amplitude,One-Hot,nlp20,R2,0.1071537137031555,CNN,all,4096,True,0
+amplitude,One-Hot,nlp20,Pearson,0.3471780757732898,CNN,all,4096,True,0
+amplitude,One-Hot,nlp20,sign_accuracy,0.6468574984443062,CNN,all,4096,True,0
+amplitude,One-Hot,nlp20,Spearman,0.3505108382351751,CNN,all,4096,True,0
+amplitude,One-Hot,OGs,R2,0.1099726557731628,CNN,all,4096,True,0
+amplitude,One-Hot,OGs,Pearson,0.3696453191379499,CNN,all,4096,True,0
+amplitude,One-Hot,OGs,sign_accuracy,0.6512134411947729,CNN,all,4096,True,0
+amplitude,One-Hot,OGs,Spearman,0.3422181097595761,CNN,all,4096,True,0
+amplitude,One-Hot,Pep1,R2,0.1282745003700256,CNN,all,4096,True,0
+amplitude,One-Hot,Pep1,Pearson,0.3875952128798005,CNN,all,4096,True,0
+amplitude,One-Hot,Pep1,sign_accuracy,0.6533914125700062,CNN,all,4096,True,0
+amplitude,One-Hot,Pep1,Spearman,0.3862482367309928,CNN,all,4096,True,0
+amplitude,One-Hot,MeJA,R2,0.0106558799743652,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,Pearson,0.1239475441712681,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,sign_accuracy,0.5678282514001245,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,Spearman,0.1402647321111487,CNN,all,4096,True,1
+amplitude,One-Hot,SA,R2,0.0543021559715271,CNN,all,4096,True,1
+amplitude,One-Hot,SA,Pearson,0.2455614247916194,CNN,all,4096,True,1
+amplitude,One-Hot,SA,sign_accuracy,0.5877411325451152,CNN,all,4096,True,1
+amplitude,One-Hot,SA,Spearman,0.2432542355428282,CNN,all,4096,True,1
+amplitude,One-Hot,SA+MeJA,R2,0.0380308628082275,CNN,all,4096,True,1
+amplitude,One-Hot,SA+MeJA,Pearson,0.2100665545132303,CNN,all,4096,True,1
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5762289981331674,CNN,all,4096,True,1
+amplitude,One-Hot,SA+MeJA,Spearman,0.2147260601325891,CNN,all,4096,True,1
+amplitude,One-Hot,ABA,R2,0.0245772004127502,CNN,all,4096,True,1
+amplitude,One-Hot,ABA,Pearson,0.184944936135631,CNN,all,4096,True,1
+amplitude,One-Hot,ABA,sign_accuracy,0.5818294959551961,CNN,all,4096,True,1
+amplitude,One-Hot,ABA,Spearman,0.1969582133061973,CNN,all,4096,True,1
+amplitude,One-Hot,ABA+MeJA,R2,0.011382520198822,CNN,all,4096,True,1
+amplitude,One-Hot,ABA+MeJA,Pearson,0.1673649204330325,CNN,all,4096,True,1
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.573428749222153,CNN,all,4096,True,1
+amplitude,One-Hot,ABA+MeJA,Spearman,0.1805692533953879,CNN,all,4096,True,1
+amplitude,One-Hot,3-OH10,R2,0.0719606876373291,CNN,all,4096,True,1
+amplitude,One-Hot,3-OH10,Pearson,0.2772421348155808,CNN,all,4096,True,1
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5927193528313628,CNN,all,4096,True,1
+amplitude,One-Hot,3-OH10,Spearman,0.2238141261944302,CNN,all,4096,True,1
+amplitude,One-Hot,chitooct,R2,0.0767616629600524,CNN,all,4096,True,1
+amplitude,One-Hot,chitooct,Pearson,0.2796585749102439,CNN,all,4096,True,1
+amplitude,One-Hot,chitooct,sign_accuracy,0.589607965152458,CNN,all,4096,True,1
+amplitude,One-Hot,chitooct,Spearman,0.2107663132074275,CNN,all,4096,True,1
+amplitude,One-Hot,elf18,R2,0.1176865100860595,CNN,all,4096,True,1
+amplitude,One-Hot,elf18,Pearson,0.344809179696097,CNN,all,4096,True,1
+amplitude,One-Hot,elf18,sign_accuracy,0.5927193528313628,CNN,all,4096,True,1
+amplitude,One-Hot,elf18,Spearman,0.2868186735735494,CNN,all,4096,True,1
+amplitude,One-Hot,flg22,R2,0.1412751674652099,CNN,all,4096,True,1
+amplitude,One-Hot,flg22,Pearson,0.378820020769289,CNN,all,4096,True,1
+amplitude,One-Hot,flg22,sign_accuracy,0.6001866832607343,CNN,all,4096,True,1
+amplitude,One-Hot,flg22,Spearman,0.3212913047768981,CNN,all,4096,True,1
+amplitude,One-Hot,nlp20,R2,0.1019949913024902,CNN,all,4096,True,1
+amplitude,One-Hot,nlp20,Pearson,0.3218156952135004,CNN,all,4096,True,1
+amplitude,One-Hot,nlp20,sign_accuracy,0.5846297448662103,CNN,all,4096,True,1
+amplitude,One-Hot,nlp20,Spearman,0.2736483619738787,CNN,all,4096,True,1
+amplitude,One-Hot,OGs,R2,0.1103197932243347,CNN,all,4096,True,1
+amplitude,One-Hot,OGs,Pearson,0.3336192918101157,CNN,all,4096,True,1
+amplitude,One-Hot,OGs,sign_accuracy,0.5933416303671437,CNN,all,4096,True,1
+amplitude,One-Hot,OGs,Spearman,0.2568276489424914,CNN,all,4096,True,1
+amplitude,One-Hot,Pep1,R2,0.1299410462379455,CNN,all,4096,True,1
+amplitude,One-Hot,Pep1,Pearson,0.3606995183660121,CNN,all,4096,True,1
+amplitude,One-Hot,Pep1,sign_accuracy,0.6076540136901057,CNN,all,4096,True,1
+amplitude,One-Hot,Pep1,Spearman,0.314321641677175,CNN,all,4096,True,1
+amplitude,One-Hot,MeJA,R2,0.0004437565803527,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,Pearson,0.0618504848333829,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,sign_accuracy,0.529869321717486,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,Spearman,0.0804018160680661,CNN,all,4096,True,2
+amplitude,One-Hot,SA,R2,-0.0091577768325805,CNN,all,4096,True,2
+amplitude,One-Hot,SA,Pearson,0.141647146772765,CNN,all,4096,True,2
+amplitude,One-Hot,SA,sign_accuracy,0.5653391412570006,CNN,all,4096,True,2
+amplitude,One-Hot,SA,Spearman,0.14987405729079,CNN,all,4096,True,2
+amplitude,One-Hot,SA+MeJA,R2,0.0109995007514953,CNN,all,4096,True,2
+amplitude,One-Hot,SA+MeJA,Pearson,0.1671060225265352,CNN,all,4096,True,2
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.5616054760423149,CNN,all,4096,True,2
+amplitude,One-Hot,SA+MeJA,Spearman,0.1699770220785195,CNN,all,4096,True,2
+amplitude,One-Hot,ABA,R2,0.017893373966217,CNN,all,4096,True,2
+amplitude,One-Hot,ABA,Pearson,0.1574842640923278,CNN,all,4096,True,2
+amplitude,One-Hot,ABA,sign_accuracy,0.5659614187927816,CNN,all,4096,True,2
+amplitude,One-Hot,ABA,Spearman,0.1623868823487384,CNN,all,4096,True,2
+amplitude,One-Hot,ABA+MeJA,R2,0.0083854794502258,CNN,all,4096,True,2
+amplitude,One-Hot,ABA+MeJA,Pearson,0.1306658121148539,CNN,all,4096,True,2
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5774735532047293,CNN,all,4096,True,2
+amplitude,One-Hot,ABA+MeJA,Spearman,0.143816278678878,CNN,all,4096,True,2
+amplitude,One-Hot,3-OH10,R2,-0.0090562105178833,CNN,all,4096,True,2
+amplitude,One-Hot,3-OH10,Pearson,0.1238075096616663,CNN,all,4096,True,2
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5749844430616055,CNN,all,4096,True,2
+amplitude,One-Hot,3-OH10,Spearman,0.147468079580851,CNN,all,4096,True,2
+amplitude,One-Hot,chitooct,R2,-0.0060740709304809,CNN,all,4096,True,2
+amplitude,One-Hot,chitooct,Pearson,0.1075299678475295,CNN,all,4096,True,2
+amplitude,One-Hot,chitooct,sign_accuracy,0.5612943372744243,CNN,all,4096,True,2
+amplitude,One-Hot,chitooct,Spearman,0.1167522732578572,CNN,all,4096,True,2
+amplitude,One-Hot,elf18,R2,0.0133809447288513,CNN,all,4096,True,2
+amplitude,One-Hot,elf18,Pearson,0.1849122736712822,CNN,all,4096,True,2
+amplitude,One-Hot,elf18,sign_accuracy,0.5830740510267579,CNN,all,4096,True,2
+amplitude,One-Hot,elf18,Spearman,0.2019292614153732,CNN,all,4096,True,2
+amplitude,One-Hot,flg22,R2,0.0294523835182189,CNN,all,4096,True,2
+amplitude,One-Hot,flg22,Pearson,0.2131240201694851,CNN,all,4096,True,2
+amplitude,One-Hot,flg22,sign_accuracy,0.5852520224019913,CNN,all,4096,True,2
+amplitude,One-Hot,flg22,Spearman,0.22173491123,CNN,all,4096,True,2
+amplitude,One-Hot,nlp20,R2,0.0120753049850463,CNN,all,4096,True,2
+amplitude,One-Hot,nlp20,Pearson,0.1753924226672874,CNN,all,4096,True,2
+amplitude,One-Hot,nlp20,sign_accuracy,0.5790292470441817,CNN,all,4096,True,2
+amplitude,One-Hot,nlp20,Spearman,0.1937412956417284,CNN,all,4096,True,2
+amplitude,One-Hot,OGs,R2,-0.0204325914382934,CNN,all,4096,True,2
+amplitude,One-Hot,OGs,Pearson,0.1483915081183025,CNN,all,4096,True,2
+amplitude,One-Hot,OGs,sign_accuracy,0.5656502800248911,CNN,all,4096,True,2
+amplitude,One-Hot,OGs,Spearman,0.1694557230344564,CNN,all,4096,True,2
+amplitude,One-Hot,Pep1,R2,0.0315616726875305,CNN,all,4096,True,2
+amplitude,One-Hot,Pep1,Pearson,0.2067602921588831,CNN,all,4096,True,2
+amplitude,One-Hot,Pep1,sign_accuracy,0.5920970752955819,CNN,all,4096,True,2
+amplitude,One-Hot,Pep1,Spearman,0.2293960455007315,CNN,all,4096,True,2
+amplitude,One-Hot,MeJA,R2,-0.009891390800476,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,Pearson,0.0278960544968905,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,sign_accuracy,0.5314250155569384,CNN,all,4096,True,3
+amplitude,One-Hot,MeJA,Spearman,0.0329539047324096,CNN,all,4096,True,3
+amplitude,One-Hot,SA,R2,-0.0390675067901611,CNN,all,4096,True,3
+amplitude,One-Hot,SA,Pearson,0.1235734757345488,CNN,all,4096,True,3
+amplitude,One-Hot,SA,sign_accuracy,0.5258245177349098,CNN,all,4096,True,3
+amplitude,One-Hot,SA,Spearman,0.1093471023887347,CNN,all,4096,True,3
+amplitude,One-Hot,SA+MeJA,R2,0.0048893690109252,CNN,all,4096,True,3
+amplitude,One-Hot,SA+MeJA,Pearson,0.1378084197346144,CNN,all,4096,True,3
+amplitude,One-Hot,SA+MeJA,sign_accuracy,0.536403235843186,CNN,all,4096,True,3
+amplitude,One-Hot,SA+MeJA,Spearman,0.1268225148069623,CNN,all,4096,True,3
+amplitude,One-Hot,ABA,R2,-0.0009905099868774,CNN,all,4096,True,3
+amplitude,One-Hot,ABA,Pearson,0.0838835988921034,CNN,all,4096,True,3
+amplitude,One-Hot,ABA,sign_accuracy,0.5280024891101431,CNN,all,4096,True,3
+amplitude,One-Hot,ABA,Spearman,0.0834558693352301,CNN,all,4096,True,3
+amplitude,One-Hot,ABA+MeJA,R2,8.744001388549805e-05,CNN,all,4096,True,3
+amplitude,One-Hot,ABA+MeJA,Pearson,0.0793111372051784,CNN,all,4096,True,3
+amplitude,One-Hot,ABA+MeJA,sign_accuracy,0.5616054760423149,CNN,all,4096,True,3
+amplitude,One-Hot,ABA+MeJA,Spearman,0.0826140108797169,CNN,all,4096,True,3
+amplitude,One-Hot,3-OH10,R2,-0.0451605319976806,CNN,all,4096,True,3
+amplitude,One-Hot,3-OH10,Pearson,0.0778874611336113,CNN,all,4096,True,3
+amplitude,One-Hot,3-OH10,sign_accuracy,0.5416925948973242,CNN,all,4096,True,3
+amplitude,One-Hot,3-OH10,Spearman,0.0909493086670278,CNN,all,4096,True,3
+amplitude,One-Hot,chitooct,R2,-0.0160863399505615,CNN,all,4096,True,3
+amplitude,One-Hot,chitooct,Pearson,0.0732964186962644,CNN,all,4096,True,3
+amplitude,One-Hot,chitooct,sign_accuracy,0.5252022401991289,CNN,all,4096,True,3
+amplitude,One-Hot,chitooct,Spearman,0.0584613333905847,CNN,all,4096,True,3
+amplitude,One-Hot,elf18,R2,-0.0433524847030639,CNN,all,4096,True,3
+amplitude,One-Hot,elf18,Pearson,0.1344037996100462,CNN,all,4096,True,3
+amplitude,One-Hot,elf18,sign_accuracy,0.5494710640945862,CNN,all,4096,True,3
+amplitude,One-Hot,elf18,Spearman,0.1396337019747589,CNN,all,4096,True,3
+amplitude,One-Hot,flg22,R2,-0.0202078819274902,CNN,all,4096,True,3
+amplitude,One-Hot,flg22,Pearson,0.1678544312500368,CNN,all,4096,True,3
+amplitude,One-Hot,flg22,sign_accuracy,0.5457373988799005,CNN,all,4096,True,3
+amplitude,One-Hot,flg22,Spearman,0.1708324066048385,CNN,all,4096,True,3
+amplitude,One-Hot,nlp20,R2,-0.030468463897705,CNN,all,4096,True,3
+amplitude,One-Hot,nlp20,Pearson,0.1339848055348188,CNN,all,4096,True,3
+amplitude,One-Hot,nlp20,sign_accuracy,0.5578718108276292,CNN,all,4096,True,3
+amplitude,One-Hot,nlp20,Spearman,0.1388693236827475,CNN,all,4096,True,3
+amplitude,One-Hot,OGs,R2,-0.054215669631958,CNN,all,4096,True,3
+amplitude,One-Hot,OGs,Pearson,0.1216937060168047,CNN,all,4096,True,3
+amplitude,One-Hot,OGs,sign_accuracy,0.560360920970753,CNN,all,4096,True,3
+amplitude,One-Hot,OGs,Spearman,0.1429810777139588,CNN,all,4096,True,3
+amplitude,One-Hot,Pep1,R2,-0.0063064098358154,CNN,all,4096,True,3
+amplitude,One-Hot,Pep1,Pearson,0.1606904241393495,CNN,all,4096,True,3
+amplitude,One-Hot,Pep1,sign_accuracy,0.5528935905413814,CNN,all,4096,True,3
+amplitude,One-Hot,Pep1,Spearman,0.1673997931575289,CNN,all,4096,True,3
+log2FC,6-mer,MeJA,R2,0.0467850040267943,linear,not apply,2048,True,not apply
+log2FC,6-mer,MeJA,Pearson,0.2207153711855206,linear,not apply,2048,True,not apply
+log2FC,6-mer,MeJA,Spearman,0.2460732356285141,linear,not apply,2048,True,not apply
+log2FC,6-mer,MeJA,sign_accuracy,0.5029553342582951,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA,R2,0.0626241807137637,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA,Pearson,0.2503639253381804,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA,Spearman,0.2429208915763571,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA,sign_accuracy,0.4973823297188057,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA+MeJA,R2,0.0306034303466794,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA+MeJA,Pearson,0.1760094114402415,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA+MeJA,Spearman,0.183141833395273,linear,not apply,2048,True,not apply
+log2FC,6-mer,SA+MeJA,sign_accuracy,0.4988812944611878,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA,R2,0.0776139695732988,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA,Pearson,0.279985233185537,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA,Spearman,0.2675151603709121,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA,sign_accuracy,0.4970334360910903,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA+MeJA,R2,0.0706751278973983,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA+MeJA,Pearson,0.2669072891997877,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA+MeJA,Spearman,0.2536729558514395,linear,not apply,2048,True,not apply
+log2FC,6-mer,ABA+MeJA,sign_accuracy,0.4982760550159945,linear,not apply,2048,True,not apply
+log2FC,6-mer,3-OH10,R2,0.088351160992164,linear,not apply,2048,True,not apply
+log2FC,6-mer,3-OH10,Pearson,0.3011636753597857,linear,not apply,2048,True,not apply
+log2FC,6-mer,3-OH10,Spearman,0.2026491003304376,linear,not apply,2048,True,not apply
+log2FC,6-mer,3-OH10,sign_accuracy,0.481494310245817,linear,not apply,2048,True,not apply
+log2FC,6-mer,chitooct,R2,0.0732698793271943,linear,not apply,2048,True,not apply
+log2FC,6-mer,chitooct,Pearson,0.2734702853838352,linear,not apply,2048,True,not apply
+log2FC,6-mer,chitooct,Spearman,0.1695799719751057,linear,not apply,2048,True,not apply
+log2FC,6-mer,chitooct,sign_accuracy,0.4847702703906253,linear,not apply,2048,True,not apply
+log2FC,6-mer,elf18,R2,0.1299780710959667,linear,not apply,2048,True,not apply
+log2FC,6-mer,elf18,Pearson,0.3627404535141907,linear,not apply,2048,True,not apply
+log2FC,6-mer,elf18,Spearman,0.2711709841691613,linear,not apply,2048,True,not apply
+log2FC,6-mer,elf18,sign_accuracy,0.4900425913541758,linear,not apply,2048,True,not apply
+log2FC,6-mer,flg22,R2,0.1360695385659869,linear,not apply,2048,True,not apply
+log2FC,6-mer,flg22,Pearson,0.3714624596037195,linear,not apply,2048,True,not apply
+log2FC,6-mer,flg22,Spearman,0.2742918610760433,linear,not apply,2048,True,not apply
+log2FC,6-mer,flg22,sign_accuracy,0.4950202307964262,linear,not apply,2048,True,not apply
+log2FC,6-mer,nlp20,R2,0.1030514498787705,linear,not apply,2048,True,not apply
+log2FC,6-mer,nlp20,Pearson,0.3215489464206414,linear,not apply,2048,True,not apply
+log2FC,6-mer,nlp20,Spearman,0.2443236780379929,linear,not apply,2048,True,not apply
+log2FC,6-mer,nlp20,sign_accuracy,0.4856607042384961,linear,not apply,2048,True,not apply
+log2FC,6-mer,OGs,R2,0.1243283706363652,linear,not apply,2048,True,not apply
+log2FC,6-mer,OGs,Pearson,0.3539929388771448,linear,not apply,2048,True,not apply
+log2FC,6-mer,OGs,Spearman,0.2605430311237234,linear,not apply,2048,True,not apply
+log2FC,6-mer,OGs,sign_accuracy,0.4857964281192,linear,not apply,2048,True,not apply
+log2FC,6-mer,Pep1,R2,0.1269193463465131,linear,not apply,2048,True,not apply
+log2FC,6-mer,Pep1,Pearson,0.3568251042705344,linear,not apply,2048,True,not apply
+log2FC,6-mer,Pep1,Spearman,0.2728957902849207,linear,not apply,2048,True,not apply
+log2FC,6-mer,Pep1,sign_accuracy,0.4918244271232462,linear,not apply,2048,True,not apply
+log2FC,DAPseq,MeJA,R2,0.0303477186560008,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,MeJA,Pearson,0.1755902873946117,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,MeJA,Spearman,0.1874292579376257,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,MeJA,sign_accuracy,0.5049766713689215,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA,R2,0.0513695108651758,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA,Pearson,0.2292687415581226,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA,Spearman,0.2246960644436466,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA,sign_accuracy,0.5054986565078342,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA+MeJA,R2,0.0219074257256971,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA+MeJA,Pearson,0.1515484290533406,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA+MeJA,Spearman,0.1563340394648527,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,SA+MeJA,sign_accuracy,0.499567852066004,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA,R2,0.0517275047111496,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA,Pearson,0.2280415869077939,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA,Spearman,0.2158297236199989,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA,sign_accuracy,0.4989808123993929,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA+MeJA,R2,0.048908590790838,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA+MeJA,Pearson,0.2216593149984595,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA+MeJA,Spearman,0.1948231870142589,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,ABA+MeJA,sign_accuracy,0.5014981902837191,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,3-OH10,R2,0.0607949785232962,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,3-OH10,Pearson,0.2488125390805547,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,3-OH10,Spearman,0.1768209611044277,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,3-OH10,sign_accuracy,0.4947567212363148,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,chitooct,R2,0.0549515635105468,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,chitooct,Pearson,0.2408958735843261,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,chitooct,Spearman,0.1602317825479357,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,chitooct,sign_accuracy,0.4925855263743834,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,elf18,R2,0.088311739740413,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,elf18,Pearson,0.3053161055391504,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,elf18,Spearman,0.2373621488863247,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,elf18,sign_accuracy,0.4946341631528831,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,flg22,R2,0.0895072006059647,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,flg22,Pearson,0.3070654264298018,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,flg22,Spearman,0.2297775458220384,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,flg22,sign_accuracy,0.4956243085536249,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,nlp20,R2,0.0638293931963791,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,nlp20,Pearson,0.2570965065438348,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,nlp20,Spearman,0.1903911014487798,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,nlp20,sign_accuracy,0.4867933500332436,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,OGs,R2,0.0750643628493701,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,OGs,Pearson,0.2789824644683134,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,OGs,Spearman,0.2078593393466702,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,OGs,sign_accuracy,0.4885720879676617,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,Pep1,R2,0.0808565448751665,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,Pep1,Pearson,0.2880048724838516,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,Pep1,Spearman,0.2231766943028121,linear,not apply,2048,not apply,not apply
+log2FC,DAPseq,Pep1,sign_accuracy,0.495470965738336,linear,not apply,2048,not apply,not apply
+DE_per_treatment,6-mer,MeJA,Accuracy,0.6013548723293382,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,MeJA,MCC,0.1597945126468834,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,MeJA,F1,0.4512195121951219,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,MeJA,AUC,0.6150732045072378,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA,Accuracy,0.5758775402480866,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA,MCC,0.1423806698928269,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA,F1,0.4982828598189198,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA,AUC,0.5965980096510788,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA+MeJA,Accuracy,0.5690993788819876,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA+MeJA,MCC,0.1322418077095093,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA+MeJA,F1,0.5155659004946174,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,SA+MeJA,AUC,0.5972965318294416,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA,Accuracy,0.5523640061006609,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA,MCC,0.0976733251761936,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA,F1,0.4995737425404944,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA,AUC,0.5779083904034705,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA+MeJA,Accuracy,0.566289825282631,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA+MeJA,MCC,0.1291071285981765,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA+MeJA,F1,0.5979037636969986,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,ABA+MeJA,AUC,0.5946077655227806,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,3-OH10,Accuracy,0.7331619537275065,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,3-OH10,MCC,0.1276125980636835,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,3-OH10,F1,0.1852433281004709,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,3-OH10,AUC,0.6981719436745892,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,chitooct,Accuracy,0.7312323853446067,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,chitooct,MCC,0.1929268984792373,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,chitooct,F1,0.2458662832494608,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,chitooct,AUC,0.7153474672055349,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,elf18,Accuracy,0.5774161735700197,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,elf18,MCC,0.1484415518464615,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,elf18,F1,0.5147225368063421,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,elf18,AUC,0.607400891328346,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,flg22,Accuracy,0.5880898876404494,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,flg22,MCC,0.1785690582707627,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,flg22,F1,0.5718290119131043,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,flg22,AUC,0.6379533214229827,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,nlp20,Accuracy,0.5769424823410696,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,nlp20,MCC,0.1239046942338828,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,nlp20,F1,0.4434118818453368,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,nlp20,AUC,0.5981076235121299,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,OGs,Accuracy,0.6340725806451613,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,OGs,MCC,0.1730734541016631,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,OGs,F1,0.3857868020304568,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,OGs,AUC,0.6543387025429124,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,Pep1,Accuracy,0.5846534653465346,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,Pep1,MCC,0.1524526834889443,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,Pep1,F1,0.4868501529051988,linear,not apply,2048,True,not apply
+DE_per_treatment,6-mer,Pep1,AUC,0.6157570740209697,linear,not apply,2048,True,not apply
+DE_per_treatment,DAPseq,MeJA,Accuracy,0.6104742053152684,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,MeJA,MCC,0.1592486963848888,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,MeJA,F1,0.4448570367619755,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,MeJA,AUC,0.6215147795432765,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA,Accuracy,0.5864344154130378,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA,MCC,0.13206518733852,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA,F1,0.4697123519458544,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA,AUC,0.5996243164315419,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA+MeJA,Accuracy,0.5657349896480331,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA+MeJA,MCC,0.1143435281223054,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA+MeJA,F1,0.4930513595166163,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,SA+MeJA,AUC,0.592853244838777,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA,Accuracy,0.5798169801728521,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA,MCC,0.1405803600529161,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA,F1,0.5061248879593665,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA,AUC,0.5986540114482178,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA+MeJA,Accuracy,0.5557553956834532,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA+MeJA,MCC,0.1230549210860581,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA+MeJA,F1,0.5632735539277596,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,ABA+MeJA,AUC,0.5878838148038902,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,3-OH10,Accuracy,0.7403598971722365,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,3-OH10,MCC,0.1391011371257674,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,3-OH10,F1,0.1932907348242811,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,3-OH10,AUC,0.651047843005515,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,chitooct,Accuracy,0.7312323853446067,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,chitooct,MCC,0.1737068262135287,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,chitooct,F1,0.2337472607742877,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,chitooct,AUC,0.7053445369196988,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,elf18,Accuracy,0.5850591715976331,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,elf18,MCC,0.139363795289305,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,elf18,F1,0.487359122753579,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,elf18,AUC,0.5964552784440214,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,flg22,Accuracy,0.5723595505617978,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,flg22,MCC,0.1378740398692723,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,flg22,F1,0.5304712558598569,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,flg22,AUC,0.6000520398649001,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,nlp20,Accuracy,0.6031786074672049,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,nlp20,MCC,0.1275434844559153,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,nlp20,F1,0.4252831567409572,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,nlp20,AUC,0.5948867838151918,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,OGs,Accuracy,0.6575100806451613,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,OGs,MCC,0.1673683431829427,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,OGs,F1,0.3757464400551217,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,OGs,AUC,0.632595869751843,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,Pep1,Accuracy,0.6004950495049505,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,Pep1,MCC,0.1491261467172114,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,Pep1,F1,0.4652087475149105,linear,not apply,2048,not apply,not apply
+DE_per_treatment,DAPseq,Pep1,AUC,0.6118361591354435,linear,not apply,2048,not apply,not apply

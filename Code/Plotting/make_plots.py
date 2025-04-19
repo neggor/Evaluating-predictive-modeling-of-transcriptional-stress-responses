@@ -143,7 +143,7 @@ def figure_1b(figsize = (10, 7)):
     # save
     plt.savefig("Images/figure_1b.pdf", bbox_inches='tight')
 
-def figure_2a(figsize = (10, 7), pvals = False, metric = "MCC"):
+def figure_2a(figsize = (10, 7), pvals = False, metric = "AUC"):
     """
     Plot the figure 2a
     """
@@ -151,7 +151,7 @@ def figure_2a(figsize = (10, 7), pvals = False, metric = "MCC"):
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)", "embeddings": "L. (AgroNT emb.)"}
     )
-    res = res[(res["length"] == 5020) | (res["length"] == "not apply")]
+    res = res[(res["length"] == 2048) | (res["length"] == "not apply")]
     res = res[res["exons"] != "masked"]
     res = res[res['rc'] != 'False']
     res = res[
@@ -328,7 +328,7 @@ def figure_1c(figsize = (10, 7),
 
     plt.savefig("Images/figure_1c.pdf", bbox_inches='tight')
 
-def figure_2b(figsize = (10, 7), pvals = True, metric = "Spearman"):
+def figure_2b(figsize = (10, 7), pvals = False, metric = "Spearman"):
     res = pd.read_csv("Results/Results_table.csv")
     res["in_type"] = res["in_type"].replace(
         {"One-Hot": "CNN", "DAPseq": "L. (DAPseq)", "String": "AgroNT", "6-mer": "L. (6mer)",  "embeddings": "L. (AgroNT emb.)"}

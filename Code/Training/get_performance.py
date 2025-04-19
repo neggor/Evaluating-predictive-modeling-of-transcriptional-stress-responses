@@ -91,9 +91,8 @@ def load_data(
 
 def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, cnn_config: dict):
     
-    dna_specs = [ cnn_config["upstream_TSS"], cnn_config["downstream_TSS"],
-                  cnn_config["downstream_TTS"], cnn_config["upstream_TTS"]]
-    
+    dna_specs = [cnn_config["upstream_TSS"], cnn_config["downstream_TSS"], cnn_config["upstream_TTS"], cnn_config["downstream_TTS"]]
+    print(f"DNA specs: {dna_specs}")
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = load_data(
             train_proportion,
             val_proportion,
@@ -120,8 +119,8 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
         )
 
         # Train the model with early stopping
-        # returns the best model
-        best_model, my_metrics, my_metrics_val = train_cnn_model_from_specs(
+        
+        _, _, _ = train_cnn_model_from_specs(
             model,
             cnn_config,
             TSS_sequences=TSS_sequences,
@@ -133,9 +132,9 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
             name =cnn_config["model_name"],
         )
 
-        best_model.load_state_dict(torch.load(f"{i_store_folder}/best_model.pth"))
+        model.load_state_dict(torch.load(f"{i_store_folder}/best_model.pth"))
         
-        Y_hat, Y, m = test_cnn( best_model,
+        Y_hat, Y, m = test_cnn( model,
                                 training_specs=cnn_config,
                                 TSS_sequences=TSS_sequences,
                                 TTS_sequences=TTS_sequences,
@@ -147,7 +146,8 @@ def get_cnn_performance(n_rep, store_folder, train_proportion, val_proportion, c
 
 def get_linear_performance(store_folder, train_proportion, val_proportion, linear_config: dict):
         dna_specs = [ linear_config["upstream_TSS"], linear_config["downstream_TSS"],
-                  linear_config["downstream_TTS"], linear_config["upstream_TTS"]]
+                    linear_config["upstream_TTS"], linear_config["downstream_TTS"]]
+        print(f"DNA specs: {dna_specs}")
         (
             mRNA_train,
             mRNA_validation,
@@ -204,7 +204,8 @@ def get_linear_performance(store_folder, train_proportion, val_proportion, linea
 
 def get_AgroNT_performance(store_folder,  train_proportion, val_proportion, agroNT_config: dict):
         dna_specs = [ agroNT_config["upstream_TSS"], agroNT_config["downstream_TSS"],
-                  agroNT_config["downstream_TTS"], agroNT_config["upstream_TTS"]]
+                   agroNT_config["upstream_TTS"], agroNT_config["downstream_TTS"]]
+        print(f"DNA specs: {dna_specs}")
         (
             mRNA_train,
             mRNA_validation,

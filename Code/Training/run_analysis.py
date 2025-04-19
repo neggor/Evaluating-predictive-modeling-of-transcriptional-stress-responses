@@ -5,7 +5,7 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["quantiles_per_treatment", "amplitude", "log2FC", "DE_per_treatment"]
+outcome_types = ["quantiles_per_treatment", "DE_per_treatment", "log2FC", "amplitude"]
 
 # 1 Run linear models
 def linear_models():
@@ -82,7 +82,7 @@ def run_cnn():
 
                 command = [
                     "python", "Code/Training/get_performance.py",
-                    "--n_rep", "5",
+                    "--n_rep", "1",
                     "--model", "CNN",
                     "--train_proportion", "0.8",
                     "--val_proportion", "0.1",
