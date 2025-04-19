@@ -33,8 +33,8 @@ def linear_models():
             command = [
                 "python", "Code/Training/get_performance.py",
                 "--model", "linear",
-                "--train_proportion", "0.85",
-                "--val_proportion", "0.05",
+                "--train_proportion", "0.8",
+                "--val_proportion", "0.1",
                 "--store_folder", store_folder,
                 "--config_file", config_file,
             ]
@@ -67,11 +67,6 @@ def run_cnn():
                     config["upstream_TTS"] = 410
                     config["downstream_TSS"] = 410
                     config["downstream_TTS"] = 1628
-                elif dna_length == 8192:
-                    config["upstream_TSS"] = 3256
-                    config["upstream_TTS"] = 830
-                    config["downstream_TSS"] = 830
-                    config["downstream_TTS"] = 3256
                 else:
                     raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked
@@ -89,8 +84,8 @@ def run_cnn():
                     "python", "Code/Training/get_performance.py",
                     "--n_rep", "5",
                     "--model", "CNN",
-                    "--train_proportion", "0.85",
-                    "--val_proportion", "0.05",
+                    "--train_proportion", "0.8",
+                    "--val_proportion", "0.1",
                     "--store_folder", store_folder,
                     "--config_file", config_file,
                 ]
@@ -119,8 +114,8 @@ def run_agroNT():
         command = [
             "python", "Code/Training/get_performance.py",
             "--model", "AgroNT",
-            "--train_proportion", "0.85",
-            "--val_proportion", "0.05",
+            "--train_proportion", "0.8",
+            "--val_proportion", "0.1",
             "--store_folder", store_folder,
             "--config_file", config_file,
         ]
@@ -133,4 +128,4 @@ def run_agroNT():
 if __name__ == "__main__":
     #linear_models()
     run_cnn()
-    run_agroNT()
+    #run_agroNT()

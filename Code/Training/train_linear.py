@@ -192,14 +192,14 @@ def cross_validate(X, y, family, task="regression", cv=3, scoring=None, n_jobs=1
             "alpha":[1e-2, 1e-1, 1, 10],  # Regularization strength
             }
     
-        model = Lasso(max_iter=1000, random_state=123)
+        model = Lasso(max_iter=3000, random_state=123)
         if scoring is None:
             scoring = "r2"
     elif task == "classification":
         param_grid = {
             "C": [0.05, 0.01, 0.001, 0.0001],  # Inverse regularization strength
             }
-        model = LogisticRegression(penalty="l1", max_iter=1000, random_state=123, class_weight="balanced", solver="saga")
+        model = LogisticRegression(penalty="l1", max_iter=3000, random_state=123, class_weight="balanced", solver="saga")
         if scoring is None:
             scoring = "roc_auc"
     else:
