@@ -82,7 +82,7 @@ def run_cnn():
 
                 command = [
                     "python", "Code/Training/get_performance.py",
-                    "--n_rep", "1",
+                    "--n_rep", "5",
                     "--model", "CNN",
                     "--train_proportion", "0.8",
                     "--val_proportion", "0.1",
