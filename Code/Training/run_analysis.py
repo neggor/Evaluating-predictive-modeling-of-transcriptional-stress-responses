@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(".")
 import subprocess
 import json
@@ -7,21 +8,24 @@ import pandas as pd
 
 outcome_types = ["quantiles_per_treatment", "DE_per_treatment", "log2FC", "amplitude"]
 
+
 # 1 Run linear models
 def linear_models():
-    
+
     # load config file
     config_file = "Configs/linear_config.json"
-    # load 
+    # load
     with open(config_file, "r") as f:
         config = json.load(f)
-    
+
     for problem_type in outcome_types:
         for dna_format in ["6-mer", "DAPseq"]:
             config["problem_type"] = problem_type
             config["dna_format"] = dna_format
             config["model_name"] = f"linear_{problem_type}_{dna_format}"
-            config["linear_model_kind"] = "lasso" if problem_type in ["log2FC", "amplitude"] else "logistic_l1"
+            config["linear_model_kind"] = (
+                "lasso" if problem_type in ["log2FC", "amplitude"] else "logistic_l1"
+            )
             store_folder = f"Results/linear_models/{problem_type}/{dna_format}"
             # create the store folder if it does not exist
             if not os.path.exists(store_folder):
@@ -31,20 +35,28 @@ def linear_models():
                 json.dump(config, f, indent=4)
 
             command = [
-                "python", "Code/Training/get_performance.py",
-                "--model", "linear",
-                "--train_proportion", "0.8",
-                "--val_proportion", "0.1",
-                "--store_folder", store_folder,
-                "--config_file", config_file,
+                "python",
+                "Code/Training/get_performance.py",
+                "--model",
+                "linear",
+                "--train_proportion",
+                "0.8",
+                "--val_proportion",
+                "0.1",
+                "--store_folder",
+                store_folder,
+                "--config_file",
+                config_file,
             ]
 
             # run the command
             process = subprocess.run(command)
 
+
 # 2 Run CNNs
 # 3 Run CNNs with different length
 # 4 Run CNNs with masked exons
+
 
 def run_cnn():
     # load config file
@@ -56,7 +68,9 @@ def run_cnn():
             for exons_masked in [True, False]:
                 if exons_masked and dna_length != 2048:
                     continue
-                print(f"Running CNN for {problem_type} with dna_length {dna_length} and exons_masked {exons_masked}")
+                print(
+                    f"Running CNN for {problem_type} with dna_length {dna_length} and exons_masked {exons_masked}"
+                )
                 if dna_length == 2048:
                     config["upstream_TSS"] = 814
                     config["upstream_TTS"] = 200
@@ -81,13 +95,20 @@ def run_cnn():
                     json.dump(config, f, indent=4)
 
                 command = [
-                    "python", "Code/Training/get_performance.py",
-                    "--n_rep", "5",
-                    "--model", "CNN",
-                    "--train_proportion", "0.8",
-                    "--val_proportion", "0.1",
-                    "--store_folder", store_folder,
-                    "--config_file", config_file,
+                    "python",
+                    "Code/Training/get_performance.py",
+                    "--n_rep",
+                    "5",
+                    "--model",
+                    "CNN",
+                    "--train_proportion",
+                    "0.8",
+                    "--val_proportion",
+                    "0.1",
+                    "--store_folder",
+                    store_folder,
+                    "--config_file",
+                    config_file,
                 ]
                 # run the command
                 process = subprocess.run(command)
@@ -95,12 +116,13 @@ def run_cnn():
 
 # 5 Run AgroNT
 
+
 def run_agroNT():
     # load config file
     config_file = "Configs/agroNT_config.json"
     with open(config_file, "r") as f:
         config = json.load(f)
-    
+
     for problem_type in outcome_types:
         config["problem_type"] = problem_type
         store_folder = f"Results/agroNT/{problem_type}"
@@ -112,20 +134,27 @@ def run_agroNT():
             json.dump(config, f, indent=4)
 
         command = [
-            "python", "Code/Training/get_performance.py",
-            "--model", "AgroNT",
-            "--train_proportion", "0.8",
-            "--val_proportion", "0.1",
-            "--store_folder", store_folder,
-            "--config_file", config_file,
+            "python",
+            "Code/Training/get_performance.py",
+            "--model",
+            "AgroNT",
+            "--train_proportion",
+            "0.8",
+            "--val_proportion",
+            "0.1",
+            "--store_folder",
+            store_folder,
+            "--config_file",
+            config_file,
         ]
         # run the command
         process = subprocess.run(command)
+
 
 # Gather all the data and construct plots
 
 
 if __name__ == "__main__":
-    #linear_models()
+    # linear_models()
     run_cnn()
-    #run_agroNT()
+    # run_agroNT()

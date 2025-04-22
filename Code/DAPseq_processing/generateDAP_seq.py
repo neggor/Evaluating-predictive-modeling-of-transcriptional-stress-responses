@@ -53,8 +53,8 @@ def _generate_peaks(genes, dap_data_folder, cutoff_percentile, output_folder):
     #  select the ones outside the intersection
     intersect = set(colanmes_TSS).intersection(set(colanmes_TTS))
     # select only the ones that in the intersection
-    genes_TSS = genes_TSS.loc[:, [col +"_TSS" for col in intersect]]
-    genes_TTS = genes_TTS.loc[:, [col +"_TTS" for col in intersect]]
+    genes_TSS = genes_TSS.loc[:, [col + "_TSS" for col in intersect]]
+    genes_TTS = genes_TTS.loc[:, [col + "_TTS" for col in intersect]]
 
     # order the columns (which is critical)
     genes_TSS = genes_TSS.reindex(sorted(genes_TSS.columns), axis=1)

@@ -292,7 +292,9 @@ class DataHandler:
                 # assert that the columns are the same (first remove the _TSS and _TTS)
                 colanmes_TSS = [col.split("_")[0] for col in DAPseq_TSS.columns]
                 colanmes_TTS = [col.split("_")[0] for col in DAPseq_TTS.columns]
-                assert all([col1 == col2 for col1, col2 in zip(colanmes_TSS, colanmes_TTS)]), "Columns of TSS and TTS do not match. Please check the DAP-seq data."
+                assert all(
+                    [col1 == col2 for col1, col2 in zip(colanmes_TSS, colanmes_TTS)]
+                ), "Columns of TSS and TTS do not match. Please check the DAP-seq data."
 
                 # now, transform the dataset into a dictionary using index as keys and the values will be a np.array
                 # with the values of the DAP-seq data
@@ -352,7 +354,7 @@ class DataHandler:
                             )
                         ]
                     ), "The k-mer indices are not in the same order. Please check the DAP-seq data."
-                    
+
                     # save the kmer index in a pickle file
                     os.makedirs(f"{data_path}/DNA/6-mer", exist_ok=True)
                     with open(f"{data_path}/DNA/6-mer/kmer_index_TSS.pkl", "wb") as f:

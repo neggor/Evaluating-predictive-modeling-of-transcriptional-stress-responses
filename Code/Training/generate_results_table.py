@@ -2,23 +2,27 @@ import pandas as pd
 import os
 
 
-
 def generate_table():
-    outcome_types = ["quantiles_per_treatment", "amplitude", "log2FC", "DE_per_treatment"]
+    outcome_types = [
+        "quantiles_per_treatment",
+        "amplitude",
+        "log2FC",
+        "DE_per_treatment",
+    ]
     treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
-    "B": "MeJA",
-    "C": "SA",
-    "D": "SA+MeJA",
-    "G": "ABA",
-    "H": "ABA+MeJA",
-    "X": "3-OH10",
-    "Y": "chitooct",
-    "Z": "elf18",
-    "W": "flg22",
-    "V": "nlp20",
-    "U": "OGs",
-    "T": "Pep1",
+        "B": "MeJA",
+        "C": "SA",
+        "D": "SA+MeJA",
+        "G": "ABA",
+        "H": "ABA+MeJA",
+        "X": "3-OH10",
+        "Y": "chitooct",
+        "Z": "elf18",
+        "W": "flg22",
+        "V": "nlp20",
+        "U": "OGs",
+        "T": "Pep1",
     }
     metrics_df = pd.DataFrame()
     # initialize the columns, outcome_type, in_type, model_type, rc, treatment, metric, value
@@ -31,14 +35,13 @@ def generate_table():
         "model_type",
         "exons",
         "length",
-        'rc',
-        'replicate'
+        "rc",
+        "replicate",
     ]
 
-    
     for outcome_type in outcome_types:
         # linear models
-        for in_type in ["6-mer", "DAPseq"]: 
+        for in_type in ["6-mer", "DAPseq"]:
             for treatment in [mapping[t] for t in treatments]:
                 file = f"{treatment}_metrics.csv"
                 url_file = f"Results/linear_models/{outcome_type}/{in_type}/{file}"
@@ -60,15 +63,13 @@ def generate_table():
                             "exons": "not apply",
                             "length": 2048,
                             "rc": True if in_type == "6-mer" else "not apply",
-                            'replicate': "not apply"
+                            "replicate": "not apply",
                         }
                         for metric in res_df.columns
                     ],
                     columns=columns,
-                                )
-                metrics_df = pd.concat(
-                                    [metrics_df, tmp_df], ignore_index=True
-                                    )
+                )
+                metrics_df = pd.concat([metrics_df, tmp_df], ignore_index=True)
         # CNN models
         for exons in [True, False]:
             for length in [2048, 4096]:
@@ -97,8 +98,8 @@ def generate_table():
                                     "model_type": "CNN",
                                     "exons": f'{"masked" if exons else "all"}',
                                     "length": length,
-                                    'rc': True,
-                                    'replicate': model_num
+                                    "rc": True,
+                                    "replicate": model_num,
                                 }
                                 for metric in tr_metrics.index
                             ],
@@ -128,8 +129,8 @@ def generate_table():
                         "model_type": "AgroNT",
                         "exons": "not apply",
                         "length": "not apply",
-                        'rc': "not apply",
-                        'replicate': "not apply"
+                        "rc": "not apply",
+                        "replicate": "not apply",
                     }
                     for metric in tr_metrics.index
                 ],
@@ -143,7 +144,6 @@ def generate_table():
     metrics_df.to_csv("Results/Results_table.csv", index=False)
     print("Results table saved!")
     print("DONE!")
-
 
 
 if __name__ == "__main__":

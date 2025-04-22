@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append(".")
 from Code.CNN_model.res_CNN import myCNN
 from Code.dataset_utils.CustomDataset import get_dataloader
@@ -16,11 +17,14 @@ from sklearn.metrics import (
     roc_auc_score,
     f1_score,
     matthews_corrcoef,
-    accuracy_score, )
+    accuracy_score,
+)
 from torch.optim.lr_scheduler import LambdaLR
+
 
 def l1_loss(output, target, weights=None):
     return F.l1_loss(output, target, reduction="mean")
+
 
 def binary_cross_entropy(output, target, weights=None):
     # this is the simplest one
@@ -28,6 +32,7 @@ def binary_cross_entropy(output, target, weights=None):
     mask[target == 3] = 0
     loss = nn.BCEWithLogitsLoss(pos_weight=weights, reduction="none")(output, target)
     return (loss * mask).sum() / mask.sum()
+
 
 def loss_fnc(loss_name):
     # Intended usage is
@@ -38,7 +43,8 @@ def loss_fnc(loss_name):
         return binary_cross_entropy
     else:
         raise ValueError("Loss function not recognized")
-    
+
+
 class metrics:
     """
     Accumulate the training metrics in a sensible way.
@@ -51,7 +57,7 @@ class metrics:
             "DE_per_treatment",
             "LR",
             "quantiles_per_treatment",
-            "amplitude"
+            "amplitude",
         ]
         self.metrics = {}
         self.problem_type = problem_type
@@ -81,7 +87,8 @@ class metrics:
 
         # convert to numpy
         if (
-            self.problem_type == "log2FC" or self.problem_type == "amplitude"
+            self.problem_type == "log2FC"
+            or self.problem_type == "amplitude"
             or self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
         ):
@@ -115,7 +122,8 @@ class metrics:
         # concatenate the outputs and targets for the epoch
         loss = np.mean(self.loss[epoch])
         if (
-            self.problem_type == "log2FC" or self.problem_type == "amplitude"
+            self.problem_type == "log2FC"
+            or self.problem_type == "amplitude"
             or self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
         ):
@@ -131,7 +139,7 @@ class metrics:
             self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
         ):
-            
+
             self.metrics["MCC_per_class"][epoch] = {}
             for i in range(target.shape[1]):
                 mask = target[:, i] != 3
@@ -228,7 +236,7 @@ class metrics:
                 ax.set_xlabel("Epoch")
                 ax.set_ylabel(metric)
             # the last one for the MCC per class in the case of DE_per_treatment
-        
+
             ax = axs[1, 2]
             for i in range(len(self.metrics["MCC_per_class"][0])):
                 ax.plot(
@@ -274,9 +282,10 @@ class metrics:
                 ax.set_xlabel("Epoch")
                 ax.set_ylabel(metric)
                 ax.legend()
-           
+
             plt.savefig(f"{folder}/{name}_training_metrics.png")
         plt.close("all")
+
 
 def handle_batch(batch, device):
     TTS = batch["TTS"]
@@ -287,56 +296,37 @@ def handle_batch(batch, device):
     labels = torch.tensor(batch["values"]).float().to(device)
     return DNA, labels
 
-def get_cnn(n_labels, equivariant):
-    '''
-    Wrapping to handle either enformer or a CNN
-    '''
-    model = myCNN(
-        n_labels=n_labels,
-        n_ressidual_blocks=5,
-        in_channels=4,
-        out_channels=300,
-        kernel_size=[5, 3, 3, 3, 3],
-        max_pooling_kernel_size=4,
-        dropout_rate=0.25,
-        stride=1,
-        RC_equivariant=equivariant,
-    )
-
-    # print number of parameters
-    print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
-
-    return model
 
 def get_warmup_scheduler(optimizer, num_warmup_steps, num_training_steps):
-        """
-        Returns a LambdaLR scheduler for warm-up followed by a linear decay.
-        
-        Args:
-        - optimizer: The optimizer to apply the scheduler to.
-        - num_warmup_steps: Number of warm-up steps.
-        - num_training_steps: Total number of training steps.
-        
-        Returns:
-        - A LambdaLR scheduler.
-        """
-        print("Using warmup scheduler")
-        print(f"Num warmup steps: {num_warmup_steps}")
-        print(f"Num training steps: {num_training_steps}")
-        def lr_lambda(current_step):
-            if current_step < num_warmup_steps:
-                # Linear warm-up
-                return float(current_step) / float(max(1, num_warmup_steps))
-            else:
-                # Linear decay until 10% of the learning rate
-                return max(
-                    0.1,
-                    float(num_training_steps - current_step)
-                    / float(max(1, num_training_steps - num_warmup_steps)),
-                )
-                
+    """
+    Returns a LambdaLR scheduler for warm-up followed by a linear decay.
 
-        return LambdaLR(optimizer, lr_lambda)
+    Args:
+    - optimizer: The optimizer to apply the scheduler to.
+    - num_warmup_steps: Number of warm-up steps.
+    - num_training_steps: Total number of training steps.
+
+    Returns:
+    - A LambdaLR scheduler.
+    """
+    print("Using warmup scheduler")
+    print(f"Num warmup steps: {num_warmup_steps}")
+    print(f"Num training steps: {num_training_steps}")
+
+    def lr_lambda(current_step):
+        if current_step < num_warmup_steps:
+            # Linear warm-up
+            return float(current_step) / float(max(1, num_warmup_steps))
+        else:
+            # Linear decay until 10% of the learning rate
+            return max(
+                0.1,
+                float(num_training_steps - current_step)
+                / float(max(1, num_training_steps - num_warmup_steps)),
+            )
+
+    return LambdaLR(optimizer, lr_lambda)
+
 
 def train_cnn_model(
     model,
@@ -359,7 +349,9 @@ def train_cnn_model(
         lr=training_specs["lr"],
         weight_decay=training_specs["weight_decay"],
     )
-    scheduler = get_warmup_scheduler(optimizer, 1000, training_specs["n_epochs"] * len(train_loader))
+    scheduler = get_warmup_scheduler(
+        optimizer, 1000, training_specs["n_epochs"] * len(train_loader)
+    )
     my_metrics = metrics(training_specs["problem_type"])
     my_metrics_val = metrics(training_specs["problem_type"])
     my_loss_fnc = loss_fnc(training_specs["problem_type"])
@@ -373,9 +365,9 @@ def train_cnn_model(
         for i, batch in tqdm(enumerate(train_loader), total=len(train_loader)):
             optimizer.zero_grad()
             DNA, labels = batch_handler(batch, device)
-            output = model(DNA)            
-            #l1_norm_last_layer = model.ffn.weight.norm(p=1) # TMP will only work for GSR and CNN
-            loss = my_loss_fnc(output, labels, weights) #+ 0.001 * l1_norm_last_layer
+            output = model(DNA)
+            # l1_norm_last_layer = model.ffn.weight.norm(p=1) # TMP will only work for GSR and CNN
+            loss = my_loss_fnc(output, labels, weights)  # + 0.001 * l1_norm_last_layer
             loss.backward()
             optimizer.step()
             scheduler.step()
@@ -386,7 +378,6 @@ def train_cnn_model(
         my_metrics.concatenate_epoch_logs(epoch)
         print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
-       
         model.eval()
         with torch.no_grad():
             for i, batch in tqdm(enumerate(val_loader), total=len(val_loader)):
@@ -416,6 +407,7 @@ def train_cnn_model(
 
     return model, my_metrics, my_metrics_val
 
+
 def get_loader(mRNA, TSS_sequences, TTS_sequences, batch_size, shuffle):
     loader = get_dataloader(
         mRNA,
@@ -426,8 +418,6 @@ def get_loader(mRNA, TSS_sequences, TTS_sequences, batch_size, shuffle):
     )
     return loader
 
-# Now the idea is to construct a function that will take the training specs and the model specs
-# and return the model, the training metrics and the validation metrics
 
 def train_cnn_model_from_specs(
     model,
@@ -439,14 +429,10 @@ def train_cnn_model_from_specs(
     device,
     store_folder,
     name,
-):  
+):
     os.makedirs(store_folder, exist_ok=True)
     training_loader = get_loader(
-        mRNA_train,
-        TSS_sequences,
-        TTS_sequences,
-        training_specs["batch_size"],
-        True
+        mRNA_train, TSS_sequences, TTS_sequences, training_specs["batch_size"], True
     )
     validation_loader = get_loader(
         mRNA_validation,
@@ -456,7 +442,10 @@ def train_cnn_model_from_specs(
         False,
     )
     weights = None
-    if training_specs["problem_type"] == "DE_per_treatment" or training_specs["problem_type"] == "quantiles_per_treatment":
+    if (
+        training_specs["problem_type"] == "DE_per_treatment"
+        or training_specs["problem_type"] == "quantiles_per_treatment"
+    ):
         # get the proportions
         weights = []
         for i in mRNA_train.columns[1:-1]:
@@ -471,7 +460,7 @@ def train_cnn_model_from_specs(
         weights = torch.tensor(weights).float().to(device)
         print("Weights:")
         print(weights)
-    
+
     # train the model
     model, my_metrics, my_metrics_val = train_cnn_model(
         model,
@@ -488,18 +477,20 @@ def train_cnn_model_from_specs(
     return model, my_metrics, my_metrics_val
 
 
-def test_cnn(   model,
-                training_specs,
-                TSS_sequences,
-                TTS_sequences,
-                mRNA_test,
-                device,
-                store_folder,
-                treatments,
-                save_results = True,
-                return_model = False,
-                return_metrics = False):
-    
+def test_cnn(
+    model,
+    training_specs,
+    TSS_sequences,
+    TTS_sequences,
+    mRNA_test,
+    device,
+    store_folder,
+    treatments,
+    save_results=True,
+    return_model=False,
+    return_metrics=False,
+):
+
     model.eval()
     model = model.to(device)
 
@@ -520,30 +511,33 @@ def test_cnn(   model,
         for i, batch in tqdm(enumerate(test_loader), total=len(test_loader)):
             DNA, labels = handle_batch(batch, device)
             output = model(DNA)
-            loss = my_loss_fn(output, labels, None) # The loss is not important anyway!
+            loss = my_loss_fn(output, labels, None)  # The loss is not important anyway!
             my_metrics.add_batch(0, output, labels, loss.item())
             outputs.append(output.cpu().detach().numpy())
             inputs.append(labels.cpu().detach().numpy())
-    
+
     my_metrics.concatenate_epoch_logs(0)
     Y_hat = np.concatenate(outputs, axis=0)
     Y = np.concatenate(inputs, axis=0)
-    
-    if training_specs['problem_type'] in ["log2FC", "amplitude"]:
+
+    if training_specs["problem_type"] in ["log2FC", "amplitude"]:
         # get R2 and pearson correlation
         m = {}
         m["R2"] = []
         m["Pearson"] = []
-        m['sign_accuracy'] = []
-        m['Spearman'] = []
+        m["sign_accuracy"] = []
+        m["Spearman"] = []
         for i in range(Y.shape[1]):
             m["R2"].append(my_metrics._R2(Y_hat[:, i], Y[:, i]))
             m["Pearson"].append(np.corrcoef(Y_hat[:, i], Y[:, i])[0, 1])
-            m['sign_accuracy'].append(np.mean(np.sign(Y_hat[:, i]) == np.sign(Y[:, i])))
-            m['Spearman'].append(stats.spearmanr(Y_hat[:, i], Y[:, i]).statistic)
+            m["sign_accuracy"].append(np.mean(np.sign(Y_hat[:, i]) == np.sign(Y[:, i])))
+            m["Spearman"].append(stats.spearmanr(Y_hat[:, i], Y[:, i]).statistic)
 
         print(m)
-    elif training_specs['problem_type'] in ["DE_per_treatment", "quantiles_per_treatment"]:
+    elif training_specs["problem_type"] in [
+        "DE_per_treatment",
+        "quantiles_per_treatment",
+    ]:
         # get MCC per class
         m = {}
         m["MCC"] = []
@@ -559,9 +553,9 @@ def test_cnn(   model,
             m["AUC"].append(roc_auc_score(Y[mask, i], Y_hat[mask, i]))
             m["F1"].append(f1_score(Y[mask, i], Y_hat[mask, i] > 0.5))
         print(m)
-    
+
     # construct DF with m
-    #import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     m = pd.DataFrame(m).T
     m.columns = treatments
     if save_results:
