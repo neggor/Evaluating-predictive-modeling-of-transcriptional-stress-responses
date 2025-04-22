@@ -17,6 +17,7 @@ from scipy.stats import gaussian_kde
 from scipy import stats
 from Code.CNN_model.res_CNN import myCNN
 import json
+from matplotlib.patches import Patch
 
 mapping = {
     "B": "MeJA",
@@ -33,6 +34,8 @@ mapping = {
     "T": "Pep1",
 }
 
+magentaorgange_palette = ["#D35FB7", "#FF8C00"]
+coraldarkteal_palette =["#FF7F50", "#2CA58D"]
 
 def set_plot_style():
     # Set Seaborn style + Matplotlib overrides
@@ -120,7 +123,6 @@ def _figure_1(
     # now make a lineplot for treatment and control
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
     for gene in X["gene"].unique():
-        # import pdb; pdb.set_trace()
         X_gene_treatment = X[(X["gene"] == gene) & ((X["treatment"] != "control"))]
         X_gene_control = X[(X["gene"] == gene) & ((X["treatment"] == "control"))]
         fold_change = (
@@ -197,7 +199,7 @@ def figure_1a(figsize=(10, 7)):
     plt.savefig("Images/figure_1a.pdf", bbox_inches="tight")
 
 
-def figure_2a(figsize=(10, 7), pvals=True, metric="MCC"):
+def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     """
     Plot the figure 2a
     """
@@ -366,6 +368,8 @@ def figure_1b(
     )
     # plot the ratio only for the treatment
     ax2 = ax.twinx()  # Create a second y-axis
+    ax2.spines["right"].set_visible(True)
+    # and the value color
     sns.lineplot(
         data=ratio_df, x="time", y="ratio", linestyle="--", ax=ax2, color="black"
     )
@@ -414,8 +418,8 @@ def figure_1b(
         zorder=10,
     )
     # add the legend
-    ax2.set_ylabel("Ratio (Treatment/Control)", color="black")
-    ax2.tick_params(axis="y", labelcolor="black")
+    ax2.set_ylabel("Ratio")
+    #ax2.tick_params(axis="y", labelcolor="#555555")
     # x title
     ax.set_xlabel("Time (min.)")
     # y title
@@ -430,31 +434,35 @@ def figure_1b(
     ax.set_ylim(-0.01, 1.2 * np.max(X["fitted_values"]))
     ax.set_xlim(np.min(X["time"]) * 0.97, 1.001 * np.max(X["time"]))
 
-    # Make axis lines more visible
-    ax.spines["bottom"].set_linewidth(1.5)
-    ax.spines["right"].set_linewidth(1.5)
-    ax.spines["right"].set_color("black")
-    ax.spines["left"].set_linewidth(1.5)
-    ax.spines["left"].set_color("black")
-    ax.spines["bottom"].set_color("black")
+    for spine in ["left", "bottom", "right"]:
+        ax.spines[spine].set_linewidth(1.5)
+        ax.spines[spine].set_color("black")
 
-    ax2.spines["bottom"].set_linewidth(1.5)
-    ax2.spines["right"].set_linewidth(1.5)
-    ax2.spines["right"].set_color("black")
-    ax2.spines["left"].set_linewidth(1.5)
-    ax2.spines["left"].set_color("black")
-    ax2.spines["bottom"].set_color("black")
+    for spine in ["right"]:
+        ax2.spines[spine].set_visible(True)
+        ax2.spines[spine].set_linewidth(1.5)
+        ax2.spines[spine].set_color("black")
+
 
     # fill the color of the axes
 
     ax.tick_params(axis="both", which="major", width=1.5, length=6)
     ax.tick_params(axis="both", which="minor", width=1.5, length=4)
 
-    # change the legend title to "condition"
-    ax.legend(title="Condition")
-    # move legend to the right
-    ax.legend(loc="upper right", frameon=False, ncol=1)
+    # Define custom legend handles
+    legend_elements = [
+        Patch(facecolor="green", edgecolor="black", label="control"),
+        Patch(facecolor="dimgray", edgecolor="black", label=mapping[treatment]),
+    ]
 
+    # Add the custom legend
+    ax.legend(
+        handles=legend_elements,
+        title="Condition",
+        loc="upper right",
+        frameon=False,
+        ncol=1,
+)
     plt.savefig("Images/figure_1b.pdf", bbox_inches="tight")
 
 
@@ -500,7 +508,6 @@ def figure_2b(figsize=(10, 7), pvals=True, metric="Spearman"):
     print(res[res["in_type"] == "L. (6mer)"])
 
     ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
-    # sns.swarmplot(x="outcome_type", y="value", data=res, hue="in_type", dodge=True, color=".25", legend=False)
     sns.swarmplot(
         x="outcome_type",
         y="value",
@@ -655,7 +662,7 @@ def figure_3a(outcome="log2FC"):
         print(Y_hat.shape)
 
         Y_hats.append(Y_hat[np.newaxis, :])
-        break
+        
 
     Y_hat = np.concatenate(Y_hats, axis=0)
     Y_hat = np.mean(Y_hat, axis=0)
@@ -731,7 +738,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     my_concat = pd.DataFrame()
 
     # CNN Model
-    for i in range(0, 1):
+    for i in range(0, 5):
         metrics = pd.read_csv(
             f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/test_metrics.csv",
             index_col=0,
@@ -789,8 +796,50 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     my_concat.rename(columns={"index": "Metric"}, inplace=True)
     # apply mapping to the treatment
     my_concat["treatment"] = my_concat["Metric"].replace(mapping)
-    # Plotting
-    # plt.figure(figsize=(6, 8), dpi=300)
+
+    # Simulate random model
+    #DNA_specs = [814, 200, 200, 814]
+    #treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    #(
+    #    mRNA_train,
+    #    mRNA_validation,
+    #    mRNA_test,
+    #    TSS_sequences,
+    #    TTS_sequences,
+    #    metadata,
+    #) = load_data(
+    #    train_proportion=0.80,
+    #    val_proportion=0.1,
+    #    DNA_specs=DNA_specs,
+    #    treatments=treatments,
+    #    problem_type=outcome,
+    #    mask_exons=False,
+    #    dna_format="One_Hot_Encoding",
+    #)
+#
+#
+    #random_results = []
+    #np.random.seed(42)  # for reproducibility
+    #for treatment in treatments:
+    #    Y = mRNA_test[treatment]
+    #    # get the sign
+    #    Y_sign = Y.apply(lambda x: 1 if x > 0 else 0)
+    #    for replicate in range(5):
+    #        correct = np.random.binomial(
+    #            n=Y.shape[0],
+    #            p=0.5,
+    #        )
+    #        # calculate the accuracy
+    #        acc = correct / Y.shape[0]
+    #        random_results.append({
+    #            "sign_accuracy": acc,
+    #            "replicate": replicate,
+    #            "model": "Random",
+    #            "treatment": mapping[treatment],
+    #    })
+#
+    #random_df = pd.DataFrame(random_results)
+    #my_concat = pd.concat([my_concat, random_df], ignore_index=True)
 
     # Boxplot for CNN
     sns.boxplot(
@@ -804,7 +853,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
 
     # Stripplot (dots) for all other models
     strip = sns.stripplot(
-        data=my_concat[my_concat["model"] != "CNN"],
+        data=my_concat[(my_concat["model"] != "CNN") & (my_concat["model"] != "Random")],
         x="treatment",
         y="sign_accuracy",
         hue="model",
@@ -813,9 +862,18 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         alpha=0.8,
         linewidth=0.5,
         size=10,
-        palette={"6-mer": "#1f77b4", "DAPseq": "#ff7f0e", "AgroNT": "#d62728"},
+        palette={"6-mer": "#1f77b4", "DAPseq": "#ff7f0e", "AgroNT": "#d62728", "Random": "#999999"},
     )
 
+    #sns.boxplot(
+    #    data=my_concat[my_concat["model"] == "Random"],
+    #    x="treatment",
+    #    y="sign_accuracy",
+    #    color="#999999",
+    #    width=0.2,
+    #    showfliers=False,
+    #)
+    
     plt.xticks(rotation=45, ha="right")
     if outcome == "log2FC":
         plt.ylabel("LFC.T direction correctly predicted (proportion)")
@@ -846,16 +904,374 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
 
 
 def figure_3c(figsize=(10, 7), outcome="log2FC"):
-    pass
+    DNA_specs = [814, 200, 200, 814]
+    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    mapping = {
+        "B": "MeJA",
+        "C": "SA",
+        "D": "SA+MeJA",
+        "G": "ABA",
+        "H": "ABA+MeJA",
+        "X": "3-OH10",
+        "Y": "chitooct",
+        "Z": "elf18",
+        "W": "flg22",
+        "V": "nlp20",
+        "U": "OGs",
+        "T": "Pep1",
+    }
+
+    training_specs = {
+                                "lr": 7e-5,
+                                "weight_decay": 0.00001,
+                                "n_epochs": 1500,
+                                "patience": 25,
+                                "problem_type": outcome,
+                                "equivariant": True,
+                                "n_labels": len(treatments),
+                                "batch_size": 64,
+                            }
+    (mRNA_train,
+    mRNA_validation,
+    mRNA_test_CNN,
+    TSS_sequences,
+    TTS_sequences,
+    metadata) = load_data(train_proportion=0.85,
+                        val_proportion=0.05,
+                        DNA_specs=DNA_specs,
+                        treatments=treatments,
+                        problem_type=outcome,
+                        mask_exons=False,
+                        dna_format="One_Hot_Encoding")
+
+
+    Y_hats = []
+    cnn_config_url = f"Results/CNN/{outcome}/2048/exons_masked_False/config.json"
+    with open(cnn_config_url, "r") as f:
+        cnn_config = json.load(f)
+
+    for i in range(0, 5):
+        model_weights = (
+            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/best_model.pth"
+        )
+        # load the model
+        model = myCNN(
+            n_labels=cnn_config["n_labels"],
+            n_ressidual_blocks=cnn_config["n_ressidual_blocks"],
+            in_channels=cnn_config["in_channels"],
+            out_channels=cnn_config["out_channels"],
+            kernel_size=cnn_config["kernel_size"],
+            max_pooling_kernel_size=cnn_config["max_pooling_kernel_size"],
+            dropout_rate=cnn_config["dropout_rate"],
+            stride=cnn_config["stride"],
+            RC_equivariant=cnn_config["equivariant"],
+        )
+        # load the weights
+        model.load_state_dict(torch.load(model_weights))
+
+        Y_hat, Y = test_cnn(model=model,
+                    training_specs=training_specs,
+                    TSS_sequences=TSS_sequences,
+                    TTS_sequences=TTS_sequences,
+                    mRNA_test= pd.concat([mRNA_test_CNN]),
+                    device=torch.device('cuda'),
+                    treatments=treatments,
+                    store_folder= f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}", # does not matter
+                    save_results=False)
+        
+        print(Y_hat.shape)
+
+        Y_hats.append(Y_hat[np.newaxis, :])
+        #break
+        
+    Y_hat = np.concatenate(Y_hats, axis=0)
+    Y_hat = np.mean(Y_hat, axis=0)
+    Y_hat = pd.DataFrame(Y_hat, columns=[mapping[t] for t in treatments])
+
+    Y = pd.DataFrame(Y, columns=[mapping[t] for t in treatments])
+    
+    # get the correlation matrix
+    #correlation_matrix = np.corrcoef(Y_hat.T)
+    correlation_matrix = stats.spearmanr(Y_hat).statistic
+    # plot the correlation matrix
+    plt.figure(figsize=figsize, dpi=300)
+    sns.heatmap(correlation_matrix, cmap='coolwarm', annot=True, cbar=False,  annot_kws={"size": 8, "color": "white", "weight": "bold"}, fmt=".2f", linewidths=0.5, linecolor="black")
+    # reduce the fontsize of the numbers inside the heatmap
+
+    # add the names of the treatments
+    plt.xticks(np.arange(len(treatments)) + 0.5, labels=[mapping[t] for t in treatments], rotation=40, fontsize=10)
+    plt.yticks(np.arange(len(treatments)) + 0.5, labels=[mapping[t] for t in treatments], rotation=40, fontsize=10)
+    # remove colormap
+    #plt.colorbar().remove()
+
+    # save the figure
+    plt.savefig(f"Images/figure_3c.pdf", bbox_inches="tight")
+
+def figure_4a(figsize=(10, 7), metric = "AUC"):
+    res = pd.read_csv("Results/Results_table.csv")
+    # Change the "in_type" column name to "Model type"
+    res = res.rename(columns={"in_type": "Model type"})
+    # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
+    res["Model type"] = res["Model type"].replace(
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+    )
+    # remove the 6mer, DAPseq and AgroNT
+    res = res[res["Model type"] == "CNN"]
+    res = res[res['rc'] != 'False']
+    # more name changes
+    res["outcome_type"] = res["outcome_type"].replace(
+        {
+            "quantiles_per_treatment": "S.Q",
+            "DE_per_treatment": "S.DE",
+            "amplitude": "LFC.A",
+            "log2FC": "LFC.T",
+        }
+    )
+    # select only log2FC and sensitivity to treatment
+    # the idea is to make a 2x2 plot, where the first row is for length 
+    # and the second row is for exons.
+    # the first column is for sensitivity and the second column is for log2FC
+    
+    plt.figure(figsize=figsize, dpi=300)
+    res_length = res[res["exons"] != "masked"]
+    
+    # remove all not in quantiles_per_treatment or DE_per_treatment
+    res_length = res_length[
+        (res_length["outcome_type"] == "S.DE")
+        | (res_length["outcome_type"] == "S.Q")
+    ]
+
+    res_length = res_length[res_length["metric"] == metric]
+    ax = sns.boxplot(x="outcome_type", y="value", data=res_length, hue="length", palette=magentaorgange_palette)
+    sns.swarmplot(x="outcome_type", y="value", data=res_length, hue="length", dodge=True, color=".25", legend=False, marker=".")
+    pairs = [
+        (
+            (res_length["outcome_type"].unique()[0], "4096"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+    ]
+    
+    annotator = Annotator(
+        ax, data=res_length, x="outcome_type", y="value", hue="length", pairs=pairs
+    )
+    annotator.configure(test="Mann-Whitney", text_format="star", loc="inside", fontsize=10)
+    annotator.apply_and_annotate()
+    plt.ylabel(f"{metric}")
+    plt.xlabel("")
+    plt.legend(loc="upper center", frameon=False, ncol=1)
+    plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+    # save the figure
+    plt.savefig("Images/figure_4a.pdf", bbox_inches="tight")
+
+
+def figure_4b(figsize=(10, 7), metric = "Spearman"):
+    res = pd.read_csv("Results/Results_table.csv")
+    # Change the "in_type" column name to "Model type"
+    res = res.rename(columns={"in_type": "Model type"})
+    # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
+    res["Model type"] = res["Model type"].replace(
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+    )
+    # remove the 6mer, DAPseq and AgroNT
+    res = res[res["Model type"] == "CNN"]
+    res = res[res['rc'] != 'False']
+    # more name changes
+    res["outcome_type"] = res["outcome_type"].replace(
+        {
+            "quantiles_per_treatment": "S.Q",
+            "DE_per_treatment": "S.DE",
+            "amplitude": "LFC.A",
+            "log2FC": "LFC.T",
+        }
+    )
+    # select only log2FC and sensitivity to treatment
+    # the idea is to make a 2x2 plot, where the first row is for length 
+    # and the second row is for exons.
+    # the first column is for sensitivity and the second column is for log2FC
+    
+    plt.figure(figsize=figsize, dpi=300)
+    res_length = res[res["exons"] != "masked"]
+    # remove all not in quantiles_per_treatment or DE_per_treatment
+    res_length = res_length[
+        (res_length["outcome_type"] == "LFC.T")
+        | (res_length["outcome_type"] == "LFC.A")
+    ]
+
+    res_length = res_length[res_length["metric"] == metric]
+
+
+    ax = sns.boxplot(x="outcome_type", y="value", data=res_length, hue="length", palette=magentaorgange_palette)
+    sns.swarmplot(x="outcome_type", y="value", data=res_length, hue="length", dodge=True, color=".25", legend=False, marker=".")
+    pairs = [
+        (
+            (res_length["outcome_type"].unique()[0], "4096"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+    ]
+    
+    annotator = Annotator(
+        ax, data=res_length, x="outcome_type", y="value", hue="length", pairs=pairs
+    )
+    annotator.configure(test="Mann-Whitney", text_format="star", loc="inside", fontsize=10)
+    annotator.apply_and_annotate()
+    if metric == "Spearman":
+        plt.ylabel("Spearman Correlation")
+    elif metric == "Pearson":
+        plt.ylabel("Pearson Correlation")
+
+    plt.xlabel("")
+    plt.legend(loc="upper center", frameon=False, ncol=1)
+    plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+    # save the figure
+    plt.savefig("Images/figure_4b.pdf", bbox_inches="tight")
+
+def figure_4c(figsize=(10, 7), metric = "AUC"):
+    res = pd.read_csv("Results/Results_table.csv")
+    # Change the "in_type" column name to "Model type"
+    res = res.rename(columns={"in_type": "Model type"})
+    # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
+    res["Model type"] = res["Model type"].replace(
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+    )
+    # remove the 6mer, DAPseq and AgroNT
+    res = res[res["Model type"] == "CNN"]
+    res = res[res['rc'] != 'False']
+    # more name changes
+    res["outcome_type"] = res["outcome_type"].replace(
+        {
+            "quantiles_per_treatment": "S.Q",
+            "DE_per_treatment": "S.DE",
+            "amplitude": "LFC.A",
+            "log2FC": "LFC.T",
+        }
+    )
+    # select only log2FC and sensitivity to treatment
+    # the idea is to make a 2x2 plot, where the first row is for length 
+    # and the second row is for exons.
+    # the first column is for sensitivity and the second column is for log2FC
+    
+    plt.figure(figsize=figsize, dpi=300)
+    res_length = res[res["length"] != "4096"]
+    # remove all not in quantiles_per_treatment or DE_per_treatment
+    res_length = res_length[
+        (res_length["outcome_type"] == "S.DE")
+        | (res_length["outcome_type"] == "S.Q")
+    ]
+
+    res_length = res_length[res_length["metric"] == metric]
+
+
+    ax = sns.boxplot(x="outcome_type", y="value", data=res_length, hue="exons", palette=coraldarkteal_palette)
+    sns.swarmplot(x="outcome_type", y="value", data=res_length, hue="exons", dodge=True, color=".25", legend=False, marker=".")
+    pairs = [
+        (
+            (res_length["outcome_type"].unique()[0], "masked"),
+            (res_length["outcome_type"].unique()[0], "all"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "masked"),
+            (res_length["outcome_type"].unique()[1], "all"),
+        ),
+    ]
+    
+    annotator = Annotator(
+        ax, data=res_length, x="outcome_type", y="value", hue="exons", pairs=pairs
+    )
+    annotator.configure(test="Mann-Whitney", text_format="star", loc="inside", fontsize=10)
+    annotator.apply_and_annotate()
+    plt.ylabel(f"{metric}")
+
+    plt.xlabel("")
+    plt.legend(loc="upper center", frameon=False, ncol=1)
+    plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+    # save the figure
+    plt.savefig("Images/figure_4c.pdf", bbox_inches="tight")
+
+def figure_4d(figsize=(10, 7), metric = "Spearman"):
+    res = pd.read_csv("Results/Results_table.csv")
+    # Change the "in_type" column name to "Model type"
+    res = res.rename(columns={"in_type": "Model type"})
+    # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
+    res["Model type"] = res["Model type"].replace(
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+    )
+    # remove the 6mer, DAPseq and AgroNT
+    res = res[res["Model type"] == "CNN"]
+    res = res[res['rc'] != 'False']
+    # more name changes
+    res["outcome_type"] = res["outcome_type"].replace(
+        {
+            "quantiles_per_treatment": "S.Q",
+            "DE_per_treatment": "S.DE",
+            "amplitude": "LFC.A",
+            "log2FC": "LFC.T",
+        }
+    )
+    # select only log2FC and sensitivity to treatment
+    # the idea is to make a 2x2 plot, where the first row is for length 
+    # and the second row is for exons.
+    # the first column is for sensitivity and the second column is for log2FC
+    
+    plt.figure(figsize=figsize, dpi=300)
+    res_length = res[res["length"] != "4096"]
+    # remove all not in quantiles_per_treatment or DE_per_treatment
+    res_length = res_length[
+        (res_length["outcome_type"] == "LFC.T")
+        | (res_length["outcome_type"] == "LFC.A")
+    ]
+
+    res_length = res_length[res_length["metric"] == metric]
+
+
+    ax = sns.boxplot(x="outcome_type", y="value", data=res_length, hue="exons", palette=coraldarkteal_palette)
+    sns.swarmplot(x="outcome_type", y="value", data=res_length, hue="exons", dodge=True, color=".25", legend=False, marker=".")
+    pairs = [
+        (
+            (res_length["outcome_type"].unique()[0], "masked"),
+            (res_length["outcome_type"].unique()[0], "all"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "masked"),
+            (res_length["outcome_type"].unique()[1], "all"),
+        ),
+    ]
+    
+    annotator = Annotator(
+        ax, data=res_length, x="outcome_type", y="value", hue="exons", pairs=pairs
+    )
+    annotator.configure(test="Mann-Whitney", text_format="star", loc="inside", fontsize=10)
+    annotator.apply_and_annotate()
+    if metric == "Spearman":
+        plt.ylabel("Spearman Correlation")
+    elif metric == "Pearson":
+        plt.ylabel("Pearson Correlation")
+
+    plt.xlabel("")
+    plt.legend(loc="upper center", frameon=False, ncol=1)
+    plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+    # save the figure
+    plt.savefig("Images/figure_4d.pdf", bbox_inches="tight")
 
 
 if __name__ == "__main__":
     set_plot_style()
-    # figure_1a()
-    # figure_1a()
-    # figure_1b()
-    # figure_2a()
-    # figure_2b()
-    # plt.show()
-    # figure_3b()
-    # figure_3a()
+    figure_1a()
+    figure_1a()
+    figure_1b()
+    figure_2a()
+    figure_2b()
+    figure_3c()
+    figure_3a()
+    figure_3b()
+    figure_4a()
+    figure_4b()
+    figure_4c()
+    figure_4d()
