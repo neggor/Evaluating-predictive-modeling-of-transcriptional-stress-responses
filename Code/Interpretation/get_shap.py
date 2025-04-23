@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+
 sys.path.append(".")
 import os
 import torch
@@ -216,8 +217,6 @@ def get_shap(
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    DNA_specs = [814, 200, 200, 814]
     outcome_types = [
         "log2FC",
         "amplitude",
@@ -293,7 +292,7 @@ def main():
             [mapping[t] for t in treatments],
             model,
             "cuda",
-            n_background=5,
+            n_background=10,
         )
 
 
