@@ -437,7 +437,9 @@ def test_linear(X_test, Y_test, reg, model, folder, name, metadata):
         metrics["R2"] = reg.score(X_test, Y_test)
         metrics["Pearson"] = np.corrcoef(Y_test.ravel(), Y_pred.ravel())[0, 1]
         metrics["Spearman"] = stats.spearmanr(Y_test.ravel(), Y_pred.ravel()).statistic
-        metrics["sign_accuracy"] = np.mean(np.sign(Y_test.ravel()) == np.sign(Y_pred.ravel()))
+        metrics["sign_accuracy"] = np.mean(
+            np.sign(Y_test.ravel()) == np.sign(Y_pred.ravel())
+        )
         # save predictions
         np.save(f"{folder}/{name}_predictions.npy", Y_pred)
         # save metrics
