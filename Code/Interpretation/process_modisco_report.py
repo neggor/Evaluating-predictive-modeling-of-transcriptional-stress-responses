@@ -10,7 +10,9 @@ from scipy.spatial.distance import squareform
 import subprocess
 from tqdm import tqdm
 import matplotlib.colors as mcolors
-
+import requests
+from bs4 import BeautifulSoup
+import time
 
 def filter_based_on_importance(PWM, CWM, threshold=0.3):
     score = np.sum(np.abs(CWM), axis=1)
@@ -61,62 +63,6 @@ def plot_pattern_ax(PWM: np.ndarray, ax):
     pwm_df.columns = ["A", "C", "G", "T"]
     # Visualize it as a sequence logo
     logo = lm.Logo(pwm_df, ax=ax)
-
-
-def pattern_motif_matching(h5_file, folder):
-    with h5py.File(h5_file, "r") as f:
-        # list all keys
-        patterns = {}
-        for direction in ["neg_patterns", "pos_patterns"]:
-            print("Direction:", direction)
-            if direction not in f:
-                continue
-            for key in f[direction].keys():
-                # get n_seqlets
-                if f[direction][key]["seqlets"]["n_seqlets"][0] < 1000:
-                    continue
-                PWM = np.array(f[direction][key]["sequence"][:])
-                CWM = np.array(f[direction][key]["contrib_scores"][:])
-                # filtered_empirical_sequence = filter_based_on_entropy(PWM, 0.6)
-                PWM, CWM = filter_based_on_importance(PWM, CWM, 0.3)
-                if PWM is None or PWM.shape[0] < 3:
-                    continue
-                # PWM, CWM = filter_based_on_entropy(PWM, CWM, 0.6)
-                # if PWM is None or PWM.shape[0] < 3:
-                #    continue
-                print(" ", key)
-                plot_pattern(CWM, folder, direction + "_" + key + "_CWM")
-                plot_pattern(PWM, folder, direction + "_" + key + "_PWM")
-                # threshold the negative shannon entropy
-                nseq = str(f[direction][key]["seqlets"]["n_seqlets"][0])
-                print(nseq)
-                # if nseq > "30":
-                patterns[direction + "_" + key + f"_nseq_{nseq}"] = PWM
-
-    with open(f"{folder}/input_pwms.meme", "w") as f:
-        # Write the MEME header
-        f.write("MEME version 4\n\n")
-        f.write("ALPHABET= ACGT\n\n")
-        f.write("Background letter frequencies\n")
-        f.write(f"A 0.25 \n")
-        f.write(f"C 0.25 \n")
-        f.write(f"G 0.25 \n")
-        f.write(f"T 0.25 \n\n")
-        f.write("strands: + -\n\n")
-
-        # Loop over each PWM array, assigning a name
-        for i, pwm_matrix_key in enumerate(patterns, start=1):
-            f.write(f"MOTIF {pwm_matrix_key}\n")
-            f.write("letter-probability matrix:\n")
-
-            # Write each position row in the matrix
-            for row in patterns[pwm_matrix_key]:
-                f.write(" ".join(map(str, row)) + "\n")
-            f.write("\n")
-
-    cmd = f"tomtom -dist pearson -thresh 0.1 -oc {folder}/tomtom_output {folder}/input_pwms.meme Data/Processed/MOTIF/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt"
-    os.system(cmd)
-
 
 def construct_seqlet_histogram(
     h5_file, store_path=".", offset=1, DNA_specs=[814, 200, 200, 814], binning_size=1
@@ -318,8 +264,8 @@ def extract_patterns(h5_file, treat_name, seqlet_threshold=500):
                 PWM = np.array(f[direction][key]["sequence"][:])
                 CWM = np.array(f[direction][key]["contrib_scores"][:])
                 n_seqlets = str(f[direction][key]["seqlets"]["n_seqlets"][0])
-                PWM, CWM = filter_based_on_importance(PWM, CWM, 0.4)
-                PWM, CWM = filter_based_on_entropy(PWM, CWM, 0.6)
+                PWM, CWM = filter_based_on_importance(PWM, CWM, 0.45)
+                PWM, CWM = filter_based_on_entropy(PWM, CWM, 0.7)
                 if PWM is None or PWM.shape[0] < 3:
                     continue
 
@@ -512,28 +458,10 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
     ]
     print(cluster_table)
     # if a cluster does not have more than 1000 seqlets, in total we remove it:
-    cluster_table = cluster_table[cluster_table.iloc[:, :-2].abs().sum(axis=1) > 500]
-    # Replace values with "pos", "neg", or "both"
-    # for treat in ["MeJA", "SA", "SA+MeJA", "ABA", "ABA+MeJA", "PTI"]:
-    #    cluster_table[treat] = cluster_table[treat].apply(
-    #        lambda x: "pos" if x > 0 else ("neg" if x < 0 else "NA")
-    #    )
-
-    # Save the table
-
-    # Plot dendrogram
-    # plt.figure(figsize=(10, 5))
-    # plt.title("Hierarchical Clustering of Patterns")
-    # plt.xlabel("Pattern")
-    # plt.ylabel("Distance")
-    # dendrogram(linkage_matrix, labels=pattern_names, leaf_rotation=90)
-    # plt.tight_layout()  # Adjust layout to prevent label overlap
-    #
+    cluster_table = cluster_table[cluster_table.iloc[:, :-2].abs().sum(axis=1) > 100]
     # Now enrichment for each group
     os.makedirs(output_dir, exist_ok=True)
-    # cluster_table.to_csv(f"{output_dir}/cluster_table.csv")
-    # plt.savefig(f"{output_dir}/dendrogram.png")
-    # construct dictionary of list of PWM
+   
     cluster_dict = {}
     for i, (name, cluster) in enumerate(cluster_assignments.items()):
         if cluster not in cluster_dict:
@@ -559,6 +487,7 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
         # now we put the query consensus in the table corresponding to the group
         cluster_table.loc[group_name, "best_match"] = (
             motif_to_tf[best_match] if best_match in motif_to_tf else "No match"
+            #map_tf_to_family(best_match)  if best_match in motif_to_tf else "No match"
         )
         cluster_table.loc[group_name, "query_consensus"] = query_consensus
         if best_match == "No match":
@@ -573,125 +502,30 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
     cluster_table.to_csv(f"{output_dir}/cluster_table.csv")
     # display a nice latex table
     print(cluster_table)
-    plt.savefig(f"{output_dir}/dendrogram.png")
-    color_map = {"pos": "green", "neg": "red", "NA": "white"}
 
-    # fig, ax = plt.subplots(figsize=(cluster_table.shape[1] *0.5, cluster_table.shape[0]*0.5), dpi=300)
-    # make a heatmap of the table treatments x clusters based on seqlets
-    fig, ax = plt.subplots(figsize=(14, 10), dpi=300)
-    heatmap_data = cluster_table.iloc[
-        :, :-2
-    ]  # Exclude best_match and query_consensus columns
-    # Define the maximum absolute value for symmetric scaling
-    vmax = heatmap_data.abs().max().max()
+def map_tf_to_family(TF_ID):
+    url = f"https://jaspar.elixir.no/matrix/{TF_ID}/"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Create a custom colormap with white at the center
-    custom_cmap = mcolors.LinearSegmentedColormap.from_list(
-        "custom_RdWGn", ["red", "white", "green"], N=256
-    )
-
-    # Create a normalization that sets 0 to white
-    norm = mcolors.TwoSlopeNorm(vmin=-vmax, vcenter=0, vmax=vmax)
-
-    # Create the heatmap
-    heatmap = ax.imshow(heatmap_data, cmap=custom_cmap, aspect="auto", norm=norm)
-
-    # Add grid lines
-    ax.set_xticks(np.arange(-0.5, heatmap_data.shape[1], 1), minor=True)
-    ax.set_yticks(np.arange(-0.5, heatmap_data.shape[0], 1), minor=True)
-    ax.grid(which="minor", color="black", linestyle="-", linewidth=2)
-    ax.tick_params(which="minor", bottom=False, left=False)
-
-    # Remove the y label and the x label
-    ax.set_ylabel("")
-    ax.set_xlabel("")
-
-    # Add text labels for each cell
-    for i in range(heatmap_data.shape[0]):
-        for j in range(heatmap_data.shape[1]):
-            value = heatmap_data.iloc[i, j]
-            ax.text(
-                j,
-                i,
-                f"{value:.0f}",
-                ha="center",
-                va="center",
-                fontsize=10,
-                color="black",
-            )
-
-    # Add text labels for best_match and query_consensus
-    for i, row in cluster_table.iterrows():
-        ax.text(
-            heatmap_data.shape[1] - 0.4,
-            i,
-            row["best_match"],
-            fontsize=12,
-            va="center",
-            ha="left",
-            color="black",
-        )
-        ax.text(
-            heatmap_data.shape[1] - 0.4,
-            i + 0.2,
-            row["query_consensus"][:10],
-            fontsize=8,
-            va="center",
-            ha="left",
-            color="black",
-        )
-
-    # Set axis labels and ticks
-    ax.set_xticks(range(heatmap_data.shape[1]))
-    ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
-    ax.set_xticklabels(heatmap_data.columns, ha="center", fontsize=12)
-    ax.set_yticks(range(heatmap_data.shape[0]))
-    ax.set_yticklabels(range(1, heatmap_data.shape[0] + 1), fontsize=10)
-    ax.set_xlabel("")
-    ax.set_ylabel("Cluster", fontsize=10)
-
-    # Adjust layout and save the figure
-    plt.tight_layout()
-    plt.savefig("treatment_best_match_table.png")
-    # plt.show()
-
+        # Loop through all rows in the metadata table
+        for row in soup.select("#matrix-detail tr"):
+            key_cell = row.find('td')
+            if key_cell and 'Family:' in key_cell.text:
+                value_cell = key_cell.find_next_sibling('td')
+                return value_cell.text.strip() if value_cell else 'Unknown'
+        
+        return 'Unknown'
+    except Exception as e:
+        print(f"Error with {TF_ID}: {e}")
+        return 'Unknown'
 
 if __name__ == "__main__":
-    # print(parse_tomtom_output("Results/Interpretation/cluster_patterns/cluster_5/tomtom.tsv"))
     cluster_patterns(
-        12,
+        5,
         "Results/Interpretation/cluster_patterns",
         "Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt",
         30,
     )
-    # print(parse_jaspar_meme("Data/Processed/MOTIF/JASPAR2022_CORE_plants_non-redundant_pfms_meme.txt"))
-    # mapping = {
-    #    "B": "MeJA",
-    #    "C": "SA",
-    #    "D": "SA+MeJA",
-    #    "G": "ABA",
-    #    "H": "ABA+MeJA",
-    #    "X": "3-OH10",
-    #    "Y": "chitooct",
-    #    "Z": "elf18",
-    #    "W": "flg22",
-    #    "V": "nlp20",
-    #    "U": "OGs",
-    #    "T": "Pep1",
-    # }
-#
-# for treat in mapping.values():
-#    if os.path.exists(f"Results/Interpretation/quantiles_per_treatment/{treat}/modisco_run/modisco_results.h5"):
-#        h5_file = f"Results/Interpretation/quantiles_per_treatment/{treat}/modisco_run/modisco_results.h5"
-#        folder = f"Results/Interpretation/quantiles_per_treatment/{treat}/modisco_run"
-#        os.makedirs(f"{folder}", exist_ok=True)
-#        pattern_motif_matching(h5_file, folder)
-#        construct_seqlet_histogram(h5_file, folder)
-
-
-# h5_file = f"Results/Interpretation/log2FC/elf18/modisco_run/modisco_results.h5"
-# folder = f"Results/Interpretation/log2FC/elf18/modisco_run"
-# os.makedirs(f"{folder}", exist_ok=True)
-# pattern_motif_matching(h5_file, folder)
-# construct_seqlet_histogram(h5_file, folder)
-# #

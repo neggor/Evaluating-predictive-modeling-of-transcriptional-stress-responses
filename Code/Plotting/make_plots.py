@@ -18,6 +18,7 @@ from scipy import stats
 from Code.CNN_model.res_CNN import myCNN
 import json
 from matplotlib.patches import Patch
+import matplotlib.colors as mcolors
 
 mapping = {
     "B": "MeJA",
@@ -1356,18 +1357,102 @@ def figure_4d(figsize=(10, 7), metric="Spearman"):
     # save the figure
     plt.savefig("Images/figure_4d.pdf", bbox_inches="tight")
 
+def figure_5c(figsize=(14, 10)):
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
+    # read the cluster table
+    cluster_table = pd.read_csv("Results/Interpretation/cluster_patterns/cluster_table.csv", index_col=0)
+    heatmap_data = cluster_table.iloc[
+        :, :-2
+    ]  # Exclude best_match and query_consensus columns
+    # Define the maximum absolute value for symmetric scaling
+    vmax = heatmap_data.abs().max().max()
+
+    # Create a custom colormap with white at the center
+    custom_cmap = mcolors.LinearSegmentedColormap.from_list(
+        "custom_RdWGn", ["red", "white", "green"], N=256
+    )
+
+    # Create a normalization that sets 0 to white
+    norm = mcolors.TwoSlopeNorm(vmin=-vmax, vcenter=0, vmax=vmax)
+
+    # Create the heatmap
+    heatmap = ax.imshow(heatmap_data, cmap=custom_cmap, aspect="auto", norm=norm)
+
+    # Add grid lines
+    ax.set_xticks(np.arange(-0.5, heatmap_data.shape[1], 1), minor=True)
+    ax.set_yticks(np.arange(-0.5, heatmap_data.shape[0], 1), minor=True)
+    ax.grid(which="minor", color="black", linestyle="-", linewidth=2)
+    ax.tick_params(which="minor", bottom=False, left=False)
+
+    # Remove the y label and the x label
+    ax.set_ylabel("")
+    ax.set_xlabel("")
+
+    # Add text labels for each cell
+    for i in range(heatmap_data.shape[0]):
+        for j in range(heatmap_data.shape[1]):
+            value = heatmap_data.iloc[i, j]
+            ax.text(
+                j,
+                i,
+                f"{value:.0f}",
+                ha="center",
+                va="center",
+                fontsize=10,
+                color="black",
+            )
+
+    # Add text labels for best_match and query_consensus
+    for i, row in cluster_table.iterrows():
+        ax.text(
+            heatmap_data.shape[1] - 0.4,
+            i,
+            row["best_match"],
+            fontsize=12,
+            va="center",
+            ha="left",
+            color="black",
+        )
+        ax.text(
+            heatmap_data.shape[1] - 0.4,
+            i + 0.2,
+            row["query_consensus"][:10],
+            fontsize=8,
+            va="center",
+            ha="left",
+            color="black",
+        )
+
+    # Set axis labels and ticks
+    ax.set_xticks(range(heatmap_data.shape[1]))
+    ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
+    ax.set_xticklabels(heatmap_data.columns, ha="center", fontsize=12)
+    ax.set_yticks(range(heatmap_data.shape[0]))
+    ax.set_yticklabels(range(1, heatmap_data.shape[0] + 1), fontsize=10)
+    ax.set_xlabel("")
+    ax.set_ylabel("Cluster", fontsize=10)
+
+    # Adjust layout and save the figure
+    plt.tight_layout()
+    plt.savefig("Images/figure_5c.pdf", bbox_inches="tight")
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1a()
-    figure_1a()
-    figure_1b()
-    figure_2a()
-    figure_2b()
-    figure_3c()
-    figure_3a()
-    figure_3b()
-    figure_4a()
-    figure_4b()
-    figure_4c()
-    figure_4d()
+    #figure_1a()
+    #figure_1a()
+    #figure_1b()
+    #figure_2a()
+    #figure_2b()
+    #figure_3c()
+    #figure_3a()
+    #figure_3b()
+    #figure_4a()
+    #figure_4b()
+    #figure_4c()
+    #figure_4d()
+    # Reset Seaborn
+    sns.reset_defaults()
+    sns.set_theme()
+    # Reset Matplotlib
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    figure_5c()

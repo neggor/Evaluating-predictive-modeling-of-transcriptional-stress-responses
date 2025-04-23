@@ -40,10 +40,18 @@ bash Code/prepare_data.sh
 Which takes care of conducting the differential expression analysis with DESeq2, downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting. This should take less than 1h.
 
 ## 📊  Run model performance evaluation
+```bash
+```
 ### Check relationship with average expression
-
+```bash
+```
 ## 🧠 Run TF-Modisco Analysis
-
+```bash
+python Code/Interpretation/get_shap.py
+python Code/Interpretation/run_modisco.py
+python Code/Interpretation/process_modisco_report.py
+```
 ## 📈 Construct plots
-
+```bash
+```
 ## Overview code
