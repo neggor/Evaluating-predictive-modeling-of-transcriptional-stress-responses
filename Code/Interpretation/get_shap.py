@@ -293,7 +293,7 @@ def main():
             [mapping[t] for t in treatments],
             model,
             "cuda",
-            n_background=100,
+            n_background=5,
         )
 
 
