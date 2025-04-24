@@ -22,6 +22,8 @@ import matplotlib.colors as mcolors
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from adjustText import adjust_text
+from tqdm import tqdm
+from matplotlib.lines import Line2D
 
 mapping = {
     "B": "MeJA",
@@ -905,8 +907,8 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         labels=labels,
         title="Model",
         loc="upper right",
-        bbox_to_anchor=(1, 0.55),
-    )
+        bbox_to_anchor=(0.19, 1),
+        frameon=False)
 
     # plt.title("Comparison of Test Metrics Across Models")
     plt.tight_layout()
@@ -1563,9 +1565,120 @@ def figure_5b(figsize=(10, 7)):
         print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
 def figure_5c(figsize=(10, 7)):
-    pass
+    # Define DNA regions
+    DNA_specs = [814, 200, 200, 814]  # Promoter, UTR, UTR, Terminator
 
-def figure_5d(figsize=(14, 10)):
+    # Load treatment folders
+    treatments_folders = os.listdir("Results/Interpretation/log2FC")
+
+    contrib_scores = {}
+    for treatment in treatments_folders:
+        gene_files = os.listdir(f"Results/Interpretation/log2FC/{treatment}/hypothetical_scores")
+        hyp_scores = []
+        
+        for gene_file in tqdm(gene_files):
+            gene = gene_file.split("_")[0]
+            hyp_scores.append(np.load(f"Results/Interpretation/log2FC/{treatment}/hypothetical_scores/{gene_file}"))
+        
+        hyp_scores = np.array(hyp_scores)
+        # Store contribution scores
+        contrib_scores[treatment] = hyp_scores
+        
+    # Compute the average contribution scores
+    avg_contrib_scores = {}
+    # Trimmed nucleotide positions
+    terminator_start = DNA_specs[0] + DNA_specs[1] + 20
+
+    # Plot settings
+    colors = ['green', 'orange', 'blue', 'red']
+    fig, axes = plt.subplots(2, 1, figsize=figsize, gridspec_kw={'height_ratios': [1, 1]}, dpi=300)
+    axes[0].spines['right'].set_visible(True)
+    axes[1].spines['right'].set_visible(True)
+    axes[0].spines['top'].set_visible(True)
+    axes[1].spines['top'].set_visible(True)
+    max = -np.inf
+    min = np.inf
+    for treatment in contrib_scores:
+        avg_contrib_scores[treatment] = np.mean(contrib_scores[treatment], axis=(0, 1))
+        max = np.max([max, np.max(avg_contrib_scores[treatment][:, :(DNA_specs[0] + DNA_specs[1] - 5)])])
+        min = np.min([min, np.min(avg_contrib_scores[treatment][:, :(DNA_specs[0] + DNA_specs[1] - 5)])])
+        # Average over treatments
+        #avg_contrib_scores = np.mean(np.array(list(avg_contrib_scores.values())), axis=0)
+        # min-max normalization
+        #avg_contrib_scores[treatment] = 2 * (avg_contrib_scores[treatment] - np.min(avg_contrib_scores[treatment])) / (np.max(avg_contrib_scores[treatment]) - np.min(avg_contrib_scores[treatment])) - 1
+
+    for treatment in contrib_scores:
+        # min-max normalization
+        avg_contrib_scores[treatment] = 2 * (avg_contrib_scores[treatment] - min) / (max - min) - 1
+        # Promoter + TSS subplot
+        axes[0].set_title("Promoter + 5' UTR")
+        for nb, base in enumerate('ACGT'):
+            axes[0].plot(np.arange(DNA_specs[0] + DNA_specs[1] - 5), avg_contrib_scores[treatment][nb, :(DNA_specs[0] + DNA_specs[1] - 5)], linewidth=1, color=colors[nb], alpha=0.1)
+
+        # Terminator + TTS subplot
+        axes[1].set_title("Terminator + 3' UTR")
+        for nb, base in enumerate('ACGT'):
+            #import pdb; pdb.set_trace()
+            axes[1].plot(np.arange(DNA_specs[2] + DNA_specs[3] - 5), avg_contrib_scores[treatment][nb, (terminator_start + 5):], linewidth=1, color=colors[nb], alpha=0.1)
+    
+    avg_contrib_scores = np.mean(np.array(list(avg_contrib_scores.values())), axis=0)
+
+    axes[0].set_title("Promoter + 5' UTR")
+    for nb, base in enumerate('ACGT'):
+        axes[0].plot(np.arange(DNA_specs[0] + DNA_specs[1] - 5), avg_contrib_scores[nb, :(DNA_specs[0] + DNA_specs[1] - 5)], linewidth=1, color=colors[nb])
+    axes[0].axvline(DNA_specs[0], color='black', linestyle='dashed', linewidth=1, label="TSS")
+
+    # Terminator + TTS subplot
+    axes[1].set_title("Terminator + 3' UTR")
+    for nb, base in enumerate('ACGT'):
+        #import pdb; pdb.set_trace()
+        axes[1].plot(np.arange(DNA_specs[2] + DNA_specs[3] - 5), avg_contrib_scores[nb, (terminator_start + 5):], linewidth=1, color=colors[nb])
+    axes[1].axvline(DNA_specs[2], color='black', linestyle='dashed', linewidth=1, label="TTS")
+    
+    # Common formatting
+    for ax in axes:
+        ax.grid(True, linestyle='--', linewidth=0.5)
+
+        # Set a single y-axis label in the middle
+    #fig.text(0.005, 0.5, "Normalized Hypothetical Contribution Scores", va='center', rotation='vertical', fontsize=15)
+
+    # X-axis settings
+    axes[0].set_xticks([
+        0, DNA_specs[0], DNA_specs[0] + DNA_specs[1]
+    ])
+    axes[0].set_xticklabels([
+        "0", f"{DNA_specs[0]} (TSS)", f"{DNA_specs[0] + DNA_specs[1]}"
+    ])
+
+    axes[1].set_xticks([
+        0, DNA_specs[2], DNA_specs[2] + DNA_specs[3]
+    ])
+    axes[1].set_xticklabels([
+        f"{DNA_specs[0] + DNA_specs[1] + 20}", f"{DNA_specs[2] + DNA_specs[0] + DNA_specs[1] + 20} (TTS)", f"{DNA_specs[2] + DNA_specs[3] + DNA_specs[0] + DNA_specs[1] + 20}"
+    ])
+
+    axes[1].set_xlabel("Nucleotide position")
+    
+    # Legend
+    custom_lines = [
+        Line2D([0], [0], color='green', lw=2, label='A'),
+        Line2D([0], [0], color='orange', lw=2, label='C'),
+        Line2D([0], [0], color='blue', lw=2, label='G'),
+        Line2D([0], [0], color='red', lw=2, label='T')
+    ]
+    axes[0].legend(handles=custom_lines, loc='upper left', frameon=False)
+
+    # set the ylim to -1, 1 in both
+    axes[0].set_ylim(-1, 1)
+    axes[1].set_ylim(-1, 1)
+    # increase fontsize in ticks for both subplots
+    for ax in axes:
+        ax.tick_params(axis='both', which='major', labelsize=12)
+    # plt.tight_layout()
+
+    plt.savefig("Images/figure_5c.pdf", bbox_inches="tight")
+
+def figure_5d(figsize=(10, 7)):
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
     # read the cluster table
     cluster_table = pd.read_csv("Results/Interpretation/cluster_patterns/cluster_table.csv", index_col=0)
@@ -1666,10 +1779,11 @@ if __name__ == "__main__":
     #figure_4b()
     #figure_4c()
     #figure_4d()
-    figure_5a()
-    figure_5b()
+    #figure_5a()
+    #figure_5b()
+    #figure_5c()
     # Reset for last figure
-    #sns.reset_defaults()
-    #sns.set_theme()
-    #mpl.rcParams.update(mpl.rcParamsDefault)
-    #figure_5d()
+    sns.reset_defaults()
+    sns.set_theme()
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    figure_5d()
