@@ -5,7 +5,7 @@ import os
 
 def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
-    outcome_types = ["log2FC", "quantiles_per_treatment"]
+    outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
 
     # Assuming the following DNA specs:
     assert (sum(DNA_specs) - 2 * offset) % 2 == 0
@@ -138,7 +138,7 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 if __name__ == "__main__":
     DNA_specs = [814, 200, 200, 814]
     offset = 15
-    n_seqlets = 1500
+    n_seqlets = 15000
     treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
         "B": "MeJA",

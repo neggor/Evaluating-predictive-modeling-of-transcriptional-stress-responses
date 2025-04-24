@@ -19,6 +19,9 @@ from Code.CNN_model.res_CNN import myCNN
 import json
 from matplotlib.patches import Patch
 import matplotlib.colors as mcolors
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+from adjustText import adjust_text
 
 mapping = {
     "B": "MeJA",
@@ -1357,7 +1360,212 @@ def figure_4d(figsize=(10, 7), metric="Spearman"):
     # save the figure
     plt.savefig("Images/figure_4d.pdf", bbox_inches="tight")
 
-def figure_5c(figsize=(14, 10)):
+def figure_5a(figsize=(10, 7)):
+    '''
+    PCA coefficients 6-mer log2fc
+    '''
+
+    mapping = {
+        "B": "MeJA",
+        "C": "SA",
+        "D": "SA+MeJA",
+        "G": "ABA",
+        "H": "ABA+MeJA",
+        "X": "3-OH10",
+        "Y": "chitooct",
+        "Z": "elf18",
+        "W": "flg22",
+        "V": "nlp20",
+        "U": "OGs",
+        "T": "Pep1",
+    }
+
+    coefs = pd.DataFrame()
+    for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/6-mer/{treatment}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": treatment})
+        if coefs.empty:
+            coefs = coef
+        else:
+            coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+    
+    coefs = coefs.set_index("TF")
+    coefs =  coefs.mean(axis=1)
+    
+    # Now rename column as PTI
+    coefs = coefs.rename("PTI")
+
+    # add the rest
+
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA", "ABA+MeJA"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/6-mer/{hormone}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": hormone})
+        coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+    
+    # Set TF as index and fill NaN values with 0
+    coefs = coefs.set_index("TF").fillna(0)
+    # preprocess by standardizing the data
+    coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+    # Perform PCA
+    pca = PCA(n_components=2)
+    coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+
+    # Create DataFrame for plotting
+    pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+
+    # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+    top_n = 12
+    important_points = pca_df.abs().nlargest(top_n, "PC1").index.tolist() + pca_df.abs().nlargest(top_n, "PC2").index.tolist()
+
+    # Create the biplot
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
+
+    # Plot samples (treatments)
+    sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+    # Store text labels for adjustment
+    texts = []
+    for i, txt in enumerate(pca_df.index):
+        if txt in important_points:
+            texts.append(ax.text(pca_df["PC1"][i], pca_df["PC2"][i], txt, fontsize=13, alpha=1))
+    loadings = pca.components_  # Get PC1 and PC2 loadings
+    scaling_factor = 14  # Adjust arrow length
+    for i, treatment in enumerate(coefs.columns):
+        texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+    # Adjust text positions to avoid overlaps
+    adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+    
+    # Plot loadings (treatment contributions)
+    for i, treatment in enumerate(coefs.columns):
+        ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+    # Labels and title
+    ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+    ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+    #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+    # increase font x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
+    # add the spine right and top
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+    # remove the grid
+    ax.grid(False)
+    # add a x and y lines at 0
+    ax.axhline(0, color='black', lw=1, ls='--')
+    ax.axvline(0, color='black', lw=1, ls='--')
+    # Save plot
+    plt.savefig("Images/figure_5a.pdf", bbox_inches="tight")
+    plt.close('all')
+    print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+
+def figure_5b(figsize=(10, 7)):
+        '''
+        PCA coefficients 6-mer log2fc
+        '''
+
+        mapping = {
+            "B": "MeJA",
+            "C": "SA",
+            "D": "SA+MeJA",
+            "G": "ABA",
+            "H": "ABA+MeJA",
+            "X": "3-OH10",
+            "Y": "chitooct",
+            "Z": "elf18",
+            "W": "flg22",
+            "V": "nlp20",
+            "U": "OGs",
+            "T": "Pep1",
+        }
+
+        coefs = pd.DataFrame()
+        for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
+            coef = coef.rename(columns={"Coefficient": treatment})
+            if coefs.empty:
+                coefs = coef
+            else:
+                coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+        
+        coefs = coefs.set_index("TF")
+        coefs =  coefs.mean(axis=1)
+        
+        # Now rename column as PTI
+        coefs = coefs.rename("PTI")
+
+        # add the rest
+
+        for hormone in ["MeJA", "SA", "SA+MeJA", "ABA", "ABA+MeJA"]:
+            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
+            coef = coef.rename(columns={"Coefficient": hormone})
+            coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+        
+        # Set TF as index and fill NaN values with 0
+        coefs = coefs.set_index("TF").fillna(0)
+        # preprocess by standardizing the data
+        coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+        # Perform PCA
+        pca = PCA(n_components=2)
+        coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+        # multiply x axis by -1
+        coefs_pca[:, 0] = coefs_pca[:, 0] * -1
+        # Create DataFrame for plotting
+        pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+
+        # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+        top_n = 12
+        important_points = pca_df.abs().nlargest(top_n, "PC1").index.tolist() + pca_df.abs().nlargest(top_n, "PC2").index.tolist()
+
+        # Create the biplot
+        fig, ax = plt.subplots(figsize=figsize, dpi=300)
+
+        # Plot samples (treatments)
+        sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+        # Store text labels for adjustment
+        texts = []
+        for i, txt in enumerate(pca_df.index):
+            if txt in important_points:
+                texts.append(ax.text(pca_df["PC1"][i], pca_df["PC2"][i], txt, fontsize=13, alpha=1))
+        loadings = pca.components_  # Get PC1 and PC2 loadings
+        # multiply x axis by -1
+        loadings[0, :] = loadings[0, :] * -1
+        scaling_factor = 14  # Adjust arrow length
+        for i, treatment in enumerate(coefs.columns):
+            texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+        # Adjust text positions to avoid overlaps
+        adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+        
+        # Plot loadings (treatment contributions)
+        for i, treatment in enumerate(coefs.columns):
+            ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                    color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+        # Labels and title
+        ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+        ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+        #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+        # increase font x and y ticks
+        ax.tick_params(axis='both', which='major', labelsize=14)
+
+        # add the spine right and top
+        ax.spines['right'].set_visible(True)
+        ax.spines['top'].set_visible(True)
+        # remove the grid
+        ax.grid(False)
+        # add a x and y lines at 0
+        ax.axhline(0, color='black', lw=1, ls='--')
+        ax.axvline(0, color='black', lw=1, ls='--')
+        
+        # Save plot
+        plt.savefig("Images/figure_5b.pdf", bbox_inches="tight")
+        plt.close('all')
+        print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+
+def figure_5c(figsize=(10, 7)):
+    pass
+
+def figure_5d(figsize=(14, 10)):
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
     # read the cluster table
     cluster_table = pd.read_csv("Results/Interpretation/cluster_patterns/cluster_table.csv", index_col=0)
@@ -1392,13 +1600,17 @@ def figure_5c(figsize=(14, 10)):
     for i in range(heatmap_data.shape[0]):
         for j in range(heatmap_data.shape[1]):
             value = heatmap_data.iloc[i, j]
+            # if value is -0. ... do not put a negative sign
+            if abs(value) < 1: 
+                value = abs(value)
+
             ax.text(
                 j,
                 i,
                 f"{value:.0f}",
                 ha="center",
                 va="center",
-                fontsize=10,
+                fontsize=16,
                 color="black",
             )
 
@@ -1426,15 +1638,19 @@ def figure_5c(figsize=(14, 10)):
     # Set axis labels and ticks
     ax.set_xticks(range(heatmap_data.shape[1]))
     ax.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
-    ax.set_xticklabels(heatmap_data.columns, ha="center", fontsize=12)
+    ax.set_xticklabels(heatmap_data.columns, ha="center", fontsize=16)
     ax.set_yticks(range(heatmap_data.shape[0]))
-    ax.set_yticklabels(range(1, heatmap_data.shape[0] + 1), fontsize=10)
+    ax.set_yticklabels(range(1, heatmap_data.shape[0] + 1), fontsize=16)
     ax.set_xlabel("")
-    ax.set_ylabel("Cluster", fontsize=10)
+    ax.set_ylabel("Cluster", fontsize=16)
 
     # Adjust layout and save the figure
-    plt.tight_layout()
-    plt.savefig("Images/figure_5c.pdf", bbox_inches="tight")
+    #plt.tight_layout()
+    # Add a colorbar to indicate the relationship between color and values
+    #cbar = fig.colorbar(heatmap, ax=ax, orientation="vertical", pad=0.1)
+    #cbar.set_label("Number of Positive/Negative Seqlets", fontsize=14)
+    #cbar.ax.tick_params(labelsize=12)
+    plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
 
 if __name__ == "__main__":
     set_plot_style()
@@ -1450,9 +1666,10 @@ if __name__ == "__main__":
     #figure_4b()
     #figure_4c()
     #figure_4d()
-    # Reset Seaborn
-    sns.reset_defaults()
-    sns.set_theme()
-    # Reset Matplotlib
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5c()
+    figure_5a()
+    figure_5b()
+    # Reset for last figure
+    #sns.reset_defaults()
+    #sns.set_theme()
+    #mpl.rcParams.update(mpl.rcParamsDefault)
+    #figure_5d()

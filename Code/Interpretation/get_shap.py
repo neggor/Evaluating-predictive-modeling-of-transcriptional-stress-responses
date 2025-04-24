@@ -219,9 +219,9 @@ def get_shap(
 def main():
     outcome_types = [
         "log2FC",
-        "amplitude",
-        "quantiles_per_treatment",
-        "DE_per_treatment",
+        #"amplitude",
+        #"quantiles_per_treatment",
+        #"DE_per_treatment",
     ]
     treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
@@ -252,6 +252,7 @@ def main():
             cnn_config["downstream_TTS"],
         ]
         print(f"DNA specs: {dna_specs}")
+        
         _, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
             load_data(
                 0.8,  # Important, cuz we only use validation and test.
