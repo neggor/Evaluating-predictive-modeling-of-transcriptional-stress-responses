@@ -246,7 +246,8 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     res["outcome_type"] = pd.Categorical(
         res["outcome_type"], categories=["S.DE", "S.Q"], ordered=True
     )
-
+    # print the maximum MCC for each in_type
+    print(res.groupby(["in_type", "outcome_type"])["value"].max())
     ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
     # print the average of the values per in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].mean())
@@ -308,7 +309,11 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
-    plt.savefig("Images/figure_2a.pdf", bbox_inches="tight")
+    
+    if metric == "AUC":
+        plt.savefig("Images/figure_2a.pdf", bbox_inches="tight")
+    elif metric == "MCC":
+        plt.savefig("Images/figure_SUP_1.pdf", bbox_inches="tight")
 
 
 def figure_1b(
@@ -1051,7 +1056,10 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
     # plt.colorbar().remove()
 
     # save the figure
-    plt.savefig(f"Images/figure_3c.pdf", bbox_inches="tight")
+    if outcome == "log2FC":
+        plt.savefig(f"Images/figure_3c.pdf", bbox_inches="tight")
+    else:
+        plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight") # TODO
 
 
 def figure_4a(figsize=(10, 7), metric="AUC"):
@@ -1127,6 +1135,8 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
     plt.xlabel("")
     plt.legend(loc="upper center", frameon=False, ncol=1)
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+    # remove x tick labels
+    plt.xticks([])
     # save the figure
     plt.savefig("Images/figure_4a.pdf", bbox_inches="tight")
 
@@ -1211,6 +1221,8 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
     plt.legend().remove()  # Removes the current legend
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     # save the figure
+    # remove x tick labels
+    plt.xticks([])
     plt.savefig("Images/figure_4b.pdf", bbox_inches="tight")
 
 
@@ -1778,6 +1790,43 @@ def figure_5d(figsize=(10, 7)):
     #cbar.ax.tick_params(labelsize=12)
     plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
 
+
+def figure_2_1():
+    pass
+    # this will be the actual contribution scores NOT hypothetical contribution scores for 
+    # either of the models. Putting both will be too much and actually kind of redundant!
+
+
+# Todo, figure out how to do this in a smart way
+def SUP_figure_2a():
+    # Overlaps of **defined** differentially expressed genes
+    # S.DE
+    pass
+
+
+def SUP_figure_2b():
+    # Overlaps of **predicted** differentially expressed genes
+    # S.DE
+    pass
+
+def SUP_figure_2c():
+    # Overlaps of **defined** differentially expressed genes
+    # S.Q
+    pass
+
+
+def SUP_figure_2d():
+    # Overlaps of **predicted** differentially expressed genes
+    # S.Q
+    pass
+
+def SUP_figure_a():
+    # Correlations in the actual underlying data for log2FC
+    pass
+def SUP_figure_b():
+    # Correlations in the actual underlying data for Amplitude
+    pass
+
 if __name__ == "__main__":
     set_plot_style()
     #figure_1a()
@@ -1786,12 +1835,12 @@ if __name__ == "__main__":
     #figure_2a()
     #figure_2b()
     #figure_3c()
-    figure_3a()
+    #figure_3a()
     #figure_3b()
-    #figure_4a()
-    #figure_4b()
-    #figure_4c()
-    #figure_4d()
+    figure_4a()
+    figure_4b()
+    figure_4c()
+    figure_4d()
     #figure_5a()
     #figure_5b()
     #figure_5c()
@@ -1800,3 +1849,7 @@ if __name__ == "__main__":
     #sns.set_theme()
     #mpl.rcParams.update(mpl.rcParamsDefault)
     #figure_5d()
+
+    #SUP figures
+    set_plot_style()
+    figure_2a(metric="MCC")

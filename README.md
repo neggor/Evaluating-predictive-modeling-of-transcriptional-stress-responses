@@ -47,7 +47,7 @@ Which takes care of conducting the differential expression analysis with DESeq2,
 ```
 ## 🧠 Run TF-Modisco Analysis
 ```bash
-python Code/Interpretation/get_shap.py
+python Code/Interpretation/get_shap.py # get shap values for log2FC and Quartile classification
 python Code/Interpretation/run_modisco.py
 python Code/Interpretation/process_modisco_report.py
 ```

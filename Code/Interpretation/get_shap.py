@@ -218,9 +218,9 @@ def get_shap(
 
 def main():
     outcome_types = [
-        "log2FC",
+        #"log2FC",
         #"amplitude",
-        #"quantiles_per_treatment",
+        "quantiles_per_treatment",
         #"DE_per_treatment",
     ]
     treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
