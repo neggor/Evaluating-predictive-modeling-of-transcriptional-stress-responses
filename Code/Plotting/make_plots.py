@@ -722,14 +722,16 @@ def figure_3a(outcome="log2FC"):
         ax.spines["bottom"].set_color("black")
 
     # Set overall x and y labels
-    fig.text(0.5, 0.02, r"Predicted FC.T", ha="center", fontsize=12)
-    fig.text(0.02, 0.5, r"True FC.T", va="center", rotation="vertical", fontsize=12)
+    fig.text(0.5, 0.02, r"Predicted LFC.T", ha="center", fontsize=12)
+    fig.text(0.02, 0.5, r"True LFC.T", va="center", rotation="vertical", fontsize=12)
 
     plt.tight_layout(
         rect=[0.03, 0.03, 1, 0.95], h_pad=1.6, w_pad=1.6
     )  # Adjust layout to fit suptitle and increase horizontal separation
     # Save the figure
     plt.savefig(f"Images/figure_3a.pdf", bbox_inches="tight")
+    # also as a png
+    plt.savefig(f"Images/figure_3a.png", bbox_inches="tight")
 
 
 def figure_3b(figsize=(10, 7), outcome="log2FC"):
@@ -894,14 +896,22 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     plt.xlabel("Treatment")
     strip.spines["top"].set_visible(False)
     strip.spines["right"].set_visible(False)
-    # remove the grid
-    plt.grid(color="black", alpha=0.3, linestyle="--", linewidth=0.5)
+   
     # Manually create a legend including CNN
     handles, labels = strip.get_legend_handles_labels()
     cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
     handles.insert(0, cnn_patch)
     labels.insert(0, "CNN")
-    # plt.ylim(0, 1)
+    # Add vertical grid lines between treatments
+    # Add customized vertical grid lines between treatments
+    ax = plt.gca()
+    treatments = my_concat["treatment"].unique()
+    ax.yaxis.grid(True, which='major', linestyle='--', linewidth=0.5, color='gray', alpha=0.7)
+    
+    # Calculate positions for vertical gridlines (offset by 0.5)
+    for i in range(len(treatments)+1):
+        ax.axvline(x=i-0.5, color='gray', linestyle='--', linewidth=0.5, alpha=0.7, zorder=0)
+
     plt.legend(
         handles=handles,
         labels=labels,
@@ -1197,7 +1207,8 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
         plt.ylabel("Pearson Correlation")
 
     plt.xlabel("")
-    plt.legend(loc="upper center", frameon=False, ncol=1)
+    #plt.legend(loc="upper center", frameon=False, ncol=1)
+    plt.legend().remove()  # Removes the current legend
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     # save the figure
     plt.savefig("Images/figure_4b.pdf", bbox_inches="tight")
@@ -1357,7 +1368,9 @@ def figure_4d(figsize=(10, 7), metric="Spearman"):
         plt.ylabel("Pearson Correlation")
 
     plt.xlabel("")
-    plt.legend(loc="upper center", frameon=False, ncol=1)
+    #plt.legend(loc="upper center", frameon=False, ncol=1)
+    #remove the legend 
+    plt.legend().remove()  # Removes the current legend
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     # save the figure
     plt.savefig("Images/figure_4d.pdf", bbox_inches="tight")
@@ -1773,7 +1786,7 @@ if __name__ == "__main__":
     #figure_2a()
     #figure_2b()
     #figure_3c()
-    #figure_3a()
+    figure_3a()
     #figure_3b()
     #figure_4a()
     #figure_4b()
@@ -1783,7 +1796,7 @@ if __name__ == "__main__":
     #figure_5b()
     #figure_5c()
     # Reset for last figure
-    sns.reset_defaults()
-    sns.set_theme()
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5d()
+    #sns.reset_defaults()
+    #sns.set_theme()
+    #mpl.rcParams.update(mpl.rcParamsDefault)
+    #figure_5d()
