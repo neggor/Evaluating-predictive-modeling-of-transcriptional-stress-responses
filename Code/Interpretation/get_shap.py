@@ -218,7 +218,7 @@ def get_shap(
 
 def main():
     outcome_types = [
-        #"log2FC",
+        "log2FC",
         #"amplitude",
         "quantiles_per_treatment",
         #"DE_per_treatment",
@@ -293,7 +293,7 @@ def main():
             [mapping[t] for t in treatments],
             model,
             "cuda",
-            n_background=10,
+            n_background=100,
         )
 
 
