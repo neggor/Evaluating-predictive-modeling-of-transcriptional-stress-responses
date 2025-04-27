@@ -674,10 +674,6 @@ class DataHandler:
                 gene: self.DAPseq_TSS_dict[gene] for gene in self.mRNA["Gene"]
             }
         else:
-            # self.mRNA["Gene"] = self.mRNA["Gene"].str.replace(
-            #    r"\.\d+$", "", regex=True
-            # )  # remove the dot at the end of the gene name! For some reason the sly gene names do not have it in the TSS dictionary TODO
-            # print the ones that are NOT in the TSS sequences
             print("Removing genes not in the DNA sequences")
             n_genes_before = len(self.mRNA)
             self.mRNA = self.mRNA[self.mRNA["Gene"].isin(self.TSS_sequences.keys())]
