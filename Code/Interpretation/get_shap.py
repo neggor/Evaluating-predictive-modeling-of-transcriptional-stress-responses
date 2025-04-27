@@ -253,7 +253,7 @@ def main():
         ]
         print(f"DNA specs: {dna_specs}")
         
-        _, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
+        mRNA_test, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
             load_data(
                 0.8,  # Important, cuz we only use validation and test.
                 0.1,  # Important, cuz we only use validation and test.
@@ -288,7 +288,7 @@ def main():
         get_shap(
             TSS_sequences,
             TTS_sequences,
-            pd.concat([mRNA_validation, mRNA_test]),
+            pd.concat([mRNA_test, mRNA_validation, mRNA_test]),
             outcome_type,
             [mapping[t] for t in treatments],
             model,
