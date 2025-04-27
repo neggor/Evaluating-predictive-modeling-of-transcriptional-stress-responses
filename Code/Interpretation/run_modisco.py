@@ -138,7 +138,7 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 if __name__ == "__main__":
     DNA_specs = [814, 200, 200, 814]
     offset = 15
-    n_seqlets = 15000
+    n_seqlets = 50000
     treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
         "B": "MeJA",
