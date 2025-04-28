@@ -6,7 +6,7 @@ import os
 def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
     outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
-
+    queries = {}
     # Assuming the following DNA specs:
     assert (sum(DNA_specs) - 2 * offset) % 2 == 0
 
@@ -33,7 +33,7 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
             # implies iterating over the genes
             
             hyp_scores = {}
-            queries = {}
+            
             for file in os.listdir(
                 f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/hypothetical_scores"
             ):
