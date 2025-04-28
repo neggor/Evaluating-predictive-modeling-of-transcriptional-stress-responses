@@ -164,4 +164,4 @@ if __name__ == "__main__":
         "T": "Pep1",
     }
     run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping)
-    run_report(treatments)
+    #run_report(treatments)

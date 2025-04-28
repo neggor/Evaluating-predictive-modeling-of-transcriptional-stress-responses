@@ -177,10 +177,14 @@ def get_shap(
     Get shap values for all the data in the loader
     Make sure that the loadr has batch size 1, because otherwise the meomry will not be enough
     """
-
+    print(f"Getting shap values for {len(mRNA_df)} genes")
     for gene in tqdm(mRNA_df["Gene"]):
-        TSS = TSS_sequences[gene][np.newaxis]
-        TTS = TTS_sequences[gene][np.newaxis]
+        try:
+            TSS = TSS_sequences[gene][np.newaxis]
+            TTS = TTS_sequences[gene][np.newaxis]
+        except KeyError:
+            print(f"Gene {gene} not found in TSS or TTS sequences")
+            continue
         b = {
             "TSS": TSS,
             "TTS": TTS,
@@ -255,8 +259,8 @@ def main():
         
         mRNA_test, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
             load_data(
-                0.8,  # Important, cuz we only use validation and test.
-                0.1,  # Important, cuz we only use validation and test.
+                0.8, 
+                0.1, 
                 treatments=cnn_config["treatments"],
                 problem_type=cnn_config["problem_type"],
                 dna_format=cnn_config["dna_format"],
@@ -265,6 +269,9 @@ def main():
                 kmer_rc=False,  # it does not apply to the CNN
             )
         )
+        mRNA = pd.concat([mRNA_test, mRNA_validation, mRNA_test])
+        print(f"mRNA shape: {mRNA.shape}")
+        
         model = myCNN(
             n_labels=cnn_config["n_labels"],
             n_ressidual_blocks=cnn_config["n_ressidual_blocks"],
@@ -288,7 +295,7 @@ def main():
         get_shap(
             TSS_sequences,
             TTS_sequences,
-            pd.concat([mRNA_test, mRNA_validation, mRNA_test]),
+            mRNA,
             outcome_type,
             [mapping[t] for t in treatments],
             model,
