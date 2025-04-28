@@ -922,12 +922,16 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         labels=labels,
         title="Model",
         loc="upper right",
-        bbox_to_anchor=(0.19, 1),
-        frameon=False)
+        bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
+        frameon=False if outcome == "log2FC" else True,)
 
     # plt.title("Comparison of Test Metrics Across Models")
     plt.tight_layout()
-    plt.savefig(f"Images/figure_3b.pdf", bbox_inches="tight")
+    if outcome == "log2FC":
+        plt.savefig(f"Images/figure_3b.pdf", bbox_inches="tight")
+    else:
+        plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight")
+    
 
 
 def figure_3c(figsize=(10, 7), outcome="log2FC"):
@@ -1796,6 +1800,165 @@ def figure_2_1():
     # this will be the actual contribution scores NOT hypothetical contribution scores for 
     # either of the models. Putting both will be too much and actually kind of redundant!
 
+def figure_S2(figsize = (10, 7)):
+    DNA_specification = [814, 200, 200, 814]
+    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    mapping = {
+        "B": "MeJA",
+        "C": "SA",
+        "D": "SA+MeJA",
+        "G": "ABA",
+        "H": "ABA+MeJA",
+        "X": "3-OH10",
+        "Y": "chitooct",
+        "Z": "elf18",
+        "W": "flg22",
+        "V": "nlp20",
+        "U": "OGs",
+        "T": "Pep1",
+    }
+    
+
+    for outcome in ["DE_per_treatment", "quantiles_per_treatment"]:
+        (mRNA_train,
+        mRNA_validation,
+        mRNA_test,
+        _,
+        _,
+        _) = load_data(train_proportion=0.85,
+                            val_proportion=0.05,
+                            DNA_specs=DNA_specification,
+                            treatments=treatments,
+                            problem_type=outcome,
+                            mask_exons=False,
+                            dna_format="String")
+        # Concatenate al mRNA data
+        mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
+
+        print(mRNA)
+        # Make a heatmap of the intersection of sensitive genes divided by the union of sensitive genes
+        # for the different treatments
+        overlaps = np.zeros((len(treatments), len(treatments)))
+        for t1 in treatments:
+            for t2 in treatments:
+                mRNA_t1 = mRNA[t1]
+                mRNA_t2 = mRNA[t2]
+                mask = (mRNA_t1 != 3) & (mRNA_t2 != 3)
+                intersection = np.sum((mRNA_t1 == mRNA_t2)[mask])
+                union = np.sum(mask)
+                overlaps[treatments.index(t1), treatments.index(t2)] = intersection / union
+
+        plt.figure(figsize=figsize)
+        sns.heatmap(
+            overlaps,
+            cmap="coolwarm",
+            annot=True,
+            cbar=False,
+            annot_kws={"size": 8, "color": "white", "weight": "bold"},
+            fmt=".2f",
+            linewidths=0.5,
+            linecolor="black",
+        )
+        # reduce the fontsize of the numbers inside the heatmap
+
+        # add the names of the treatments
+        plt.xticks(
+            np.arange(len(treatments)) + 0.5,
+            labels=[mapping[t] for t in treatments],
+            rotation=40,
+            fontsize=10,
+        )
+        plt.yticks(
+            np.arange(len(treatments)) + 0.5,
+            labels=[mapping[t] for t in treatments],
+            rotation=40,
+            fontsize=10,
+    )
+        # remove colormap
+        plt.savefig(f"Images/SUP_figure_2_{outcome}.pdf", bbox_inches="tight")
+        
+
+def figure_S3(figsize = (10, 7)):
+    '''
+    Heartmpas of relative correlations for LFCT and LFCA
+    '''
+    DNA_specs = [814, 200, 200, 814]
+    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    mapping = {
+        "B": "MeJA",
+        "C": "SA",
+        "D": "SA+MeJA",
+        "G": "ABA",
+        "H": "ABA+MeJA",
+        "X": "3-OH10",
+        "Y": "chitooct",
+        "Z": "elf18",
+        "W": "flg22",
+        "V": "nlp20",
+        "U": "OGs",
+        "T": "Pep1",
+    }
+
+    for outcome in ["log2FC", "amplitude" ]:
+        training_specs = {
+                                    "lr": 7e-5,
+                                    "weight_decay": 0.00001,
+                                    "n_epochs": 1500,
+                                    "patience": 25,
+                                    "problem_type": outcome,
+                                    "equivariant": True,
+                                    "n_labels": len(treatments),
+                                    "batch_size": 64,
+                                }
+        (mRNA_train,
+        mRNA_validation,
+        mRNA_test,
+        _,
+        _,
+        _) = load_data(train_proportion=0.85,
+                            val_proportion=0.05,
+                            DNA_specs=DNA_specs,
+                            treatments=treatments,
+                            problem_type=outcome,
+                            mask_exons=False,
+                            dna_format="One_Hot_Encoding")
+    
+        mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
+        
+        Y_hat = mRNA.values[:, 1:-1]
+        correlation_matrix = stats.spearmanr(Y_hat).statistic
+        # plot the correlation matrix
+        plt.figure(figsize=figsize, dpi=300)
+        sns.heatmap(
+            correlation_matrix,
+            cmap="coolwarm",
+            annot=True,
+            cbar=False,
+            annot_kws={"size": 8, "color": "white", "weight": "bold"},
+            fmt=".2f",
+            linewidths=0.5,
+            linecolor="black",
+        )
+        # reduce the fontsize of the numbers inside the heatmap
+
+        # add the names of the treatments
+        plt.xticks(
+            np.arange(len(treatments)) + 0.5,
+            labels=[mapping[t] for t in treatments],
+            rotation=40,
+            fontsize=10,
+        )
+        plt.yticks(
+            np.arange(len(treatments)) + 0.5,
+            labels=[mapping[t] for t in treatments],
+            rotation=40,
+            fontsize=10,
+    )
+        # remove colormap
+        plt.savefig(f"Images/SUP_figure_3_{outcome}.pdf", bbox_inches="tight")
+        
+    
+        
 
 # Todo, figure out how to do this in a smart way
 def SUP_figure_2a():
@@ -1836,7 +1999,7 @@ if __name__ == "__main__":
     #figure_2b()
     #figure_3c()
     #figure_3a()
-    #figure_3b()
+    figure_3b()
     #figure_4a()
     #figure_4b()
     #figure_4c()
@@ -1852,4 +2015,8 @@ if __name__ == "__main__":
 
     #SUP figures
     set_plot_style()
-    figure_2a(metric="MCC")
+    #figure_2a(metric="MCC")
+    #figure_S2()
+    #figure_S3()
+    figure_3b(outcome="amplitude")
+    
