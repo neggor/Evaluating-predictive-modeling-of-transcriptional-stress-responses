@@ -257,7 +257,7 @@ def main():
         ]
         print(f"DNA specs: {dna_specs}")
         
-        mRNA_test, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
+        mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
             load_data(
                 0.8, 
                 0.1, 
@@ -269,9 +269,9 @@ def main():
                 kmer_rc=False,  # it does not apply to the CNN
             )
         )
-        mRNA = pd.concat([mRNA_test, mRNA_validation, mRNA_test])
+        mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
         print(f"mRNA shape: {mRNA.shape}")
-        
+
         model = myCNN(
             n_labels=cnn_config["n_labels"],
             n_ressidual_blocks=cnn_config["n_ressidual_blocks"],
