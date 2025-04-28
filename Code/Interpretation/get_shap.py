@@ -178,6 +178,9 @@ def get_shap(
     Make sure that the loadr has batch size 1, because otherwise the meomry will not be enough
     """
     print(f"Getting shap values for {len(mRNA_df)} genes")
+    os.makedirs(
+            f"{main_folder}/{outcome_type}/queries", exist_ok=True
+        )
     for gene in tqdm(mRNA_df["Gene"]):
         try:
             TSS = TSS_sequences[gene][np.newaxis]
@@ -205,17 +208,15 @@ def get_shap(
                 f"{main_folder}/{outcome_type}/{treatment}/hypothetical_scores",
                 exist_ok=True,
             )
-            os.makedirs(
-                f"{main_folder}/{outcome_type}/{treatment}/queries", exist_ok=True
-            )
+           
             np.save(
                 f"{main_folder}/{outcome_type}/{treatment}/hypothetical_scores/{gene}_hyp_scores.npy",
                 shap_[i],
             )
-            np.save(
-                f"{main_folder}/{outcome_type}/{treatment}/queries/{gene}_query.npy",
-                DNA.cpu().detach().numpy(),
-            )
+        np.save(
+            f"{main_folder}/{outcome_type}/queries/{gene}_query.npy",
+            DNA.cpu().detach().numpy(),
+        )
 
     return shap_
 
@@ -269,7 +270,7 @@ def main():
                 kmer_rc=False,  # it does not apply to the CNN
             )
         )
-        mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
+        mRNA = pd.concat([mRNA_validation, mRNA_test])
         print(f"mRNA shape: {mRNA.shape}")
 
         model = myCNN(

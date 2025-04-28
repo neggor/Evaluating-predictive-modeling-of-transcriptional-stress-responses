@@ -11,7 +11,14 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
     assert (sum(DNA_specs) - 2 * offset) % 2 == 0
 
     for outcome_type in outcome_types:
-
+        for file in os.listdir(
+                f"Results/Interpretation/{outcome_type}/queries"
+            ):
+                if file.endswith(".npy"):
+                    gene = file.split("_")[0]
+                    queries[gene] = np.load(
+                        f"Results/Interpretation/{outcome_type}/queries/{file}"
+                    )
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
             #if the report folder exists, continue
@@ -35,14 +42,7 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
                     hyp_scores[gene] = np.load(
                         f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/hypothetical_scores/{file}"
                     )
-            for file in os.listdir(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/queries"
-            ):
-                if file.endswith(".npy"):
-                    gene = file.split("_")[0]
-                    queries[gene] = np.load(
-                        f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/queries/{file}"
-                    )
+
 
             # construct a 3D array of the hypothetical scores and another for the queries
             hyp_shap_values_array = np.zeros(
