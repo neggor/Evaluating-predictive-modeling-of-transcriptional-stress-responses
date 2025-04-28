@@ -37,14 +37,18 @@ conda install conda-forge::r-stringr -y
 ```bash
 bash Code/prepare_data.sh
 ```
-Which takes care of conducting the differential expression analysis with DESeq2, downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting. This should take less than 1h.
+Which takes care of conducting the differential expression analysis with DESeq2, downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting.
+
+### Check relationship with average expression
+```bash
+python Code/mRNA_processing/test_count_bias.py
+```
 
 ## 📊  Run model performance evaluation
 ```bash
+python Code/Training/run_analysis.py
 ```
-### Check relationship with average expression
-```bash
-```
+
 ## 🧠 Run TF-Modisco Analysis
 ```bash
 python Code/Interpretation/get_shap.py # get shap values for log2FC and Quartile classification
@@ -53,5 +57,5 @@ python Code/Interpretation/process_modisco_report.py
 ```
 ## 📈 Construct plots
 ```bash
+python Code/Plotting/make_plots.py
 ```
-## Overview code

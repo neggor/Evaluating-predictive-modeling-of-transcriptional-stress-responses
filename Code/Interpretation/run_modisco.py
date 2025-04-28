@@ -14,16 +14,17 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
-            # if the report folder exists, continue
-            # if os.path.exists(
-            #    f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report"
-            # ):
-            #    print(
-            #        f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report already exists. Skipping..."
-            #    )
-            #    continue
+            #if the report folder exists, continue
+            if os.path.exists(
+               f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report"
+            ):
+               print(
+                   f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report already exists. Skipping..."
+               )
+               continue
             # Load the genes hyp scores and queries
             # implies iterating over the genes
+            
             hyp_scores = {}
             queries = {}
             for file in os.listdir(
@@ -119,13 +120,10 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
                 --attributions Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy \
                     -n {n_seqlets} -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5 -w {sum(DNA_specs) - 2 * offset}\
                         --verbose "  # Literally the window must be the size of the sequence
-
-            cmd_report = f"modisco report -i Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
-                -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
-
+                
+            print("Running:", cmd)
             os.system(cmd)
-            print("Running:", cmd_report)
-            os.system(cmd_report)
+
             # now remove the .npy
             os.remove(
                 f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy"
@@ -133,6 +131,17 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
             os.remove(
                 f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy"
             )
+
+def run_report(treatments):
+    outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
+    for outcome_type in outcome_types:
+        # replicates, treatments, nucleobases, positions
+        for i, treatment in enumerate(treatments):
+            
+            cmd_report = f"modisco report -i Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
+                        -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
+            print("Running:", cmd_report)
+            os.system(cmd_report)
 
 
 if __name__ == "__main__":
@@ -155,3 +164,4 @@ if __name__ == "__main__":
         "T": "Pep1",
     }
     run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping)
+    run_report(treatments)
