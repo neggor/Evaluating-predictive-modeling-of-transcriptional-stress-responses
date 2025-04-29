@@ -228,6 +228,11 @@ def parse_tomtom_output(tomtom_output):
     # Load the Tomtom results
     results = pd.read_csv(tomtom_output, sep="\t", comment="#")
     print(results)
+    # create a column for target consensus length
+    results["Target_consensus"] = results["Target_consensus"].apply(lambda x: len(x))
+    # remove if > 10
+    results = results[results["Target_consensus"] < 10]
+    
     # check if there are any results
     if results.shape[0] == 0:
         return "No match", 1, "No match", "No match"
@@ -264,8 +269,8 @@ def extract_patterns(h5_file, treat_name, seqlet_threshold=500):
                 PWM = np.array(f[direction][key]["sequence"][:])
                 CWM = np.array(f[direction][key]["contrib_scores"][:])
                 n_seqlets = str(f[direction][key]["seqlets"]["n_seqlets"][0])
-                PWM, CWM = filter_based_on_importance(PWM, CWM, 0.45)
-                PWM, CWM = filter_based_on_entropy(PWM, CWM, 0.7)
+                PWM, CWM = filter_based_on_importance(PWM, CWM, 0.3)
+                PWM, CWM = filter_based_on_entropy(PWM, CWM, 0.6)
                 if PWM is None or PWM.shape[0] < 3:
                     continue
 
@@ -486,8 +491,8 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
         )
         # now we put the query consensus in the table corresponding to the group
         cluster_table.loc[group_name, "best_match"] = (
-            motif_to_tf[best_match] if best_match in motif_to_tf else "No match"
-            #map_tf_to_family(best_match)  if best_match in motif_to_tf else "No match"
+            #motif_to_tf[best_match] if best_match in motif_to_tf else "No match"
+            map_tf_to_family(best_match)  if best_match in motif_to_tf else "No match"
         )
         cluster_table.loc[group_name, "query_consensus"] = query_consensus
         if best_match == "No match":
@@ -528,4 +533,5 @@ if __name__ == "__main__":
         "Results/Interpretation/cluster_patterns",
         "Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt",
         30,
+        
     )

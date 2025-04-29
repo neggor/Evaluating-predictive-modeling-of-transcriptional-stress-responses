@@ -1593,21 +1593,23 @@ def figure_5b(figsize=(10, 7)):
         plt.close('all')
         print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
-def figure_5c(figsize=(10, 7)):
+def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     # Define DNA regions
     DNA_specs = [814, 200, 200, 814]  # Promoter, UTR, UTR, Terminator
 
     # Load treatment folders
-    treatments_folders = os.listdir("Results/Interpretation/log2FC")
+    treatments_folders = os.listdir(f"Results/Interpretation/{outcome}")
 
     contrib_scores = {}
     for treatment in treatments_folders:
-        gene_files = os.listdir(f"Results/Interpretation/log2FC/{treatment}/hypothetical_scores")
+        if treatment == "queries":
+            continue
+        gene_files = os.listdir(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores")
         hyp_scores = []
         
         for gene_file in tqdm(gene_files):
             gene = gene_file.split("_")[0]
-            hyp_scores.append(np.load(f"Results/Interpretation/log2FC/{treatment}/hypothetical_scores/{gene_file}"))
+            hyp_scores.append(np.load(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores/{gene_file}"))
         
         hyp_scores = np.array(hyp_scores)
         # Store contribution scores
@@ -1704,8 +1706,10 @@ def figure_5c(figsize=(10, 7)):
     for ax in axes:
         ax.tick_params(axis='both', which='major', labelsize=12)
     # plt.tight_layout()
-
-    plt.savefig("Images/figure_5c.pdf", bbox_inches="tight")
+    if outcome == "log2FC":
+        plt.savefig("Images/figure_5c.pdf", bbox_inches="tight")
+    else:
+        plt.savefig("Images/figure_2_1.pdf", bbox_inches="tight")
 
 def figure_5d(figsize=(10, 7)):
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
@@ -1997,9 +2001,10 @@ if __name__ == "__main__":
     #figure_1b()
     #figure_2a()
     #figure_2b()
+    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
     #figure_3c()
     #figure_3a()
-    figure_3b()
+    #figure_3b()
     #figure_4a()
     #figure_4b()
     #figure_4c()
@@ -2008,15 +2013,15 @@ if __name__ == "__main__":
     #figure_5b()
     #figure_5c()
     # Reset for last figure
-    #sns.reset_defaults()
-    #sns.set_theme()
-    #mpl.rcParams.update(mpl.rcParamsDefault)
-    #figure_5d()
+    sns.reset_defaults()
+    sns.set_theme()
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    figure_5d()
 
     #SUP figures
     set_plot_style()
     #figure_2a(metric="MCC")
     #figure_S2()
     #figure_S3()
-    figure_3b(outcome="amplitude")
+    #figure_3b(outcome="amplitude")
     
