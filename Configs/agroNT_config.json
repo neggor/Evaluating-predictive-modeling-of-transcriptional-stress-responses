@@ -3,7 +3,7 @@
     "weight_decay": 1e-05,
     "n_epochs": 25,
     "n_labels": 12,
-    "treatments":["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
+    "treatments":["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
     "batch_size": 15,
     "dropout_rate": 0.25,
     "upstream_TSS": 814,

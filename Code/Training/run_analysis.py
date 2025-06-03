@@ -1,6 +1,5 @@
 import sys
 import os
-
 sys.path.append(".")
 import subprocess
 import json
