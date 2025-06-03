@@ -128,7 +128,6 @@ class DataHandler:
             "C": "SA",
             "D": "SA+MeJA",
             "G": "ABA",
-            "H": "ABA+MeJA",
             "X": "3-OH10",
             "Y": "chitooct",
             "Z": "elf18",
@@ -792,12 +791,12 @@ class DataHandler:
 
 if __name__ == "__main__":
     # To test
-    DNA_specification = [500, 100, 100, 150]
+    DNA_specification = [1500, 500, 500, 1500]
     gene_families_file = "Data/Processed/gene_families.csv"
     data_path = "Data/Processed"
     train_proportion = 0.85
     validation_proportion = 0.1
-    dna_format = "String"
+    dna_format = "6-mer"
 
     data_handler = DataHandler(
         DNA_specification,
@@ -806,14 +805,29 @@ if __name__ == "__main__":
         train_proportion,
         validation_proportion,
         dna_format=dna_format,
-        mask_exons=True,
+        mask_exons=False,
     )
 
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(
-            treatments=["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"],
+            treatments=["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
             problem_type="DE_per_treatment",
         )
     )
     print(mRNA_train)
     print(mRNA_train.shape, mRNA_validation.shape, mRNA_test.shape)
+    # make the TSS_sequences a dataframe with the gene names as index
+    TSS_sequences = pd.DataFrame.from_dict( TSS_sequences, orient="index")
+    # put metahada TFs_TSS
+    TSS_sequences.columns = metadata["kmer_dict_TSS"]
+    TSS_sequences.index.name = "Gene"
+    TSS_sequences = TSS_sequences.reset_index()
+    # now TTS
+    TTS_sequences = pd.DataFrame.from_dict( TTS_sequences, orient="index")
+    # put metahada TFs_TTS
+    TTS_sequences.columns = metadata["kmer_dict_TTS"]
+    TTS_sequences.index.name = "Gene"
+    TTS_sequences = TTS_sequences.reset_index()
+    # save the TSS and TTS 
+    TSS_sequences.to_csv(f"TSS_sequences_6mer_1500-500.csv", index=False)
+    TTS_sequences.to_csv(f"TTS_sequences_6mer_1500-500.csv", index=False)

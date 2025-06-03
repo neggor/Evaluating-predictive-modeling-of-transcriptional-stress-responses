@@ -148,13 +148,12 @@ if __name__ == "__main__":
     DNA_specs = [814, 200, 200, 814]
     offset = 15
     n_seqlets = 50000
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
         "B": "MeJA",
         "C": "SA",
         "D": "SA+MeJA",
         "G": "ABA",
-        "H": "ABA+MeJA",
         "X": "3-OH10",
         "Y": "chitooct",
         "Z": "elf18",

@@ -228,13 +228,12 @@ def main():
         "quantiles_per_treatment",
         #"DE_per_treatment",
     ]
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {
         "B": "MeJA",
         "C": "SA",
         "D": "SA+MeJA",
         "G": "ABA",
-        "H": "ABA+MeJA",
         "X": "3-OH10",
         "Y": "chitooct",
         "Z": "elf18",

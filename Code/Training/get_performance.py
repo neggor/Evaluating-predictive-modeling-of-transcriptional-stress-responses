@@ -29,7 +29,6 @@ mapping = {
     "C": "SA",
     "D": "SA+MeJA",
     "G": "ABA",
-    "H": "ABA+MeJA",
     "X": "3-OH10",
     "Y": "chitooct",
     "Z": "elf18",

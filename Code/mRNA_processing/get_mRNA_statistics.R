@@ -80,7 +80,7 @@ print(colnames(X))
 
 
 
-final_results <- DE_analysis(X, treatments = c("B", "C", "D", "G", "H"), store_folder = "Data/Processed/mRNA", name = "Hormone")
+final_results <- DE_analysis(X, treatments = c("B", "C", "D", "G"), store_folder = "Data/Processed/mRNA", name = "Hormone")
 write.csv(final_results, "Data/Processed/mRNA/DESeq2_padj_results_Hormone.csv", row.names = FALSE)
 
 

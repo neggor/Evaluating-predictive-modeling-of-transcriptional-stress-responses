@@ -3,15 +3,16 @@
 # mRNA stuff (This assumes you have access to the raw data!)
 mkdir -p Data/Processed/mRNA
 
-echo "Parsing PTI data..."
-python Code/mRNA_processing/parse_data.py
-echo "Running R script..."
-echo "Differential expression analysis..."
-Rscript "Code/mRNA_processing/get_mRNA_statistics.R"
-echo "Differential expression analysis... completed."
-echo "Merging hormone and PTI data..."
-python Code/mRNA_processing/merge_treatments.py
-echo "mRNA processing done!"
+#echo "Parsing PTI data..."
+#python Code/mRNA_processing/parse_data.py
+#echo "Running R script..."
+#echo "Differential expression analysis..."
+#Rscript "Code/mRNA_processing/get_mRNA_statistics.R"
+#echo "Differential expression analysis... completed."
+#echo "Merging hormone and PTI data..."
+#python Code/mRNA_processing/merge_treatments.py #
+#echo "mRNA processing done!"
+# The assumption is that the only thing made available is Data/Processed/mRNA/DESeq2_padj_results_ALL.csv
 
 # DNA stuff
 # Chromosome file

@@ -30,7 +30,6 @@ mapping = {
     "C": "SA",
     "D": "SA+MeJA",
     "G": "ABA",
-    "H": "ABA+MeJA",
     "X": "3-OH10",
     "Y": "chitooct",
     "Z": "elf18",
@@ -591,21 +590,7 @@ def figure_3a(outcome="log2FC"):
         raise ValueError("outcome must be either log2FC or amplitude")
 
     DNA_specs = [814, 200, 200, 814]
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
-    mapping = {
-        "B": "MeJA",
-        "C": "SA",
-        "D": "SA+MeJA",
-        "G": "ABA",
-        "H": "ABA+MeJA",
-        "X": "3-OH10",
-        "Y": "chitooct",
-        "Z": "elf18",
-        "W": "flg22",
-        "V": "nlp20",
-        "U": "OGs",
-        "T": "Pep1",
-    }
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     Y_hats = []
     training_specs = {
         "lr": 7e-5,
@@ -936,21 +921,8 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
 
 def figure_3c(figsize=(10, 7), outcome="log2FC"):
     DNA_specs = [814, 200, 200, 814]
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
-    mapping = {
-        "B": "MeJA",
-        "C": "SA",
-        "D": "SA+MeJA",
-        "G": "ABA",
-        "H": "ABA+MeJA",
-        "X": "3-OH10",
-        "Y": "chitooct",
-        "Z": "elf18",
-        "W": "flg22",
-        "V": "nlp20",
-        "U": "OGs",
-        "T": "Pep1",
-    }
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
+
 
     training_specs = {
         "lr": 7e-5,
@@ -1396,21 +1368,6 @@ def figure_5a(figsize=(10, 7)):
     PCA coefficients 6-mer log2fc
     '''
 
-    mapping = {
-        "B": "MeJA",
-        "C": "SA",
-        "D": "SA+MeJA",
-        "G": "ABA",
-        "H": "ABA+MeJA",
-        "X": "3-OH10",
-        "Y": "chitooct",
-        "Z": "elf18",
-        "W": "flg22",
-        "V": "nlp20",
-        "U": "OGs",
-        "T": "Pep1",
-    }
-
     coefs = pd.DataFrame()
     for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
         coef = pd.read_csv(f"Results/linear_models/log2FC/6-mer/{treatment}_coefficients.csv")
@@ -1428,7 +1385,7 @@ def figure_5a(figsize=(10, 7)):
 
     # add the rest
 
-    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA", "ABA+MeJA"]:
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
         coef = pd.read_csv(f"Results/linear_models/log2FC/6-mer/{hormone}_coefficients.csv")
         coef = coef.rename(columns={"Coefficient": hormone})
         coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
@@ -1495,21 +1452,6 @@ def figure_5b(figsize=(10, 7)):
         PCA coefficients 6-mer log2fc
         '''
 
-        mapping = {
-            "B": "MeJA",
-            "C": "SA",
-            "D": "SA+MeJA",
-            "G": "ABA",
-            "H": "ABA+MeJA",
-            "X": "3-OH10",
-            "Y": "chitooct",
-            "Z": "elf18",
-            "W": "flg22",
-            "V": "nlp20",
-            "U": "OGs",
-            "T": "Pep1",
-        }
-
         coefs = pd.DataFrame()
         for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
             coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
@@ -1527,7 +1469,7 @@ def figure_5b(figsize=(10, 7)):
 
         # add the rest
 
-        for hormone in ["MeJA", "SA", "SA+MeJA", "ABA", "ABA+MeJA"]:
+        for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
             coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
             coef = coef.rename(columns={"Coefficient": hormone})
             coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
@@ -1806,21 +1748,7 @@ def figure_2_1():
 
 def figure_S2(figsize = (10, 7)):
     DNA_specification = [814, 200, 200, 814]
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
-    mapping = {
-        "B": "MeJA",
-        "C": "SA",
-        "D": "SA+MeJA",
-        "G": "ABA",
-        "H": "ABA+MeJA",
-        "X": "3-OH10",
-        "Y": "chitooct",
-        "Z": "elf18",
-        "W": "flg22",
-        "V": "nlp20",
-        "U": "OGs",
-        "T": "Pep1",
-    }
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     
 
     for outcome in ["DE_per_treatment", "quantiles_per_treatment"]:
@@ -1887,21 +1815,7 @@ def figure_S3(figsize = (10, 7)):
     Heartmpas of relative correlations for LFCT and LFCA
     '''
     DNA_specs = [814, 200, 200, 814]
-    treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
-    mapping = {
-        "B": "MeJA",
-        "C": "SA",
-        "D": "SA+MeJA",
-        "G": "ABA",
-        "H": "ABA+MeJA",
-        "X": "3-OH10",
-        "Y": "chitooct",
-        "Z": "elf18",
-        "W": "flg22",
-        "V": "nlp20",
-        "U": "OGs",
-        "T": "Pep1",
-    }
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
 
     for outcome in ["log2FC", "amplitude" ]:
         training_specs = {

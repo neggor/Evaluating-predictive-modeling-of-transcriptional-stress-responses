@@ -9,10 +9,8 @@ from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 import subprocess
 from tqdm import tqdm
-import matplotlib.colors as mcolors
 import requests
 from bs4 import BeautifulSoup
-import time
 
 def filter_based_on_importance(PWM, CWM, threshold=0.3):
     score = np.sum(np.abs(CWM), axis=1)
@@ -367,7 +365,6 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
         "C": "SA",
         "D": "SA+MeJA",
         "G": "ABA",
-        "H": "ABA+MeJA",
         "X": "3-OH10",
         "Y": "chitooct",
         "Z": "elf18",
@@ -455,7 +452,6 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
             "SA",
             "SA+MeJA",
             "ABA",
-            "ABA+MeJA",
             "PTI",
             "best_match",
             "query_consensus",
