@@ -4,7 +4,7 @@
     "n_epochs": 1500,
     "patience": 10,
     "equivariant": true,
-    "n_labels": 12,
+    "n_labels": 11,
     "treatments": [
         "B",
         "C",
