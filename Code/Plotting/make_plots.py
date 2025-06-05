@@ -1473,7 +1473,7 @@ def figure_5a(figsize=(10, 7)):
     pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
     # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-    top_n = 20
+    top_n = 25
     important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
     # Create the biplot
@@ -2379,8 +2379,8 @@ def SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC"):
 
 if __name__ == "__main__":
     set_plot_style()
-    SUP_figure_R2Comparison(figsize=(10, 7), outcome="log2FC")
-    SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC")
+    #SUP_figure_R2Comparison(figsize=(10, 7), outcome="log2FC")
+    #SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC")
     #figure_1a()
     #figure_1b()
     #figure_2a()
@@ -2395,13 +2395,14 @@ if __name__ == "__main__":
     #figure_4c()
     #figure_4d()
     figure_5a()
-    figure_5b()
+    #figure_5b()
     #figure_5c()
+    #figure_5c(outcome="quantiles_per_treatment")  # 2.1
     # Reset for last figure
-    #sns.reset_defaults()
-    #sns.set_theme()
-    #mpl.rcParams.update(mpl.rcParamsDefault)
-    #figure_5d()
+    sns.reset_defaults()
+    sns.set_theme()
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    figure_5d()
 
     #SUP figures
     set_plot_style()

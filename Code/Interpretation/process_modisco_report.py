@@ -482,6 +482,8 @@ def cluster_patterns(n_clusters, output_dir, jaspar, seqlet_threshold=500):
         best_match, q_value, query_consensus, target_consensus = parse_tomtom_output(
             tomtom_output
         )
+        if best_match == "No match":
+            best_match = None
         print(
             f"Cluster {group_name}: {best_match} (q-value: {q_value}), {query_consensus} vs {target_consensus}"
         )
@@ -525,9 +527,9 @@ def map_tf_to_family(TF_ID):
 
 if __name__ == "__main__":
     cluster_patterns(
-        5,
+        4,
         "Results/Interpretation/cluster_patterns",
         "Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt",
-        30,
+        400,
         
     )
