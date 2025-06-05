@@ -154,6 +154,6 @@ def run_agroNT():
 
 
 if __name__ == "__main__":
-    #linear_models()
+    linear_models()
     run_cnn()
     run_agroNT()

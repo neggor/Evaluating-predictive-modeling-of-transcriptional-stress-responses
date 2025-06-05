@@ -24,6 +24,7 @@ from sklearn.preprocessing import StandardScaler
 from adjustText import adjust_text
 from tqdm import tqdm
 from matplotlib.lines import Line2D
+import requests
 
 mapping = {
     "B": "MeJA",
@@ -41,6 +42,72 @@ mapping = {
 
 magentaorgange_palette = ["#D35FB7", "#FF8C00"]
 coraldarkteal_palette = ["#FF7F50", "#2CA58D"]
+
+def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
+    """
+    Get the consensus motif for a given TF name using JASPAR API.
+    
+    Parameters:
+        tf_name (str): Name of the transcription factor (e.g., "WRKY70").
+        species (str): Optional, species name to filter (default is Arabidopsis).
+    
+    Returns:
+        str: Consensus motif (A/C/G/T string).
+    """
+    # Step 1: Search JASPAR for TF
+    if tf_name == "GT3a":
+        tf_name = "GT-3a" # Why dude?
+    if tf_name == "ATAF1":
+        tf_name = "NAC002"
+    if tf_name == "AREB3":
+        tf_name = "DPBF3"
+
+    # the issue with the aliases makes that this function is not tottally general.
+    # should be enough for replication, however.
+    query_url = "https://jaspar.elixir.no/api/v1/matrix/"
+    params = {
+        "search": tf_name,
+        "tax_group": "plants",
+        "page_size": 1,
+        "species": species,
+    }
+    print(f"Querying JASPAR for TF: {tf_name} in species: {species}")
+    response = requests.get(query_url, params=params)
+    response.raise_for_status()
+    results = response.json()["results"]
+    
+    if not results:
+        print (f"No results found for TF: {tf_name} this is likely due to a missing alias in JASPAR.")
+        return None
+    else:
+        matrix_id = results[0]["matrix_id"]
+
+    # Step 2: Get the full matrix including PFM
+    matrix_url = f"https://jaspar.elixir.no/api/v1/matrix/{matrix_id}/"
+    r = requests.get(matrix_url)
+    r.raise_for_status()
+    pfm = r.json()["pfm"]
+
+    # Step 3: Convert PFM to consensus using argmax
+    bases = ['A', 'C', 'G', 'T']
+    matrix = np.array([pfm[base] for base in bases])
+    # remove columns if entropy is too high
+    entropy = stats.entropy(matrix, base=2, axis=0) # automatically normalizes 
+    # get first and last columns with entropy < 1.5
+    low_entropy_indices = np.where(entropy < 1.5)[0]
+    # ge the between the first and last low entropy indices
+    if len(low_entropy_indices) == 0:
+        print(f"No low entropy indices found for TF: {tf_name}")
+        return None
+    first_low_entropy = low_entropy_indices[0]
+    last_low_entropy = low_entropy_indices[-1]
+    matrix = matrix[:, first_low_entropy:last_low_entropy + 1]
+    consensus_indices = np.argmax(matrix, axis=0)
+    consensus = ''.join([bases[i] for i in consensus_indices])
+    # return up to 6 bases
+    consensus = consensus[:8]  # Limit to first 6 bases cuz of the 6-mer
+
+    return consensus
 
 
 def set_plot_style():
@@ -669,6 +736,7 @@ def figure_3a(outcome="log2FC"):
     # and plot the regression line in the scatterplot
 
     fig, axes = plt.subplots(nrows=2, ncols=6, figsize=(20, 8), dpi=300)
+
     # fig.suptitle("Regression of True vs Predicted Values", fontsize=14)
 
     for i, treatment in enumerate([mapping[t] for t in treatments]):
@@ -710,7 +778,8 @@ def figure_3a(outcome="log2FC"):
         ax.spines["left"].set_color("black")
         ax.spines["bottom"].set_linewidth(1)
         ax.spines["bottom"].set_color("black")
-
+    axes = axes.flatten()
+    fig.delaxes(axes[len(treatments)])
     # Set overall x and y labels
     fig.text(0.5, 0.02, r"Predicted LFC.T", ha="center", fontsize=12)
     fig.text(0.02, 0.5, r"True LFC.T", va="center", rotation="vertical", fontsize=12)
@@ -1012,6 +1081,8 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
         fmt=".2f",
         linewidths=0.5,
         linecolor="black",
+        vmin=-1,
+        vmax=1,  # Enforce colormap range from -1 to 1
     )
     # reduce the fontsize of the numbers inside the heatmap
 
@@ -1402,8 +1473,8 @@ def figure_5a(figsize=(10, 7)):
     pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
     # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-    top_n = 12
-    important_points = pca_df.abs().nlargest(top_n, "PC1").index.tolist() + pca_df.abs().nlargest(top_n, "PC2").index.tolist()
+    top_n = 20
+    important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
     # Create the biplot
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
@@ -1481,15 +1552,17 @@ def figure_5b(figsize=(10, 7)):
         # Perform PCA
         pca = PCA(n_components=2)
         coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
-        # multiply x axis by -1
-        coefs_pca[:, 0] = coefs_pca[:, 0] * -1
+        coefs_pca[:, 0] = coefs_pca[:, 0] #* -1
         # Create DataFrame for plotting
         pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
         # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-        top_n = 12
-        important_points = pca_df.abs().nlargest(top_n, "PC1").index.tolist() + pca_df.abs().nlargest(top_n, "PC2").index.tolist()
+        top_n = 15
+        important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
+        # get the motifs of the important points
+        consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
+        #import pdb; pdb.set_trace()
         # Create the biplot
         fig, ax = plt.subplots(figsize=figsize, dpi=300)
 
@@ -1500,10 +1573,15 @@ def figure_5b(figsize=(10, 7)):
         texts = []
         for i, txt in enumerate(pca_df.index):
             if txt in important_points:
-                texts.append(ax.text(pca_df["PC1"][i], pca_df["PC2"][i], txt, fontsize=13, alpha=1))
+                texts.append(ax.text(
+                    pca_df["PC1"][i], 
+                    pca_df["PC2"][i], 
+                    f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                    fontsize=11, 
+                    alpha=1
+                ))
         loadings = pca.components_  # Get PC1 and PC2 loadings
-        # multiply x axis by -1
-        loadings[0, :] = loadings[0, :] * -1
+        loadings[0, :] = loadings[0, :]# * -1
         scaling_factor = 14  # Adjust arrow length
         for i, treatment in enumerate(coefs.columns):
             texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
@@ -1790,6 +1868,8 @@ def figure_S2(figsize = (10, 7)):
             fmt=".2f",
             linewidths=0.5,
             linecolor="black",
+            vmax=1,
+            vmin=0,
         )
         # reduce the fontsize of the numbers inside the heatmap
 
@@ -1856,6 +1936,8 @@ def figure_S3(figsize = (10, 7)):
             fmt=".2f",
             linewidths=0.5,
             linecolor="black",
+            vmax=1,
+            vmin=-1,
         )
         # reduce the fontsize of the numbers inside the heatmap
 
@@ -1908,29 +1990,418 @@ def SUP_figure_b():
     # Correlations in the actual underlying data for Amplitude
     pass
 
+
+
+def SUP_figure_R2Comparison(figsize=(10, 7), outcome="log2FC"):
+    if outcome not in ["log2FC", "amplitude"]:
+        raise ValueError("outcome must be either log2FC or amplitude")
+
+    # Initialize figure
+    plt.figure(figsize=figsize, dpi=300)
+
+    # Read and concatenate data
+    my_concat = pd.DataFrame()
+
+    # CNN Model
+    for i in range(0, 5):
+        metrics = pd.read_csv(
+            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/test_metrics.csv",
+            index_col=0,
+        )
+        metric_m = pd.DataFrame(metrics.T)
+        metric_m["replicate"] = i
+        metric_m["model"] = "CNN"
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # AgroNT Model
+    metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
+    metric_m = pd.DataFrame(metrics.T)
+    metric_m["replicate"] = 0
+    metric_m["model"] = "AgroNT"
+    my_concat = pd.concat([my_concat, metric_m])
+
+    # 6-mer
+    for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
+        if "metrics" not in file:
+            continue
+        treatment_name = file.split("_")[0]
+        metrics = pd.read_csv(
+            f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
+        )
+        metric_m = pd.DataFrame(metrics)
+        metric_m["replicate"] = 0
+        metric_m["model"] = "6-mer"
+        metric_m["treatment"] = treatment_name
+        # reset index
+        metric_m.reset_index(inplace=True)
+        # set index treatment
+        metric_m.set_index("treatment", inplace=True)
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # DAPseq
+    for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
+        if "metrics" not in file:
+            continue
+        treatment_name = file.split("_")[0]
+        metrics = pd.read_csv(
+            f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
+        )
+        metric_m = pd.DataFrame(metrics)
+        metric_m["replicate"] = 0
+        metric_m["model"] = "DAPseq"
+        metric_m["treatment"] = treatment_name
+        # reset index
+        metric_m.reset_index(inplace=True)
+        # set index treatment
+        metric_m.set_index("treatment", inplace=True)
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # Reset index
+    my_concat.reset_index(inplace=True)
+    my_concat.rename(columns={"index": "Metric"}, inplace=True)
+    # apply mapping to the treatment
+    my_concat["treatment"] = my_concat["Metric"].replace(mapping)
+
+    # Simulate random model
+    # DNA_specs = [814, 200, 200, 814]
+    # treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    # (
+    #    mRNA_train,
+    #    mRNA_validation,
+    #    mRNA_test,
+    #    TSS_sequences,
+    #    TTS_sequences,
+    #    metadata,
+    # ) = load_data(
+    #    train_proportion=0.80,
+    #    val_proportion=0.1,
+    #    DNA_specs=DNA_specs,
+    #    treatments=treatments,
+    #    problem_type=outcome,
+    #    mask_exons=False,
+    #    dna_format="One_Hot_Encoding",
+    # )
+    #
+    #
+    # random_results = []
+    # np.random.seed(42)  # for reproducibility
+    # for treatment in treatments:
+    #    Y = mRNA_test[treatment]
+    #    # get the sign
+    #    Y_sign = Y.apply(lambda x: 1 if x > 0 else 0)
+    #    for replicate in range(5):
+    #        correct = np.random.binomial(
+    #            n=Y.shape[0],
+    #            p=0.5,
+    #        )
+    #        # calculate the accuracy
+    #        acc = correct / Y.shape[0]
+    #        random_results.append({
+    #            "sign_accuracy": acc,
+    #            "replicate": replicate,
+    #            "model": "Random",
+    #            "treatment": mapping[treatment],
+    #    })
+    #
+    # random_df = pd.DataFrame(random_results)
+    # my_concat = pd.concat([my_concat, random_df], ignore_index=True)
+
+    # Boxplot for CNN
+    sns.boxplot(
+        data=my_concat[my_concat["model"] == "CNN"],
+        x="treatment",
+        y="R2",
+        color="#2ca02c",
+        width=0.6,
+        showfliers=False,
+    )
+
+    # Stripplot (dots) for all other models
+    strip = sns.stripplot(
+        data=my_concat[
+            (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
+        ],
+        x="treatment",
+        y="R2",
+        hue="model",
+        dodge=True,
+        jitter=True,
+        alpha=0.8,
+        linewidth=0.5,
+        size=10,
+        palette={
+            "6-mer": "#1f77b4",
+            "DAPseq": "#ff7f0e",
+            "AgroNT": "#d62728",
+            "Random": "#999999",
+        },
+    )
+
+    # sns.boxplot(
+    #    data=my_concat[my_concat["model"] == "Random"],
+    #    x="treatment",
+    #    y="sign_accuracy",
+    #    color="#999999",
+    #    width=0.2,
+    #    showfliers=False,
+    # )
+
+    plt.xticks(rotation=45, ha="right")
+  
+    plt.ylabel("R2 (proportion of variance explained)")
+    
+    plt.xlabel("Treatment")
+    strip.spines["top"].set_visible(False)
+    strip.spines["right"].set_visible(False)
+   
+    # Manually create a legend including CNN
+    handles, labels = strip.get_legend_handles_labels()
+    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
+    handles.insert(0, cnn_patch)
+    labels.insert(0, "CNN")
+    # Add vertical grid lines between treatments
+    # Add customized vertical grid lines between treatments
+    ax = plt.gca()
+    treatments = my_concat["treatment"].unique()
+    ax.yaxis.grid(True, which='major', linestyle='--', linewidth=0.5, color='gray', alpha=0.7)
+    
+    # Calculate positions for vertical gridlines (offset by 0.5)
+    for i in range(len(treatments)+1):
+        ax.axvline(x=i-0.5, color='gray', linestyle='--', linewidth=0.5, alpha=0.7, zorder=0)
+
+    plt.legend(
+        handles=handles,
+        labels=labels,
+        title="Model",
+        loc="upper right",
+        bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
+        frameon=False if outcome == "log2FC" else True,)
+
+    # plt.title("Comparison of Test Metrics Across Models")
+    plt.tight_layout()
+    if outcome == "log2FC":
+        plt.savefig(f"Images/figure_R2_comaprison.pdf", bbox_inches="tight")
+    else:
+        plt.savefig(f"Images/figure_R2_comaprison_amplitude.pdf", bbox_inches="tight")
+    
+def SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC"):
+    if outcome not in ["log2FC", "amplitude"]:
+        raise ValueError("outcome must be either log2FC or amplitude")
+
+    # Initialize figure
+    plt.figure(figsize=figsize, dpi=300)
+
+    # Read and concatenate data
+    my_concat = pd.DataFrame()
+
+    # CNN Model
+    for i in range(0, 5):
+        metrics = pd.read_csv(
+            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/test_metrics.csv",
+            index_col=0,
+        )
+        metric_m = pd.DataFrame(metrics.T)
+        metric_m["replicate"] = i
+        metric_m["model"] = "CNN"
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # AgroNT Model
+    metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
+    metric_m = pd.DataFrame(metrics.T)
+    metric_m["replicate"] = 0
+    metric_m["model"] = "AgroNT"
+    my_concat = pd.concat([my_concat, metric_m])
+
+    # 6-mer
+    for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
+        if "metrics" not in file:
+            continue
+        treatment_name = file.split("_")[0]
+        metrics = pd.read_csv(
+            f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
+        )
+        metric_m = pd.DataFrame(metrics)
+        metric_m["replicate"] = 0
+        metric_m["model"] = "6-mer"
+        metric_m["treatment"] = treatment_name
+        # reset index
+        metric_m.reset_index(inplace=True)
+        # set index treatment
+        metric_m.set_index("treatment", inplace=True)
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # DAPseq
+    for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
+        if "metrics" not in file:
+            continue
+        treatment_name = file.split("_")[0]
+        metrics = pd.read_csv(
+            f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
+        )
+        metric_m = pd.DataFrame(metrics)
+        metric_m["replicate"] = 0
+        metric_m["model"] = "DAPseq"
+        metric_m["treatment"] = treatment_name
+        # reset index
+        metric_m.reset_index(inplace=True)
+        # set index treatment
+        metric_m.set_index("treatment", inplace=True)
+        my_concat = pd.concat([my_concat, metric_m])
+
+    # Reset index
+    my_concat.reset_index(inplace=True)
+    my_concat.rename(columns={"index": "Metric"}, inplace=True)
+    # apply mapping to the treatment
+    my_concat["treatment"] = my_concat["Metric"].replace(mapping)
+
+    # Simulate random model
+    # DNA_specs = [814, 200, 200, 814]
+    # treatments = ["B", "C", "D", "G", "H", "X", "Y", "Z", "W", "V", "U", "T"]
+    # (
+    #    mRNA_train,
+    #    mRNA_validation,
+    #    mRNA_test,
+    #    TSS_sequences,
+    #    TTS_sequences,
+    #    metadata,
+    # ) = load_data(
+    #    train_proportion=0.80,
+    #    val_proportion=0.1,
+    #    DNA_specs=DNA_specs,
+    #    treatments=treatments,
+    #    problem_type=outcome,
+    #    mask_exons=False,
+    #    dna_format="One_Hot_Encoding",
+    # )
+    #
+    #
+    # random_results = []
+    # np.random.seed(42)  # for reproducibility
+    # for treatment in treatments:
+    #    Y = mRNA_test[treatment]
+    #    # get the sign
+    #    Y_sign = Y.apply(lambda x: 1 if x > 0 else 0)
+    #    for replicate in range(5):
+    #        correct = np.random.binomial(
+    #            n=Y.shape[0],
+    #            p=0.5,
+    #        )
+    #        # calculate the accuracy
+    #        acc = correct / Y.shape[0]
+    #        random_results.append({
+    #            "sign_accuracy": acc,
+    #            "replicate": replicate,
+    #            "model": "Random",
+    #            "treatment": mapping[treatment],
+    #    })
+    #
+    # random_df = pd.DataFrame(random_results)
+    # my_concat = pd.concat([my_concat, random_df], ignore_index=True)
+
+    # Boxplot for CNN
+    sns.boxplot(
+        data=my_concat[my_concat["model"] == "CNN"],
+        x="treatment",
+        y="Spearman",
+        color="#2ca02c",
+        width=0.6,
+        showfliers=False,
+    )
+
+    # Stripplot (dots) for all other models
+    strip = sns.stripplot(
+        data=my_concat[
+            (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
+        ],
+        x="treatment",
+        y="Spearman",
+        hue="model",
+        dodge=True,
+        jitter=True,
+        alpha=0.8,
+        linewidth=0.5,
+        size=10,
+        palette={
+            "6-mer": "#1f77b4",
+            "DAPseq": "#ff7f0e",
+            "AgroNT": "#d62728",
+            "Random": "#999999",
+        },
+    )
+
+    # sns.boxplot(
+    #    data=my_concat[my_concat["model"] == "Random"],
+    #    x="treatment",
+    #    y="sign_accuracy",
+    #    color="#999999",
+    #    width=0.2,
+    #    showfliers=False,
+    # )
+
+    plt.xticks(rotation=45, ha="right")
+  
+    plt.ylabel("R2 (proportion of variance explained)")
+    
+    plt.xlabel("Treatment")
+    strip.spines["top"].set_visible(False)
+    strip.spines["right"].set_visible(False)
+   
+    # Manually create a legend including CNN
+    handles, labels = strip.get_legend_handles_labels()
+    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
+    handles.insert(0, cnn_patch)
+    labels.insert(0, "CNN")
+    # Add vertical grid lines between treatments
+    # Add customized vertical grid lines between treatments
+    ax = plt.gca()
+    treatments = my_concat["treatment"].unique()
+    ax.yaxis.grid(True, which='major', linestyle='--', linewidth=0.5, color='gray', alpha=0.7)
+    
+    # Calculate positions for vertical gridlines (offset by 0.5)
+    for i in range(len(treatments)+1):
+        ax.axvline(x=i-0.5, color='gray', linestyle='--', linewidth=0.5, alpha=0.7, zorder=0)
+
+    plt.legend(
+        handles=handles,
+        labels=labels,
+        title="Model",
+        loc="upper right",
+        bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
+        frameon=False if outcome == "log2FC" else True,)
+
+    # plt.title("Comparison of Test Metrics Across Models")
+    plt.tight_layout()
+    if outcome == "log2FC":
+        plt.savefig(f"Images/figure_Spearman_comaprison.pdf", bbox_inches="tight")
+    else:
+        plt.savefig(f"Images/figure_Spearman_amplitude.pdf", bbox_inches="tight")
+
+
 if __name__ == "__main__":
     set_plot_style()
-    #figure_1a()
+    SUP_figure_R2Comparison(figsize=(10, 7), outcome="log2FC")
+    SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC")
     #figure_1a()
     #figure_1b()
     #figure_2a()
     #figure_2b()
-    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
+    ##figure_5c(outcome = "quantiles_per_treatment") # 2.1
     #figure_3c()
     #figure_3a()
     #figure_3b()
+    
     #figure_4a()
     #figure_4b()
     #figure_4c()
     #figure_4d()
-    #figure_5a()
-    #figure_5b()
+    figure_5a()
+    figure_5b()
     #figure_5c()
     # Reset for last figure
-    sns.reset_defaults()
-    sns.set_theme()
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5d()
+    #sns.reset_defaults()
+    #sns.set_theme()
+    #mpl.rcParams.update(mpl.rcParamsDefault)
+    #figure_5d()
 
     #SUP figures
     set_plot_style()

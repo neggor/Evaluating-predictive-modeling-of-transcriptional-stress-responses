@@ -41,6 +41,7 @@ python Code/mRNA_processing/test_count_bias.py
 ## 📊  Run model performance evaluation
 ```bash
 python Code/Training/run_analysis.py
+python Code/Training/generate_results_table.py
 ```
 
 ## 🧠 Run TF-Modisco Analysis

@@ -19,8 +19,8 @@
     "downstream_TTS": 814,
     "dna_format": "DAPseq",
     "mask_exons": false,
-    "problem_type": "amplitude",
-    "linear_model_kind": "lasso",
-    "model_name": "linear_amplitude_DAPseq",
+    "problem_type": "DE_per_treatment",
+    "linear_model_kind": "logistic_l1",
+    "model_name": "linear_DE_per_treatment_DAPseq",
     "separated_segments": false
 }
