@@ -1,5 +1,4 @@
 import sys
-
 sys.path.append(".")
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -109,7 +108,6 @@ def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
 
     return consensus
 
-
 def set_plot_style():
     # Set Seaborn style + Matplotlib overrides
     sns.set_style("whitegrid")  # Background style (choose one)
@@ -146,71 +144,6 @@ def set_plot_style():
 
     sns.set_palette("deep")  # Set default color palette
     sns.color_palette("viridis", as_cmap=True)
-
-
-def _figure_1(
-    figsize=(10, 7), fitted_values_file="Data/Processed/mRNA/fitted_values_PTI_X.csv"
-):
-
-    X = pd.read_csv(fitted_values_file)
-    # select a subset of genes and make a nice scatterplot on time
-    # set Unnamed: 0 name as "gene"
-    X = X.rename(columns={"Unnamed: 0": "gene"})
-    X.set_index("gene", inplace=True)
-    X = X.sample(n=100, random_state=42)
-    X_control = X.filter(like="control")
-    # select columns that have treatment
-    treatment = fitted_values_file.split("/")[-1].split("_")[-1].split(".")[0]
-    X_treatment = X.filter(like=treatment)
-    # Random gene selection
-    treatment = fitted_values_file.split("/")[-1].split("_")[-1].split(".")[0]
-    X_treatment = X.filter(like=treatment)
-    # put in long format, with the columns as features.
-    # They ae separated by _, being treatment, time, replication
-    X_control = pd.melt(
-        X_control.reset_index(),
-        id_vars=["gene"],
-        var_name="features",
-        value_name="fitted_values",
-    )
-    X_control["treatment"] = "control"
-    X_treatment = pd.melt(
-        X_treatment.reset_index(),
-        id_vars=["gene"],
-        var_name="features",
-        value_name="fitted_values",
-    )
-    X_treatment["treatment"] = mapping[treatment]
-    # merge the two dataframes
-    X = pd.concat([X_control, X_treatment])
-    # split the features column into three columns
-    X[["treatment", "time", "replication"]] = X["features"].str.split("_", expand=True)
-    # if treatment =! "control" then set treatment to the value in the mapping
-    X["treatment"] = X["treatment"].replace(mapping)
-    # drop the features column
-    X = X.drop(columns=["features"])
-    # goup by by replication and take the average (the are actually the same value!)
-    X = X.groupby(["treatment", "time", "gene"]).mean().reset_index()
-    # set the time as int
-    X["time"] = X["time"].astype(int)
-    # now make a lineplot for treatment and control
-    fig, ax = plt.subplots(figsize=figsize, dpi=300)
-    for gene in X["gene"].unique():
-        X_gene_treatment = X[(X["gene"] == gene) & ((X["treatment"] != "control"))]
-        X_gene_control = X[(X["gene"] == gene) & ((X["treatment"] == "control"))]
-        fold_change = (
-            X_gene_treatment["fitted_values"].values
-            / X_gene_control["fitted_values"].values
-        )
-        # make a new dataframe with the time and the fold change
-        X_gene_treatment = X_gene_treatment.copy()
-        X_gene_treatment["fitted_values"] = np.log2(fold_change)
-        # make the lineplot
-        #  add a column for the ration
-        sns.lineplot(data=X_gene_treatment, x="time", y="fitted_values", ax=ax)
-
-    plt.show()
-
 
 def figure_1a(figsize=(10, 7)):
     res = pd.read_csv("Data/Processed/mRNA/DESeq2_padj_results_ALL.csv")
@@ -270,7 +203,6 @@ def figure_1a(figsize=(10, 7)):
     # plt.title("Likelihood ratio between including or excluding the treatment effect \n Pep1 treatment")
     # save
     plt.savefig("Images/figure_1a.pdf", bbox_inches="tight")
-
 
 def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     """
@@ -379,8 +311,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     if metric == "AUC":
         plt.savefig("Images/figure_2a.pdf", bbox_inches="tight")
     elif metric == "MCC":
-        plt.savefig("Images/figure_SUP_1.pdf", bbox_inches="tight")
-
+        plt.savefig("Images/SUP_figure_1.pdf", bbox_inches="tight")
 
 def figure_1b(
     figsize=(10, 7),
@@ -542,7 +473,6 @@ def figure_1b(
     )
     plt.savefig("Images/figure_1b.pdf", bbox_inches="tight")
 
-
 def figure_2b(figsize=(10, 7), pvals=True, metric="Spearman"):
     res = pd.read_csv("Results/Results_table.csv")
     res["in_type"] = res["in_type"].replace(
@@ -650,7 +580,6 @@ def figure_2b(figsize=(10, 7), pvals=True, metric="Spearman"):
     ax.spines["right"].set_visible(False)
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     plt.savefig("Images/figure_2b.pdf", bbox_inches="tight")
-
 
 def figure_3a(outcome="log2FC"):
     if outcome not in ["log2FC", "amplitude"]:
@@ -791,7 +720,6 @@ def figure_3a(outcome="log2FC"):
     plt.savefig(f"Images/figure_3a.pdf", bbox_inches="tight")
     # also as a png
     plt.savefig(f"Images/figure_3a.png", bbox_inches="tight")
-
 
 def figure_3b(figsize=(10, 7), outcome="log2FC"):
     if outcome not in ["log2FC", "amplitude"]:
@@ -985,8 +913,6 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         plt.savefig(f"Images/figure_3b.pdf", bbox_inches="tight")
     else:
         plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight")
-    
-
 
 def figure_3c(figsize=(10, 7), outcome="log2FC"):
     DNA_specs = [814, 200, 200, 814]
@@ -1108,7 +1034,6 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
     else:
         plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight") # TODO
 
-
 def figure_4a(figsize=(10, 7), metric="AUC"):
     res = pd.read_csv("Results/Results_table.csv")
     # Change the "in_type" column name to "Model type"
@@ -1186,7 +1111,6 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
     plt.xticks([])
     # save the figure
     plt.savefig("Images/figure_4a.pdf", bbox_inches="tight")
-
 
 def figure_4b(figsize=(10, 7), metric="Spearman"):
     res = pd.read_csv("Results/Results_table.csv")
@@ -1272,7 +1196,6 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
     plt.xticks([])
     plt.savefig("Images/figure_4b.pdf", bbox_inches="tight")
 
-
 def figure_4c(figsize=(10, 7), metric="AUC"):
     res = pd.read_csv("Results/Results_table.csv")
     # Change the "in_type" column name to "Model type"
@@ -1349,7 +1272,6 @@ def figure_4c(figsize=(10, 7), metric="AUC"):
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     # save the figure
     plt.savefig("Images/figure_4c.pdf", bbox_inches="tight")
-
 
 def figure_4d(figsize=(10, 7), metric="Spearman"):
     res = pd.read_csv("Results/Results_table.csv")
@@ -1818,13 +1740,51 @@ def figure_5d(figsize=(10, 7)):
     #cbar.ax.tick_params(labelsize=12)
     plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
 
+def figure_S2(figsize=(10, 7)):
+    '''
+    Compare performance between hormones and PTI for AUC and MCC
+    '''
+    res = pd.read_csv("Results/Results_table.csv")
+    # Change the "in_type" column name to "Model type"
+    df = res.rename(columns={"in_type": "Model type"})
+    
+    
+    hormone_treatments = ["MeJA", "SA", "SA+MeJA", "ABA"]
+    df["treatment_group"] = df["treatment"].apply(lambda x: "Hormone" if x in hormone_treatments else "PTI")
 
-def figure_2_1():
-    pass
-    # this will be the actual contribution scores NOT hypothetical contribution scores for 
-    # either of the models. Putting both will be too much and actually kind of redundant!
+    # Filter the DataFrame to the relevant subset for plotting
+    filtered_df = df[
+        (df["outcome_type"].isin(["DE_per_treatment", "quantiles_per_treatment"])) &
+        (df["metric"].isin(["AUC", "MCC"]))
+    ].copy()
 
-def figure_S2(figsize = (10, 7)):
+    # Create treatment groups
+    hormones = ["MeJA", "SA", "SA+MeJA", "ABA"]
+    filtered_df["treatment_group"] = filtered_df["treatment"].apply(lambda x: "Hormone" if x in hormones else "PTI")
+
+    # Plot using seaborn
+    plt.figure(figsize=figsize, dpi=300)
+    g = sns.catplot(
+        data=filtered_df,
+        x="metric",
+        y="value",
+        hue="treatment_group",
+        col="outcome_type",
+        kind="box",
+        palette="Set2",
+        height=5,
+        aspect=1
+    )
+
+    g.set_axis_labels("Metric", "Value")
+    g.set_titles("{col_name}")
+    plt.tight_layout()
+    plt.savefig("Images/SUP_figure_2.pdf", bbox_inches="tight")
+
+def figure_S3(figsize = (10, 7)):
+    '''
+    Heatmaps of overlaps of sensitive genes for different treatments
+    '''
     DNA_specification = [814, 200, 200, 814]
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     
@@ -1887,27 +1847,16 @@ def figure_S2(figsize = (10, 7)):
             fontsize=10,
     )
         # remove colormap
-        plt.savefig(f"Images/SUP_figure_2_{outcome}.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/SUP_figure_3_{outcome}.pdf", bbox_inches="tight")
         
-
-def figure_S3(figsize = (10, 7)):
+def figure_S4(figsize = (10, 7)):
     '''
-    Heartmpas of relative correlations for LFCT and LFCA
+    Heatmaps of relative correlations for LFCT and LFCA
     '''
     DNA_specs = [814, 200, 200, 814]
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
 
     for outcome in ["log2FC", "amplitude" ]:
-        training_specs = {
-                                    "lr": 7e-5,
-                                    "weight_decay": 0.00001,
-                                    "n_epochs": 1500,
-                                    "patience": 25,
-                                    "problem_type": outcome,
-                                    "equivariant": True,
-                                    "n_labels": len(treatments),
-                                    "batch_size": 64,
-                                }
         (mRNA_train,
         mRNA_validation,
         mRNA_test,
@@ -1955,7 +1904,7 @@ def figure_S3(figsize = (10, 7)):
             fontsize=10,
     )
         # remove colormap
-        plt.savefig(f"Images/SUP_figure_3_{outcome}.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/SUP_figure_4_{outcome}.pdf", bbox_inches="tight")
         
     
         
@@ -2378,36 +2327,39 @@ def SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC"):
 
 
 if __name__ == "__main__":
-    set_plot_style()
-    #SUP_figure_R2Comparison(figsize=(10, 7), outcome="log2FC")
-    #SUP_figure_SpearmanComparison(figsize=(10, 7), outcome="log2FC")
+    #exit()
+    #set_plot_style()
     #figure_1a()
     #figure_1b()
+    #
     #figure_2a()
     #figure_2b()
-    ##figure_5c(outcome = "quantiles_per_treatment") # 2.1
+    #
+    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
+    #
     #figure_3c()
     #figure_3a()
     #figure_3b()
-    
+    #
     #figure_4a()
     #figure_4b()
     #figure_4c()
     #figure_4d()
-    figure_5a()
+    #
+    #figure_5a()
     #figure_5b()
     #figure_5c()
-    #figure_5c(outcome="quantiles_per_treatment")  # 2.1
-    # Reset for last figure
-    sns.reset_defaults()
-    sns.set_theme()
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5d()
+    ## Reset for last figure
+    #sns.reset_defaults()
+    #sns.set_theme()
+    #mpl.rcParams.update(mpl.rcParamsDefault)
+    #figure_5d()
 
     #SUP figures
     set_plot_style()
-    #figure_2a(metric="MCC")
+    #figure_2a(metric="MCC") # SUP 1
     #figure_S2()
-    #figure_S3()
+
+    figure_S3()
     #figure_3b(outcome="amplitude")
     
