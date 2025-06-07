@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# mRNA stuff (This assumes you have access to the raw data!)
 mkdir -p Data/Processed/mRNA
-
+# mRNA stuff (no publicly available raw data)
 #echo "Parsing PTI data..."
 #python Code/mRNA_processing/parse_data.py
 #echo "Running R script..."
@@ -12,7 +11,6 @@ mkdir -p Data/Processed/mRNA
 #echo "Merging hormone and PTI data..."
 #python Code/mRNA_processing/merge_treatments.py #
 #echo "mRNA processing done!"
-# The assumption is that the only thing made available is Data/Processed/mRNA/DESeq2_padj_results_ALL.csv
 
 # DNA stuff
 # Chromosome file

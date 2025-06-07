@@ -33,11 +33,6 @@ bash Code/prepare_data.sh
 This takes care of downloading the DNA, DAP-seq, protein sequences and processing it, including generating the protein families file which will be used for family-wise splitting.
 
 
-### Check relationship with average expression
-```bash
-python Code/mRNA_processing/test_count_bias.py
-```
-
 ## 📊  Run model performance evaluation
 ```bash
 python Code/Training/run_analysis.py
