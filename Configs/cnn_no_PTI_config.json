@@ -1,0 +1,37 @@
+{
+    "lr": 7e-05,
+    "weight_decay": 1e-05,
+    "n_epochs": 1500,
+    "patience": 10,
+    "equivariant": true,
+    "n_labels": 4,
+    "treatments": [
+        "B",
+        "C",
+        "D",
+        "G"
+    ],
+    "batch_size": 64,
+    "n_ressidual_blocks": 5,
+    "in_channels": 4,
+    "out_channels": 256,
+    "kernel_size": [
+        5,
+        3,
+        3,
+        3,
+        3
+    ],
+    "max_pooling_kernel_size": 4,
+    "stride": 1,
+    "dropout_rate": 0.25,
+    "upstream_TSS": 814,
+    "upstream_TTS": 200,
+    "downstream_TSS": 200,
+    "downstream_TTS": 814,
+    "dna_format": "One_Hot_Encoding",
+    "mask_exons": false,
+    "problem_type": "log2FC",
+    "device": "cuda",
+    "model_name": "CNN"
+}
