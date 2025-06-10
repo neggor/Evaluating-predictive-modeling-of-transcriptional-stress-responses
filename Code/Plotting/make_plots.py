@@ -2076,33 +2076,32 @@ def figure_S7(figsize=(10, 7)):
 
 if __name__ == "__main__":
     set_plot_style()
-    #figure_1a()
+    figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    #
-    #figure_2a()
-    #figure_2b()
-    #
-    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
-    #
-    #figure_3c()
-    #figure_3a()
-    #figure_3b()
-    #
-    #figure_4a()
-    #figure_4b()
-    #figure_4c()
-    #figure_4d()
-    #
-    #figure_5a()
-    #figure_5b()
-    #figure_5c()
+    
+    figure_2a()
+    figure_2b()
+    
+    figure_5c(outcome = "quantiles_per_treatment") # 2.1
+    
+    figure_3c()
+    figure_3a()
+    figure_3b()
+    
+    figure_4a()
+    figure_4b()
+    figure_4c()
+    figure_4d()
+    
+    figure_5a()
+    figure_5b()
+    figure_5c()
 
     ## Reset for last figure
     sns.reset_defaults()
     sns.set_theme()
     mpl.rcParams.update(mpl.rcParamsDefault)
     figure_5d()
-    exit()
     #SUP figures
     set_plot_style()
     figure_2a(metric="MCC") # SUP 1
