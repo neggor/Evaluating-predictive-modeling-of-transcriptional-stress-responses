@@ -11,7 +11,7 @@ Before starting, ensure the following tools are installed:
 
 Then, run the following to install all the required dependencies in a new conda environment.
 ```bash
-# ✅ Create the environment with specific Python and R versions
+# ✅ Create the environment with specific Python versions
 conda create -n epmsAT python=3.8.18 -c conda-forge -y
 
 # ✅ Activate the environment
