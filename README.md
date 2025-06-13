@@ -69,7 +69,7 @@ This dataset can be used to construct a set of independent variables to try out 
 
 - **`average`**  : Average counts over treatment and control and all time points.
 
-- **`neg_log10_pvalue`**  : Negative $\log_10$ pvalue of padj column.
+- **`neg_log10_pvalue`**  : Negative $\log_{10}$ pvalue of padj column.
 
 ## 📊  Run model performance evaluation
 ```bash
