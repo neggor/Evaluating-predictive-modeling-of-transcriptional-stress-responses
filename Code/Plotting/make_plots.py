@@ -1051,7 +1051,7 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
         test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
     )
     annotator.apply_and_annotate()
-    plt.ylabel(f"{metric}")
+    plt.ylabel(f"{metric}-ROC" if metric == "AUC" else f"{metric}")
     plt.xlabel("")
     plt.legend(loc="upper center", frameon=False, ncol=1)
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
@@ -1213,7 +1213,7 @@ def figure_4c(figsize=(10, 7), metric="AUC"):
         test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
     )
     annotator.apply_and_annotate()
-    plt.ylabel(f"{metric}")
+    plt.ylabel(f"{metric}-ROC" if metric == "AUC" else f"{metric}")
 
     plt.xlabel("")
     plt.legend(loc="upper center", frameon=False, ncol=1)
