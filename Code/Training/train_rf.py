@@ -36,19 +36,19 @@ def cross_validate(X, y, family, task="regression", cv=3, scoring=None, n_jobs=1
     """
 
     if task == "regression":
-        model = RandomForestRegressor(random_state=42)
+        model = RandomForestRegressor(random_state=42, n_jobs= -1)
         param_grid = {
-            "n_estimators": [50, 100, 200],
-            "max_depth": [None, 10, 14, 20],
+            "n_estimators": [50, 100],
+            "max_depth": [10, 14],
             "min_samples_split": [2, 5, 10]
         }
         if scoring is None:
             scoring = "r2"
     elif task == "classification":
-        model = RandomForestClassifier(random_state=42, class_weight="balanced")
+        model = RandomForestClassifier(random_state=42, class_weight="balanced", n_jobs=-1)
         param_grid = {
-            "n_estimators": [50, 100, 200],
-            "max_depth": [None, 10, 14, 20],
+            "n_estimators": [50, 100],
+            "max_depth": [10, 14],
             "min_samples_split": [2, 5, 10]
         }
         if scoring is None:
@@ -91,7 +91,7 @@ def fit_rf(
     print("=============================================")
     if model == "regression":
         reg, best_params, grid_search = cross_validate(
-            X, Y.ravel(), family, task="regression", cv=5, n_jobs=20
+            X, Y.ravel(), family, task="regression", cv=5, n_jobs=1
         )
         print(best_params)
         Y_pred = reg.predict(X)
@@ -103,7 +103,7 @@ def fit_rf(
         X = X[~mask]
         family = np.array(family)[~mask]
         reg, best_params, grid_search = cross_validate(
-            X, Y.ravel(), family, task="classification", cv=5, n_jobs=20
+            X, Y.ravel(), family, task="classification", cv=5, n_jobs=1
         )
         Y_pred = reg.predict(X)
         print(best_params)
