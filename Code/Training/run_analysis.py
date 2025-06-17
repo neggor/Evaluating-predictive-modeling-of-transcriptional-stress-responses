@@ -150,10 +150,51 @@ def run_agroNT():
         process = subprocess.run(command)
 
 
+def run_RF():
+    # load config file
+    config_file = "Configs/rf_config.json"
+    # load
+    with open(config_file, "r") as f:
+        config = json.load(f)
+
+    for problem_type in outcome_types:
+        for dna_format in ["6-mer", "DAPseq"]:
+            config["problem_type"] = problem_type
+            config["dna_format"] = dna_format
+            config["model_name"] = f"linear_{problem_type}_{dna_format}"
+            config["linear_model_kind"] = (
+                "regression" if problem_type in ["log2FC", "amplitude"] else "classification"
+            )
+            store_folder = f"Results/RF/{problem_type}/{dna_format}"
+            # create the store folder if it does not exist
+            if not os.path.exists(store_folder):
+                os.makedirs(store_folder)
+            # save the config file
+            with open(config_file, "w") as f:
+                json.dump(config, f, indent=4)
+
+            command = [
+                "python",
+                "Code/Training/get_performance.py",
+                "--model",
+                "RF",
+                "--train_proportion",
+                "0.8",
+                "--val_proportion",
+                "0.1",
+                "--store_folder",
+                store_folder,
+                "--config_file",
+                config_file,
+            ]
+
+            # run the command
+            process = subprocess.run(command) 
 # Gather all the data and construct plots
 
 
 if __name__ == "__main__":
-    linear_models()
-    run_cnn()
-    run_agroNT()
+    #linear_models()
+    #run_cnn()
+    #run_agroNT()
+    run_RF()

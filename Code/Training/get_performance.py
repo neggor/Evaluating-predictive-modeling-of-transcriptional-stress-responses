@@ -10,6 +10,10 @@ from Code.Training.train_linear import (
     fit_regression,
     test_linear,
 )
+from Code.Training.train_rf import (
+    fit_rf,
+    test_rf
+)
 from Code.Training.finetune_agroNT import (
     handle_data_AgroNT,
     finetune_agroNT,
@@ -299,6 +303,75 @@ def get_AgroNT_performance(
         weights=weights,
     )
 
+def get_rf_performance(
+    store_folder, train_proportion, val_proportion, linear_config: dict
+):
+    dna_specs = [
+        linear_config["upstream_TSS"],
+        linear_config["downstream_TSS"],
+        linear_config["upstream_TTS"],
+        linear_config["downstream_TTS"],
+    ]
+    print(f"DNA specs: {dna_specs}")
+    (
+        mRNA_train,
+        mRNA_validation,
+        mRNA_test,
+        TSS_sequences,
+        TTS_sequences,
+        metadata,
+    ) = load_data(
+        train_proportion=train_proportion,
+        val_proportion=val_proportion,
+        DNA_specs=dna_specs,
+        treatments=linear_config["treatments"],
+        problem_type=linear_config["problem_type"],
+        mask_exons=linear_config["mask_exons"],
+        dna_format=linear_config["dna_format"],
+    )
+    X, Y, mean, std, family = handle_data_train_linear_models(
+        TSS_sequences,
+        TTS_sequences,
+        mRNA_train,
+        mRNA_validation,
+        DNA_format=linear_config["dna_format"],
+        separated_segments=linear_config["separated_segments"],
+    )
+    X_test, Y_test = handle_data_test_linear_models(
+        TSS_sequences,
+        TTS_sequences,
+        mRNA_test,
+        DNA_format=linear_config["dna_format"],
+        means=mean,
+        std=std,
+        separated_segments=linear_config["separated_segments"],
+    )
+    for i, tr in enumerate(linear_config["treatments"]):
+        y = Y[:, i : i + 1]
+        y_test = Y_test[:, i : i + 1]
+
+        reg = fit_rf(
+            X,
+            y,
+            family,
+            linear_config["linear_model_kind"],
+            store_folder,
+            mapping[tr],
+            metadata,
+            DNA_format=linear_config["dna_format"],
+            separated_segments=linear_config["separated_segments"],
+        )
+
+        test_rf(
+            X_test,
+            y_test,
+            reg,
+            linear_config["linear_model_kind"],
+            name=mapping[tr],
+            folder=store_folder,
+            metadata=metadata,
+        )
+
 
 if __name__ == "__main__":
     # prepare an argparse totake model type to run and the config file. Also defaults for train proportion, test proportion, and number of replicates for the CNN
@@ -372,6 +445,13 @@ if __name__ == "__main__":
         )
     elif args.model == "AgroNT":
         get_AgroNT_performance(
+            args.store_folder,
+            args.train_proportion,
+            args.val_proportion,
+            config,
+        )
+    elif args.model == "RF":
+        get_rf_performance(
             args.store_folder,
             args.train_proportion,
             args.val_proportion,

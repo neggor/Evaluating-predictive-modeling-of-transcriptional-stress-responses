@@ -1,0 +1,27 @@
+{
+    "n_labels": 11,
+    "treatments": [
+        "B",
+        "C",
+        "D",
+        "G",
+        "X",
+        "Y",
+        "Z",
+        "W",
+        "V",
+        "U",
+        "T"
+    ],
+    "upstream_TSS": 814,
+    "upstream_TTS": 200,
+    "downstream_TSS": 200,
+    "downstream_TTS": 814,
+    "dna_format": "6-mer",
+    "mask_exons": false,
+    "problem_type": "log2FC",
+    "model_kind": "regression",
+    "model_name": "linear_log2FC_6-mer",
+    "separated_segments": false,
+    "linear_model_kind": "regression"
+}

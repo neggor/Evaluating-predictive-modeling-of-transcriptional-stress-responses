@@ -1051,7 +1051,7 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
         test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
     )
     annotator.apply_and_annotate()
-    plt.ylabel(f"{metric}")
+    plt.ylabel(f"{metric}-ROC" if metric == "AUC" else f"{metric}")
     plt.xlabel("")
     plt.legend(loc="upper center", frameon=False, ncol=1)
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
@@ -1213,7 +1213,7 @@ def figure_4c(figsize=(10, 7), metric="AUC"):
         test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
     )
     annotator.apply_and_annotate()
-    plt.ylabel(f"{metric}")
+    plt.ylabel(f"{metric}-ROC" if metric == "AUC" else f"{metric}")
 
     plt.xlabel("")
     plt.legend(loc="upper center", frameon=False, ncol=1)
@@ -2076,33 +2076,33 @@ def figure_S7(figsize=(10, 7)):
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1a()
-    #figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    
-    figure_2a()
-    figure_2b()
-    
-    figure_5c(outcome = "quantiles_per_treatment") # 2.1
-    
-    figure_3c()
-    figure_3a()
-    figure_3b()
-    
+    #figure_1a()
+    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    #
+    #figure_2a()
+    #figure_2b()
+    #
+    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
+    #
+    #figure_3c()
+    #figure_3a()
+    #figure_3b()
+    #
     figure_4a()
     figure_4b()
     figure_4c()
     figure_4d()
-    
-    figure_5a()
-    figure_5b()
-    figure_5c()
-
+    #
+    #figure_5a()
+    #figure_5b()
+    #figure_5c()
+    exit()
     ## Reset for last figure
     sns.reset_defaults()
     sns.set_theme()
     mpl.rcParams.update(mpl.rcParamsDefault)
     figure_5d()
-
+    exit()
     #SUP figures
     set_plot_style()
     figure_2a(metric="MCC") # SUP 1
