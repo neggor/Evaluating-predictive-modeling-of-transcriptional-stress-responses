@@ -25,7 +25,7 @@ pip install -r requirements.txt
 
 ```
 ## 📁 Gather the processed data:
-mRNA counts are already processed into the time-series summaries and are available at ... ?
+mRNA counts are already processed into the time-series summaries and are available at https://figshare.com/articles/dataset/DESeq2_padj_results_ALL_csv_zip/29457890?file=55920620
 - Prepare the rest of the DNA and DAP-seq data with:
 ```bash
 bash Code/prepare_data.sh
