@@ -194,7 +194,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    #linear_models()
+    linear_models()
     #run_cnn()
     #run_agroNT()
-    run_RF()
+    #run_RF()

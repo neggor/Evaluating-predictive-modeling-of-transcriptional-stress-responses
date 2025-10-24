@@ -288,10 +288,14 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
                 (res["outcome_type"].unique()[1], "CNN"),
                 (res["outcome_type"].unique()[1], "L. (6mer)"),
             ),
-            # (
-            #    (res["outcome_type"].unique()[1], "CNN"),
-            #    (res["outcome_type"].unique()[1], "L. (AgroNT emb.)"),
-            # )
+            #(
+            #   (res["outcome_type"].unique()[1], "L. (6mer)"),
+            #   (res["outcome_type"].unique()[1], "L. (DAPseq)"),
+            #),
+            #(
+            #   (res["outcome_type"].unique()[0], "L. (6mer)"),
+            #   (res["outcome_type"].unique()[0], "L. (DAPseq)"),
+            #)
         ]
 
         annotator = Annotator(
@@ -301,7 +305,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
             test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
         )
         annotator.apply_and_annotate()
-    plt.legend(loc="upper left", frameon=False, ncol=1)
+    plt.legend(loc="center left",  bbox_to_anchor=(0, 0.6), frameon=False, ncol=1)
     plt.ylabel(f"{metric}-ROC" if metric == "AUC" else metric)
     plt.xlabel("")
     ax.spines["top"].set_visible(False)
@@ -943,7 +947,11 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
 
     # get the correlation matrix
     # correlation_matrix = np.corrcoef(Y_hat.T)
-    correlation_matrix = stats.spearmanr(Y_hat).statistic
+    spearman_test = stats.spearmanr(Y_hat)
+    correlation_matrix = spearman_test.statistic
+    # The max pvalue:
+    np.max(spearman_test.pvalue)
+    #import pdb; pdb.set_trace()
     # plot the correlation matrix
     plt.figure(figsize=figsize, dpi=300)
     sns.heatmap(
@@ -1682,30 +1690,27 @@ def figure_5d(figsize=(10, 7)):
 
     plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
 
-def figure_S2(figsize=(10, 7)):
+def figure_S2(figsize=(10, 7), pvals=True):
     '''
     Compare performance between hormones and PTI for AUC and MCC
     '''
     res = pd.read_csv("Results/Results_table.csv")
-    # Change the "in_type" column name to "Model type"
     df = res.rename(columns={"in_type": "Model type"})
-    
-    
+
     hormone_treatments = ["MeJA", "SA", "SA+MeJA", "ABA"]
     df["treatment_group"] = df["treatment"].apply(lambda x: "Hormone" if x in hormone_treatments else "PTI")
 
-    # Filter the DataFrame to the relevant subset for plotting
+    # Filter to relevant subset
     filtered_df = df[
         (df["outcome_type"].isin(["DE_per_treatment", "quantiles_per_treatment"])) &
         (df["metric"].isin(["AUC", "MCC"]))
     ].copy()
 
-    # Create treatment groups
-    hormones = ["MeJA", "SA", "SA+MeJA", "ABA"]
-    filtered_df["treatment_group"] = filtered_df["treatment"].apply(lambda x: "Hormone" if x in hormones else "PTI")
+    filtered_df["treatment_group"] = filtered_df["treatment"].apply(
+        lambda x: "Hormone" if x in hormone_treatments else "PTI"
+    )
 
-    # Plot using seaborn
-    plt.figure(figsize=figsize, dpi=300)
+    # Create the main plot
     g = sns.catplot(
         data=filtered_df,
         x="metric",
@@ -1718,10 +1723,37 @@ def figure_S2(figsize=(10, 7)):
         aspect=1
     )
 
+    # Annotate p-values per subplot
+    if pvals:
+        pairs = [
+            (("AUC", "Hormone"), ("AUC", "PTI")),
+            (("MCC", "Hormone"), ("MCC", "PTI"))
+        ]
+
+        for ax, outcome in zip(g.axes[0], ["DE_per_treatment", "quantiles_per_treatment"]):
+            sub_df = filtered_df[filtered_df["outcome_type"] == outcome]
+
+            annotator = Annotator(
+                ax=ax,
+                data=sub_df,
+                x="metric",
+                y="value",
+                hue="treatment_group",
+                pairs=pairs
+            )
+            annotator.configure(
+                test="Mann-Whitney",
+                text_format="star",
+                loc="inside",   # you can change to 'outside' for clarity
+                fontsize=10
+            )
+            annotator.apply_and_annotate()
+
     g.set_axis_labels("Metric", "Value")
     g.set_titles("{col_name}")
     plt.tight_layout()
     plt.savefig("Images/SUP_figure_2.pdf", bbox_inches="tight")
+    plt.show()
 
 def figure_S3(figsize = (10, 7)):
     '''
@@ -2079,6 +2111,7 @@ if __name__ == "__main__":
     #figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     #
+    figure_S2()
     #figure_2a()
     #figure_2b()
     #
@@ -2088,10 +2121,10 @@ if __name__ == "__main__":
     #figure_3a()
     #figure_3b()
     #
-    figure_4a()
-    figure_4b()
-    figure_4c()
-    figure_4d()
+    #figure_4a()
+    #figure_4b()
+    #figure_4c()
+    #figure_4d()
     #
     #figure_5a()
     #figure_5b()

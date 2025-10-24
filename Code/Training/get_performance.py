@@ -84,7 +84,8 @@ def load_data(
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(treatments, problem_type)
     )
-
+    print("Training, validation, test shapes:")
+    print(mRNA_train.shape, mRNA_validation.shape, mRNA_test.shape)
     return (
         mRNA_train,
         mRNA_validation,
