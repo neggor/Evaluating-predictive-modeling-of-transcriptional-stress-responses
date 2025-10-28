@@ -37,9 +37,9 @@ def binary_cross_entropy(output, target, weights=None):
 def loss_fnc(loss_name):
     # Intended usage is
     # loss = loss_fnc("mse")(output, target)
-    if loss_name == "log2FC" or loss_name == "amplitude":
+    if loss_name == "log2FC" or loss_name == "amplitude" or loss_name == "TPM":
         return l1_loss
-    elif loss_name == "DE_per_treatment" or loss_name == "quantiles_per_treatment":
+    elif loss_name == "DE_per_treatment" or loss_name == "quantiles_per_treatment" or loss_name == "TPM_cuartiles":
         return binary_cross_entropy
     else:
         raise ValueError("Loss function not recognized")
@@ -58,6 +58,8 @@ class metrics:
             "LR",
             "quantiles_per_treatment",
             "amplitude",
+            "TPM",
+            "TPM_cuartiles"
         ]
         self.metrics = {}
         self.problem_type = problem_type
@@ -91,12 +93,15 @@ class metrics:
             or self.problem_type == "amplitude"
             or self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
+            or self.problem_type == "TPM_cuartiles"
+            or self.problem_type == "TPM" 
         ):
             output = output.cpu().detach().numpy()
             target = target.cpu().detach().numpy()
             if (
                 self.problem_type == "DE_per_treatment"
                 or self.problem_type == "quantiles_per_treatment"
+                or self.problem_type == "TPM_cuartiles"
             ):
                 # apply sigmoid
                 # mask = (target != 3).all(axis=1)
@@ -138,6 +143,7 @@ class metrics:
         if (
             self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
+            or self.problem_type == "TPM_cuartiles"
         ):
 
             self.metrics["MCC_per_class"][epoch] = {}
@@ -166,7 +172,7 @@ class metrics:
             self.metrics["AUC"][epoch] = roc_auc_score(target, output)
             self.metrics["F1"][epoch] = f1_score(target, output > 0.5)
 
-        elif self.problem_type == "log2FC" or self.problem_type == "amplitude":
+        elif self.problem_type == "log2FC" or self.problem_type == "amplitude" or self.problem_type == "TPM":
             # this requires evaluation per class/column
             self.metrics["loss"][epoch] = loss
             self.metrics["train_loss"][epoch] = train_loss
@@ -190,13 +196,14 @@ class metrics:
         if (
             self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
+            or self.problem_type == "TPM_cuartiles"
         ):
             print(f"Accuracy: {self.metrics['accuracy'][epoch]}")
             print(f"MCC: {self.metrics['MCC'][epoch]}")
             print(f"AUC: {self.metrics['AUC'][epoch]}")
             print(f"F1: {self.metrics['F1'][epoch]}")
 
-        elif self.problem_type == "log2FC" or self.problem_type == "amplitude":
+        elif self.problem_type == "log2FC" or self.problem_type == "amplitude"  or self.problem_type == "TPM":
             for i in range(target.shape[1]):
                 print(
                     f"Head {i} - Pearson correlation: {self.metrics['pearson_correlation'][epoch][i]}"
@@ -208,6 +215,7 @@ class metrics:
         if (
             self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
+             or self.problem_type == "TPM_cuartiles"
         ):
             # make a grid plot of the statistics
             # loss, accuracy, MCC, AUC, F1
@@ -251,7 +259,7 @@ class metrics:
 
             plt.savefig(f"{folder}/{name}_training_metrics.png")
 
-        elif self.problem_type == "log2FC" or self.problem_type == "amplitude":
+        elif self.problem_type == "log2FC" or self.problem_type == "amplitude" or self.problem_type == "TPM":
             # make a grid plot of the statistics
             # loss, pearson_correlation, R2
             fig, axs = plt.subplots(1, 3, figsize=(15, 5))

@@ -5,7 +5,7 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment"]
+outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM", "TPM_cuartiles"]
 
 
 # 1 Run linear models
@@ -23,7 +23,7 @@ def linear_models():
             config["dna_format"] = dna_format
             config["model_name"] = f"linear_{problem_type}_{dna_format}"
             config["linear_model_kind"] = (
-                "lasso" if problem_type in ["log2FC", "amplitude"] else "logistic_l1"
+                "lasso" if problem_type in ["log2FC", "amplitude", "TPM"] else "logistic_l1"
             )
             store_folder = f"Results/linear_models/{problem_type}/{dna_format}"
             # create the store folder if it does not exist
@@ -130,6 +130,8 @@ def run_agroNT():
         config = json.load(f)
 
     for problem_type in outcome_types:
+        if "TPM" in problem_type:
+            continue
         config["problem_type"] = problem_type
         store_folder = f"Results/agroNT/{problem_type}"
         # create the store folder if it does not exist
@@ -201,7 +203,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    #linear_models()
-    run_cnn()
+    linear_models()
+    #run_cnn()
     #run_agroNT()
     #run_RF()
