@@ -6,6 +6,7 @@ import json
 import pandas as pd
 
 outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
+#outcome_types = ["TPM_cuartiles"]
 
 # 1 Run linear models
 def linear_models():
@@ -27,7 +28,7 @@ def linear_models():
             if "TPM" in problem_type:
                 config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
             else:
-                config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
+                config["treatments"] =  ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
             config["n_labels"] = len(config["treatments"])
             store_folder = f"Results/linear_models/{problem_type}/{dna_format}"
             # create the store folder if it does not exist
@@ -70,7 +71,7 @@ def run_cnn():
         if "TPM" in problem_type:
                 config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
         else:
-            config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
+            config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
         config["n_labels"] = len(config["treatments"])
         for dna_length in [2048, 4096, 8192]:
             for exons_masked in [True, False]:
@@ -86,16 +87,16 @@ def run_cnn():
                     config["downstream_TTS"] = 814
 
                 elif dna_length == 4096:
-                    config["upstream_TSS"] = 1024
-                    config["upstream_TTS"] = 1024
-                    config["downstream_TSS"] = 1024
-                    config["downstream_TTS"] = 1024
+                    config["upstream_TSS"] = 1019
+                    config["upstream_TTS"] = 1019
+                    config["downstream_TSS"] = 1019
+                    config["downstream_TTS"] = 1019
 
                 elif dna_length == 8192:
                     config["upstream_TSS"] = 1024*2
                     config["upstream_TTS"] = 1024*2
-                    config["downstream_TSS"] = 1024*2
-                    config["downstream_TTS"] = 1024*2
+                    config["downstream_TSS"] = 1019*2
+                    config["downstream_TTS"] = 1019*2
                 else:
                     raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked

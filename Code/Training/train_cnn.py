@@ -154,11 +154,11 @@ class metrics:
                 self.metrics["MCC_per_class"][epoch][i] = matthews_corrcoef(
                     target[mask, i], output[mask, i] > 0.5
                 )
-
-            # calculate average correlation between the probabilities of the output
-            corrs = np.triu(np.corrcoef(output.T), k=1)
-            corrs = corrs[corrs != 0]
-            print(f"Correlation between outcome columns: {corrs.mean()}")
+            if not self.problem_type == "TPM_cuartiles":
+                # calculate average correlation between the probabilities of the output
+                corrs = np.triu(np.corrcoef(output.T), k=1)
+                corrs = corrs[corrs != 0]
+                print(f"Correlation between outcome columns: {corrs.mean()}")
 
             # I need to put in long format
             target = target.ravel()
@@ -548,6 +548,7 @@ def test_cnn(
     elif training_specs["problem_type"] in [
         "DE_per_treatment",
         "quantiles_per_treatment",
+        "TPM_cuartiles"
     ]:
         # get MCC per class
         m = {}

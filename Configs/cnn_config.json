@@ -6,7 +6,7 @@
     "equivariant": true,
     "n_labels": 1,
     "treatments": [
-        "mean"
+        "up_down_q_TPM"
     ],
     "batch_size": 64,
     "n_ressidual_blocks": 5,
@@ -22,13 +22,13 @@
     "max_pooling_kernel_size": 4,
     "stride": 1,
     "dropout_rate": 0.25,
-    "upstream_TSS": 814,
-    "upstream_TTS": 200,
-    "downstream_TSS": 200,
-    "downstream_TTS": 814,
+    "upstream_TSS": 2048,
+    "upstream_TTS": 2048,
+    "downstream_TSS": 2038,
+    "downstream_TTS": 2038,
     "dna_format": "One_Hot_Encoding",
-    "mask_exons": true,
-    "problem_type": "TPM",
+    "mask_exons": false,
+    "problem_type": "TPM_cuartiles",
     "device": "cuda",
     "model_name": "CNN"
 }
