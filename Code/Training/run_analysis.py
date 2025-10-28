@@ -63,7 +63,7 @@ def run_cnn():
     with open(config_file, "r") as f:
         config = json.load(f)
     for problem_type in outcome_types:
-        for dna_length in [2048, 4096]:
+        for dna_length in [2048, 4096, 8192]:
             for exons_masked in [True, False]:
                 if exons_masked and dna_length != 2048:
                     continue
@@ -75,11 +75,18 @@ def run_cnn():
                     config["upstream_TTS"] = 200
                     config["downstream_TSS"] = 200
                     config["downstream_TTS"] = 814
+
                 elif dna_length == 4096:
-                    config["upstream_TSS"] = 1500
-                    config["upstream_TTS"] = 538
-                    config["downstream_TSS"] = 538
-                    config["downstream_TTS"] = 1500
+                    config["upstream_TSS"] = 1024
+                    config["upstream_TTS"] = 1024
+                    config["downstream_TSS"] = 1024
+                    config["downstream_TTS"] = 1024
+
+                elif dna_length == 8192:
+                    config["upstream_TSS"] = 1024*2
+                    config["upstream_TTS"] = 1024*2
+                    config["downstream_TSS"] = 1024*2
+                    config["downstream_TTS"] = 1024*2
                 else:
                     raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked
@@ -195,6 +202,6 @@ def run_RF():
 
 if __name__ == "__main__":
     linear_models()
-    #run_cnn()
+    run_cnn()
     #run_agroNT()
     #run_RF()
