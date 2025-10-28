@@ -564,7 +564,6 @@ class DataHandler:
             wide_lgFC = wide_lgFC.rename(columns={"gene": "Gene"})
 
             self.metadata["n_labels"] = len(treatment)
-            import pdb; pdb.set_trace()
             return wide_lgFC
 
         if problem_type == "amplitude":

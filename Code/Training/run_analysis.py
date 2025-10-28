@@ -5,8 +5,7 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM", "TPM_cuartiles"]
-
+outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
 
 # 1 Run linear models
 def linear_models():
@@ -25,6 +24,11 @@ def linear_models():
             config["linear_model_kind"] = (
                 "lasso" if problem_type in ["log2FC", "amplitude", "TPM"] else "logistic_l1"
             )
+            if "TPM" in problem_type:
+                config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
+            else:
+                config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
+            config["n_labels"] = len(config["treatments"])
             store_folder = f"Results/linear_models/{problem_type}/{dna_format}"
             # create the store folder if it does not exist
             if not os.path.exists(store_folder):
@@ -63,6 +67,11 @@ def run_cnn():
     with open(config_file, "r") as f:
         config = json.load(f)
     for problem_type in outcome_types:
+        if "TPM" in problem_type:
+                config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
+        else:
+            config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
+        config["n_labels"] = len(config["treatments"])
         for dna_length in [2048, 4096, 8192]:
             for exons_masked in [True, False]:
                 if exons_masked and dna_length != 2048:
@@ -203,7 +212,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    linear_models()
-    #run_cnn()
+    #linear_models()
+    run_cnn()
     #run_agroNT()
     #run_RF()

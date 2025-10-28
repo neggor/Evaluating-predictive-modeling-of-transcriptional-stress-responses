@@ -8,6 +8,8 @@ def generate_table():
         "amplitude",
         "log2FC",
         "DE_per_treatment",
+        "TPM",
+        "TPM_cuartiles"
     ]
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     mapping = {

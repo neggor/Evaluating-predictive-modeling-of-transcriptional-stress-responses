@@ -40,6 +40,8 @@ mapping = {
     "V": "nlp20",
     "U": "OGs",
     "T": "Pep1",
+    "mean": "TPM",
+    "up_down_q_TPM":"up_down_q_TPM"
 }
 
 

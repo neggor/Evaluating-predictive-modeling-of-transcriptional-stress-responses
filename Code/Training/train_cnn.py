@@ -131,6 +131,8 @@ class metrics:
             or self.problem_type == "amplitude"
             or self.problem_type == "DE_per_treatment"
             or self.problem_type == "quantiles_per_treatment"
+            or self.problem_type == "TPM_cuartiles"
+            or self.problem_type == "TPM"
         ):
             output = np.concatenate(self.outputs[epoch], axis=0)
             target = np.concatenate(self.targets[epoch], axis=0)
@@ -178,14 +180,15 @@ class metrics:
             self.metrics["train_loss"][epoch] = train_loss
             self.metrics["pearson_correlation"][epoch] = {}
             self.metrics["R2"][epoch] = {}
-            # print correlation of output columns
-            corrs = np.triu(np.corrcoef(output.T), k=1)
-            corrs = corrs[corrs != 0]
-            print(f"Correlation between columns: {corrs.mean()}")
-            # now the same but for target
-            corrs = np.triu(np.corrcoef(target.T), k=1)
-            corrs = corrs[corrs != 0]
-            print(f"Correlation between target columns: {corrs.mean()}")
+            if not self.problem_type == "TPM":
+                # print correlation of output columns
+                corrs = np.triu(np.corrcoef(output.T), k=1)
+                corrs = corrs[corrs != 0]
+                print(f"Correlation between columns: {corrs.mean()}")
+                # now the same but for target
+                corrs = np.triu(np.corrcoef(target.T), k=1)
+                corrs = corrs[corrs != 0]
+                print(f"Correlation between target columns: {corrs.mean()}")
             for i in range(target.shape[1]):
                 self.metrics["pearson_correlation"][epoch][i] = np.corrcoef(
                     output[:, i], target[:, i]
