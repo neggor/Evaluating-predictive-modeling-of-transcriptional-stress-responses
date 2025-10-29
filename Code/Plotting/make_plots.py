@@ -37,10 +37,12 @@ mapping = {
     "V": "nlp20",
     "U": "OGs",
     "T": "Pep1",
+    "mean": "TPM",
+    "up_down_q_TPM":"up_down_q_TPM"
 }
 
-magentaorgange_palette = ["#D35FB7", "#FF8C00"]
-coraldarkteal_palette = ["#FF7F50", "#2CA58D"]
+magentaorgange_palette = ["#D35FB7", "#FF8C00", "#FFD700"]
+coraldarkteal_palette = ["#FF7F50", "#2CA58D", "#355C7D"] 
 
 def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
     """
@@ -223,8 +225,9 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     res = res[res["rc"] != "False"]
     res = res[
         (
-            (res["outcome_type"] == "quantiles_per_treatment")
+           (res["outcome_type"] == "quantiles_per_treatment")
             | (res["outcome_type"] == "DE_per_treatment")
+            | (res["outcome_type"] == "TPM_cuartiles")
         )
         & (res["metric"] == metric)
     ]
@@ -232,9 +235,27 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         {
             "DE_per_treatment": "S.DE",
             "quantiles_per_treatment": "S.Q",
+            "TPM_cuartiles":"TPM.Q"
         }
     )
-    print(res)
+    mask = (res["in_type"] == "CNN") & (res["treatment"] == "up_down_q_TPM")
+
+    agg_row = pd.DataFrame({
+        "outcome_type": [res.loc[mask, "outcome_type"].iloc[0]],
+        "in_type": [res.loc[mask, "in_type"].iloc[0]],
+        "treatment": [res.loc[mask, "treatment"].iloc[0]],
+        "metric": [res.loc[mask, "metric"].iloc[0]],
+        "value": [res.loc[mask, "value"].mean()],
+        "model_type": [res.loc[mask, "model_type"].iloc[0]],
+        "exons": [res.loc[mask, "exons"].iloc[0]],
+        "length": [res.loc[mask, "length"].iloc[0]],
+        "rc": [res.loc[mask, "rc"].iloc[0]],
+        "replicate": ["avg"]  # mark as aggregated
+    })
+
+    # Drop original rows and append the aggregated row
+    res = pd.concat([res[~mask], agg_row], ignore_index=True)
+
     # get the pvalues for quantiles and DE, comparing AgroNT to CNN and Linear
     plt.figure(figsize=figsize, dpi=300)
     print(res)
@@ -242,17 +263,51 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     print(res.dropna(subset=["value"]))
     # Reorder the outcome_type to make "S.DE" appear first and "S.Q" second
     res["outcome_type"] = pd.Categorical(
-        res["outcome_type"], categories=["S.DE", "S.Q"], ordered=True
+        res["outcome_type"], categories=["S.DE", "S.Q", "TPM.Q"], ordered=True
     )
+    
+
     # print the maximum MCC for each in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].max())
-    ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
+    ax = sns.boxplot(x="outcome_type", y="value", data=res[(res["outcome_type"] == "S.DE") | (res["outcome_type"] == "S.Q")], hue="in_type")
+    
+    #ax = sns.boxplot(
+    #x="outcome_type",
+    #y="value",
+    #data=res[(res["outcome_type"] == "TPM.Q") & (res["model_type"] != "linear")],
+    #hue="in_type",
+    #width=0.6,      # make boxes narrower so dots can fit
+    #dodge=True,     # separate hues horizontally
+    #legend=False,
+    #color="#2ca02c"
+    #)
+
+    # Stripplot (dots) for singletons
+    sns.stripplot(
+        x="outcome_type",
+        y="value",
+        data=res[(res["outcome_type"] == "TPM.Q")], #& (res["model_type"] == "linear")],
+        hue="in_type",
+        dodge=True,     # keeps dots side by side with corresponding box
+        size=12,
+        #jitter=0.15,    # horizontal spread
+        marker="o",
+        edgecolor="black",
+        linewidth=1,
+        legend=False,
+        ax=ax
+    )
+    # now dots for the linear ones
+
+
     # print the average of the values per in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].mean())
+   # import pdb; pdb.set_trace()
+
     sns.swarmplot(
         x="outcome_type",
         y="value",
-        data=res,
+        data=res[(res["outcome_type"] == "S.DE") | (res["outcome_type"] == "S.Q")],
         hue="in_type",
         dodge=True,
         marker=".",
@@ -305,7 +360,8 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
             test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
         )
         annotator.apply_and_annotate()
-    plt.legend(loc="center left",  bbox_to_anchor=(0, 0.6), frameon=False, ncol=1)
+
+    plt.legend(loc="center left",  bbox_to_anchor=(0.3, 0.6), frameon=False, ncol=1)
     plt.ylabel(f"{metric}-ROC" if metric == "AUC" else metric)
     plt.xlabel("")
     ax.spines["top"].set_visible(False)
@@ -1047,7 +1103,15 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
             (res_length["outcome_type"].unique()[0], "2048"),
         ),
         (
+            (res_length["outcome_type"].unique()[0], "8192"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
             (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "8192"),
             (res_length["outcome_type"].unique()[1], "2048"),
         ),
     ]
@@ -1126,7 +1190,15 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
             (res_length["outcome_type"].unique()[0], "2048"),
         ),
         (
+            (res_length["outcome_type"].unique()[0], "8192"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
             (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "8192"),
             (res_length["outcome_type"].unique()[1], "2048"),
         ),
     ]
@@ -2111,8 +2183,8 @@ if __name__ == "__main__":
     #figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     #
-    figure_S2()
-    #figure_2a()
+    #figure_S2()
+    figure_2a()
     #figure_2b()
     #
     #figure_5c(outcome = "quantiles_per_treatment") # 2.1
@@ -2125,11 +2197,11 @@ if __name__ == "__main__":
     #figure_4b()
     #figure_4c()
     #figure_4d()
+    exit()
     #
     #figure_5a()
     #figure_5b()
     #figure_5c()
-    exit()
     ## Reset for last figure
     sns.reset_defaults()
     sns.set_theme()

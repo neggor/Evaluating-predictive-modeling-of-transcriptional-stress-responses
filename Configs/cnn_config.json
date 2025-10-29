@@ -4,19 +4,9 @@
     "n_epochs": 1500,
     "patience": 10,
     "equivariant": true,
-    "n_labels": 11,
+    "n_labels": 1,
     "treatments": [
-        "B",
-        "C",
-        "D",
-        "G",
-        "X",
-        "Y",
-        "Z",
-        "W",
-        "V",
-        "U",
-        "T"
+        "up_down_q_TPM"
     ],
     "batch_size": 64,
     "n_ressidual_blocks": 5,
@@ -38,7 +28,7 @@
     "downstream_TTS": 814,
     "dna_format": "One_Hot_Encoding",
     "mask_exons": true,
-    "problem_type": "log2FC",
+    "problem_type": "TPM_cuartiles",
     "device": "cuda",
     "model_name": "CNN"
 }
