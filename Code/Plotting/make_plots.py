@@ -68,11 +68,11 @@ def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
     query_url = "https://jaspar.elixir.no/api/v1/matrix/"
     params = {
         "search": tf_name,
-        "tax_group": "plants",
+        #"tax_group": "plants",
         "page_size": 1,
-        "species": species,
+        #"species": species,
     }
-    print(f"Querying JASPAR for TF: {tf_name} in species: {species}")
+    print(f"Querying JASPAR for TF: {tf_name}")# in species: {species}")
     response = requests.get(query_url, params=params)
     response.raise_for_status()
     results = response.json()["results"]
@@ -235,7 +235,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         {
             "DE_per_treatment": "S.DE",
             "quantiles_per_treatment": "S.Q",
-            "TPM_cuartiles":"TPM.Q"
+            "TPM_cuartiles":"AvgTPM.Q"
         }
     )
     mask = (res["in_type"] == "CNN") & (res["treatment"] == "up_down_q_TPM")
@@ -263,7 +263,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     print(res.dropna(subset=["value"]))
     # Reorder the outcome_type to make "S.DE" appear first and "S.Q" second
     res["outcome_type"] = pd.Categorical(
-        res["outcome_type"], categories=["S.DE", "S.Q", "TPM.Q"], ordered=True
+        res["outcome_type"], categories=["AvgTPM.Q", "S.DE", "S.Q"], ordered=True
     )
     
 
@@ -286,7 +286,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     sns.stripplot(
         x="outcome_type",
         y="value",
-        data=res[(res["outcome_type"] == "TPM.Q")], #& (res["model_type"] == "linear")],
+        data=res[(res["outcome_type"] == "AvgTPM.Q")], #& (res["model_type"] == "linear")],
         hue="in_type",
         dodge=True,     # keeps dots side by side with corresponding box
         size=12,
@@ -361,7 +361,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         )
         annotator.apply_and_annotate()
 
-    plt.legend(loc="center left",  bbox_to_anchor=(0.3, 0.6), frameon=False, ncol=1)
+    plt.legend(loc="center left",  bbox_to_anchor=(0.0, 0.73), frameon=False, ncol=1)
     plt.ylabel(f"{metric}-ROC" if metric == "AUC" else metric)
     plt.xlabel("")
     ax.spines["top"].set_visible(False)
@@ -1469,99 +1469,193 @@ def figure_5a(figsize=(10, 7)):
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
 def figure_5b(figsize=(10, 7)):
-        '''
-        PCA coefficients 6-mer log2fc
-        '''
+    '''
+    PCA coefficients DAPseq log2fc
+    '''
 
-        coefs = pd.DataFrame()
-        for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
-            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
-            coef = coef.rename(columns={"Coefficient": treatment})
-            if coefs.empty:
-                coefs = coef
-            else:
-                coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
-        
-        coefs = coefs.set_index("TF")
-        coefs =  coefs.mean(axis=1)
-        
-        # Now rename column as PTI
-        coefs = coefs.rename("PTI")
-
-        # add the rest
-
-        for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
-            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
-            coef = coef.rename(columns={"Coefficient": hormone})
+    coefs = pd.DataFrame()
+    for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": treatment})
+        if coefs.empty:
+            coefs = coef
+        else:
             coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
-        
-        # Set TF as index and fill NaN values with 0
-        coefs = coefs.set_index("TF").fillna(0)
-        # preprocess by standardizing the data
-        coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
-        # Perform PCA
-        pca = PCA(n_components=2)
-        coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
-        coefs_pca[:, 0] = coefs_pca[:, 0] #* -1
-        # Create DataFrame for plotting
-        pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+    
+    coefs = coefs.set_index("TF")
+    coefs =  coefs.mean(axis=1)
+    
+    # Now rename column as PTI
+    coefs = coefs.rename("PTI")
 
-        # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-        top_n = 15
-        important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
+    # add the rest
 
-        # get the motifs of the important points
-        consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
-        #import pdb; pdb.set_trace()
-        # Create the biplot
-        fig, ax = plt.subplots(figsize=figsize, dpi=300)
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": hormone})
+        coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+    
+    # Set TF as index and fill NaN values with 0
+    coefs = coefs.set_index("TF").fillna(0)
+    # preprocess by standardizing the data
+    coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+    # Perform PCA
+    pca = PCA(n_components=2)
+    coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+    coefs_pca[:, 0] = coefs_pca[:, 0] #* -1
+    # Create DataFrame for plotting
+    pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
-        # Plot samples (treatments)
-        sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+    # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+    top_n = 15
+    important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
-        # Store text labels for adjustment
-        texts = []
-        for i, txt in enumerate(pca_df.index):
-            if txt in important_points:
-                texts.append(ax.text(
-                    pca_df["PC1"][i], 
-                    pca_df["PC2"][i], 
-                    f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
-                    fontsize=11, 
-                    alpha=1
-                ))
-        loadings = pca.components_  # Get PC1 and PC2 loadings
-        loadings[0, :] = loadings[0, :]# * -1
-        scaling_factor = 14  # Adjust arrow length
-        for i, treatment in enumerate(coefs.columns):
-            texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
-        # Adjust text positions to avoid overlaps
-        adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
-        
-        # Plot loadings (treatment contributions)
-        for i, treatment in enumerate(coefs.columns):
-            ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
-                    color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
-        # Labels and title
-        ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
-        ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
-        #ax.set_title("PCA Biplot of DAP-seq Coefficients")
-        # increase font x and y ticks
-        ax.tick_params(axis='both', which='major', labelsize=14)
+    # get the motifs of the important points
+    consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
+    #import pdb; pdb.set_trace()
+    # Create the biplot
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
 
-        # add the spine right and top
-        ax.spines['right'].set_visible(True)
-        ax.spines['top'].set_visible(True)
-        # remove the grid
-        ax.grid(False)
-        # add a x and y lines at 0
-        ax.axhline(0, color='black', lw=1, ls='--')
-        ax.axvline(0, color='black', lw=1, ls='--')
-        
-        # Save plot
-        plt.savefig("Images/figure_5b.pdf", bbox_inches="tight")
-        plt.close('all')
-        print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+    # Plot samples (treatments)
+    sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+    # Store text labels for adjustment
+    texts = []
+    for i, txt in enumerate(pca_df.index):
+        if txt in important_points:
+            texts.append(ax.text(
+                pca_df["PC1"][i], 
+                pca_df["PC2"][i], 
+                f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                fontsize=11, 
+                alpha=1
+            ))
+    loadings = pca.components_  # Get PC1 and PC2 loadings
+    loadings[0, :] = loadings[0, :]# * -1
+    scaling_factor = 14  # Adjust arrow length
+    for i, treatment in enumerate(coefs.columns):
+        texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+    # Adjust text positions to avoid overlaps
+    adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+    
+    # Plot loadings (treatment contributions)
+    for i, treatment in enumerate(coefs.columns):
+        ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+    # Labels and title
+    ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+    ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+    #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+    # increase font x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
+    # add the spine right and top
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+    # remove the grid
+    ax.grid(False)
+    # add a x and y lines at 0
+    ax.axhline(0, color='black', lw=1, ls='--')
+    ax.axvline(0, color='black', lw=1, ls='--')
+    
+    # Save plot
+    plt.savefig("Images/figure_5b.pdf", bbox_inches="tight")
+    plt.close('all')
+    print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+
+def figure_5d(figsize=(10, 7)):
+    '''
+    PCA coefficients TF-modisco
+    '''
+
+    coefs = pd.DataFrame()
+    for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+        coef = pd.read_csv(f"Results/Interpretation/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
+        coef = coef.rename(columns={"n-seqlets": treatment})
+        if coefs.empty:
+            coefs = coef
+        else:
+            coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
+    
+    coefs = coefs.set_index("Best_TF")
+    coefs =  coefs.mean(axis=1)
+    
+    # Now rename column as PTI
+    coefs = coefs.rename("PTI")
+
+    # add the rest
+
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
+        coef = pd.read_csv(f"Results/Interpretation/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
+        coef = coef.rename(columns={"n-seqlets": hormone})
+        coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
+    # Set TF as index and fill NaN values with 0
+    coefs = coefs.set_index("Best_TF").fillna(0)
+    # preprocess by standardizing the data
+    coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+    # Perform PCA
+    pca = PCA(n_components=2)
+    coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+    coefs_pca[:, 1] = coefs_pca[:, 1] * -1
+    # Create DataFrame for plotting
+    pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+
+    # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+    top_n = 15
+    important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
+
+    # get the motifs of the important points
+    consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
+    #import pdb; pdb.set_trace()
+    # Create the biplot
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
+
+    # Plot samples (treatments)
+    sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+    # Store text labels for adjustment
+    texts = []
+    for i, txt in enumerate(pca_df.index):
+        if txt in important_points:
+            texts.append(ax.text(
+                pca_df["PC1"][i], 
+                pca_df["PC2"][i], 
+                f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                fontsize=11, 
+                alpha=1
+            ))
+    loadings = pca.components_  # Get PC1 and PC2 loadings
+    loadings[1, :] = loadings[1, :] * -1
+    scaling_factor = 10  # Adjust arrow length
+    for i, treatment in enumerate(coefs.columns):
+        texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+    # Adjust text positions to avoid overlaps
+    adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+    
+    # Plot loadings (treatment contributions)
+    for i, treatment in enumerate(coefs.columns):
+        ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+    # Labels and title
+    ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+    ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+    #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+    # increase font x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
+    # add the spine right and top
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+    # remove the grid
+    ax.grid(False)
+    # add a x and y lines at 0
+    ax.axhline(0, color='black', lw=1, ls='--')
+    ax.axvline(0, color='black', lw=1, ls='--')
+    
+    # Save plot
+    plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
+    plt.close('all')
+    print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
 def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     # Define DNA regions
@@ -1681,7 +1775,7 @@ def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     else:
         plt.savefig("Images/figure_2_1.pdf", bbox_inches="tight")
 
-def figure_5d(figsize=(10, 7)):
+def figure_S8(figsize=(10, 7)):
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
     # read the cluster table
     cluster_table = pd.read_csv("Results/Interpretation/cluster_patterns/cluster_table.csv", index_col=0)
@@ -2184,7 +2278,7 @@ if __name__ == "__main__":
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     #
     #figure_S2()
-    figure_2a()
+    #figure_2a()
     #figure_2b()
     #
     #figure_5c(outcome = "quantiles_per_treatment") # 2.1
@@ -2197,11 +2291,12 @@ if __name__ == "__main__":
     #figure_4b()
     #figure_4c()
     #figure_4d()
-    exit()
     #
     #figure_5a()
     #figure_5b()
     #figure_5c()
+    figure_5d()
+    exit()
     ## Reset for last figure
     sns.reset_defaults()
     sns.set_theme()
