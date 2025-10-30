@@ -221,7 +221,8 @@ def get_shap(
     return shap_
 
 
-def main():
+def main(bp_number):
+    assert bp_number in [2048, 4096]
     outcome_types = [
         "log2FC",
         #"amplitude",
@@ -244,7 +245,7 @@ def main():
     }
 
     for outcome_type in outcome_types:
-        config_file = f"Results/CNN/{outcome_type}/2048/exons_masked_False/config.json"
+        config_file = f"Results/CNN/{outcome_type}/{bp_number}/exons_masked_False/config.json"
 
         with open(config_file, "r") as f:
             cnn_config = json.load(f)
@@ -286,7 +287,7 @@ def main():
 
         model.load_state_dict(
             torch.load(
-                f"Results/CNN/{outcome_type}/2048/exons_masked_False/model_0/best_model.pth"
+                f"Results/CNN/{outcome_type}/{bp_number}/exons_masked_False/model_0/best_model.pth"
             )
         )
         model.eval()
@@ -301,8 +302,9 @@ def main():
             model,
             "cuda",
             n_background=100,
+            main_folder=f"Results/Interpretation_{bp_number}"
         )
 
 
 if __name__ == "__main__":
-    main()
+    main(4096)
