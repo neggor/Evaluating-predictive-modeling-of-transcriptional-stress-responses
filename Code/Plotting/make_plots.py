@@ -235,7 +235,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         {
             "DE_per_treatment": "S.DE",
             "quantiles_per_treatment": "S.Q",
-            "TPM_cuartiles":"AvgTPM.Q"
+            "TPM_cuartiles":"log(maxTPM + 1).Q"
         }
     )
     mask = (res["in_type"] == "CNN") & (res["treatment"] == "up_down_q_TPM")

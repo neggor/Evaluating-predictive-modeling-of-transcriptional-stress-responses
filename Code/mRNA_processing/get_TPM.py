@@ -26,14 +26,16 @@ def generate_TPM(raw_mRNA, gene_lengths):
 
 def generate_high_low(Y: pd.DataFrame) -> pd.DataFrame:
     """
-    Classify rows based on row-wise mean into low/high categories.
+    Classify rows based on row-wise max into low/high categories.
     - Low (<25th percentile) -> 0
     - Middle (25-75th percentile) -> 3
     - High (>75th percentile) -> 1
     
     Returns a DataFrame with only low and high rows (middle removed).
     """
-    row_mean = Y.mean(axis=1)
+    # take log_10
+    Y = np.log10(Y+1)
+    row_mean = Y.max(axis=1)
 
     low_thresh = row_mean.quantile(0.25)
     high_thresh = row_mean.quantile(0.75)
@@ -61,13 +63,13 @@ def load_datasets():
     df = df.iloc[:, :-1]
     df.columns = columns_old[1:]
     # PAMP_DAMP
-    #df_pamp= pd.read_csv("Data/RAW/mRNA/PTI_raw/PRJEB25079_UncorrectedCounts.csv", index_col=0)
-    #df_pamp = df_pamp.astype(float)
+    df_pamp= pd.read_csv("Data/RAW/mRNA/PTI_raw/PRJEB25079_UncorrectedCounts.csv", index_col=0)
+    df_pamp = df_pamp.astype(float)
     ## this works as R1_Col_3-OH-FA_000 for _ separated characteristics
     ## being replicate, accession, stimulus, time unit, being 0 the reference.
     ## Take only Col samples
-    #df_pamp = df_pamp.loc[:, df_pamp.columns.str.contains("Col")]
-    #df_pamp = df_pamp.merge(df, left_index= True, right_index= True)
+    df_pamp = df_pamp.loc[:, df_pamp.columns.str.contains("Col")]
+    df_pamp = df_pamp.merge(df, left_index= True, right_index= True)
 
 
     ## Load Gene lengths

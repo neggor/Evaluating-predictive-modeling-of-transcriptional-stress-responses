@@ -649,11 +649,6 @@ class DataHandler:
             Y = pd.read_csv("Data/Processed/Basal/up_down_q_tpm.csv")
             Y.columns = ["Gene", "up_down_q_TPM"]
             return Y
-        
-        elif problem_type == "TPM":
-            Y = pd.read_csv("Data/Processed/Basal/TPM.csv", index_col=0)
-            Y = (Y.mean(axis=1).reset_index().rename(columns={'index': 'Gene', 0: 'mean'}))
-            return Y
 
 
 
