@@ -1621,12 +1621,13 @@ def figure_5d(figsize=(10, 7)):
                 pca_df["PC1"][i], 
                 pca_df["PC2"][i], 
                 f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                #txt,
                 fontsize=11, 
                 alpha=1
             ))
     loadings = pca.components_  # Get PC1 and PC2 loadings
     loadings[1, :] = loadings[1, :] * -1
-    scaling_factor = 10  # Adjust arrow length
+    scaling_factor = 8  # Adjust arrow length
     for i, treatment in enumerate(coefs.columns):
         texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
     # Adjust text positions to avoid overlaps
@@ -1638,7 +1639,7 @@ def figure_5d(figsize=(10, 7)):
     force_text=0.05,     # keep texts from pushing each other too far
     expand_points=(1.05, 1.05),  # limit expansion around points
     expand_text=(1.05, 1.05),    # limit expansion around text
-    lim=100  # number of iterations (higher = more precise, but slower)
+    lim=1000  # number of iterations (higher = more precise, but slower)
     )
     
     # Plot loadings (treatment contributions)
