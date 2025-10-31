@@ -132,14 +132,14 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
                 f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy"
             )
 
-def run_report(treatments):
+def run_report(treatments, bp): ## TODO fix this for the bp distinction kind of stuff
     outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
     for outcome_type in outcome_types:
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
             
-            cmd_report = f"modisco report -i Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
-                        -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
+            cmd_report = f"modisco report -i Results/Interpretation_{bp}/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
+                        -o Results/Interpretation_{bp}/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
             print("Running:", cmd_report)
             os.system(cmd_report)
 
@@ -163,4 +163,4 @@ if __name__ == "__main__":
         "T": "Pep1",
     }
     #run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping)
-    run_report(treatments)
+    run_report(treatments, 4096)

@@ -1630,7 +1630,16 @@ def figure_5d(figsize=(10, 7)):
     for i, treatment in enumerate(coefs.columns):
         texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
     # Adjust text positions to avoid overlaps
-    adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+    adjust_text(
+    texts,
+    arrowprops=dict(arrowstyle="-", color='blue', alpha=1),
+    only_move={'points': 'y', 'texts': 'y'},   # allow minimal movement (optional)
+    force_points=0.05,   # keep points from pushing text too far
+    force_text=0.05,     # keep texts from pushing each other too far
+    expand_points=(1.05, 1.05),  # limit expansion around points
+    expand_text=(1.05, 1.05),    # limit expansion around text
+    lim=100  # number of iterations (higher = more precise, but slower)
+    )
     
     # Plot loadings (treatment contributions)
     for i, treatment in enumerate(coefs.columns):
