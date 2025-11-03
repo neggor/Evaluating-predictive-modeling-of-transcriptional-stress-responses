@@ -1580,7 +1580,7 @@ def figure_5d(figsize=(10, 7), bp = 2048):
 
     coefs = pd.DataFrame()
     for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
-        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/log2FC/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
         coef = coef.rename(columns={"n-seqlets": treatment})
         if coefs.empty:
             coefs = coef
@@ -1596,7 +1596,7 @@ def figure_5d(figsize=(10, 7), bp = 2048):
     # add the rest
 
     for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
-        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/log2FC/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
         coef = coef.rename(columns={"n-seqlets": hormone})
         coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
     # Set TF as index and fill NaN values with 0
