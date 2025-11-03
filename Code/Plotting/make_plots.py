@@ -2313,13 +2313,13 @@ if __name__ == "__main__":
     #figure_5c(outcome = "quantiles_per_treatment") # 2.1
     #
     
-    figure_3a(bp = 4096)
-    figure_3c(bp = 4096)
-    figure_3b(bp = 4096)
-
-    figure_3a(bp = 2048)
-    figure_3c(bp = 2048)
-    figure_3b(bp = 2048)
+    #figure_3a(bp = 4096)
+    #figure_3c(bp = 4096)
+    #figure_3b(bp = 4096)
+#
+    #figure_3a(bp = 2048)
+    #figure_3c(bp = 2048)
+    #figure_3b(bp = 2048)
     #
     #figure_4a()
     #figure_4b()
@@ -2329,7 +2329,7 @@ if __name__ == "__main__":
     #figure_5a()
     #figure_5b()
     #figure_5c()
-    figure_5d()
+    figure_5d(bp = 4096)
     exit()
     ## Reset for last figure
     sns.reset_defaults()
