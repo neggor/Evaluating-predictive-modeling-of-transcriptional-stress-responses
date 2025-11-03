@@ -263,7 +263,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     print(res.dropna(subset=["value"]))
     # Reorder the outcome_type to make "S.DE" appear first and "S.Q" second
     res["outcome_type"] = pd.Categorical(
-        res["outcome_type"], categories=["AvgTPM.Q", "S.DE", "S.Q"], ordered=True
+        res["outcome_type"], categories=["log(maxTPM + 1).Q", "S.DE", "S.Q"], ordered=True
     )
     
 
@@ -286,7 +286,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     sns.stripplot(
         x="outcome_type",
         y="value",
-        data=res[(res["outcome_type"] == "AvgTPM.Q")], #& (res["model_type"] == "linear")],
+        data=res[(res["outcome_type"] == "log(maxTPM + 1).Q")], #& (res["model_type"] == "linear")],
         hue="in_type",
         dodge=True,     # keeps dots side by side with corresponding box
         size=12,
@@ -641,11 +641,15 @@ def figure_2b(figsize=(10, 7), pvals=True, metric="Spearman"):
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     plt.savefig("Images/figure_2b.pdf", bbox_inches="tight")
 
-def figure_3a(outcome="log2FC"):
+def figure_3a(outcome="log2FC", bp = 2048):
     if outcome not in ["log2FC", "amplitude"]:
         raise ValueError("outcome must be either log2FC or amplitude")
 
-    DNA_specs = [814, 200, 200, 814]
+    if bp == 2048:
+        DNA_specs = [814, 200, 200, 814]
+    elif bp == 4096:
+        DNA_specs = [1019, 1019, 1019, 1019]
+
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     Y_hats = []
     training_specs = {
@@ -675,13 +679,13 @@ def figure_3a(outcome="log2FC"):
         dna_format="One_Hot_Encoding",
     )
 
-    cnn_config_url = f"Results/CNN/{outcome}/2048/exons_masked_False/config.json"
+    cnn_config_url = f"Results/CNN/{outcome}/{bp}/exons_masked_False/config.json"
     with open(cnn_config_url, "r") as f:
         cnn_config = json.load(f)
 
     for i in range(0, 5):
         model_weights = (
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/best_model.pth"
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/best_model.pth"
         )
         # load the model
         model = myCNN(
@@ -707,7 +711,7 @@ def figure_3a(outcome="log2FC"):
             mRNA_test=pd.concat([mRNA_test_CNN]),
             device=torch.device("cuda"),
             treatments=treatments,
-            store_folder=f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}",
+            store_folder=f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}",
             save_results=False,
         )
 
@@ -777,11 +781,11 @@ def figure_3a(outcome="log2FC"):
         rect=[0.03, 0.03, 1, 0.95], h_pad=1.6, w_pad=1.6
     )  # Adjust layout to fit suptitle and increase horizontal separation
     # Save the figure
-    plt.savefig(f"Images/figure_3a.pdf", bbox_inches="tight")
+    plt.savefig(f"Images/figure_3a_{bp}.pdf", bbox_inches="tight")
     # also as a png
-    plt.savefig(f"Images/figure_3a.png", bbox_inches="tight")
+    plt.savefig(f"Images/figure_3a_{bp}.png", bbox_inches="tight")
 
-def figure_3b(figsize=(10, 7), outcome="log2FC"):
+def figure_3b(figsize=(10, 7), outcome="log2FC", bp = 2048):
     if outcome not in ["log2FC", "amplitude"]:
         raise ValueError("outcome must be either log2FC or amplitude")
 
@@ -794,7 +798,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     # CNN Model
     for i in range(0, 5):
         metrics = pd.read_csv(
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/test_metrics.csv",
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/test_metrics.csv",
             index_col=0,
         )
         metric_m = pd.DataFrame(metrics.T)
@@ -802,48 +806,49 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         metric_m["model"] = "CNN"
         my_concat = pd.concat([my_concat, metric_m])
 
-    # AgroNT Model
-    metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
-    metric_m = pd.DataFrame(metrics.T)
-    metric_m["replicate"] = 0
-    metric_m["model"] = "AgroNT"
-    my_concat = pd.concat([my_concat, metric_m])
-
-    # 6-mer
-    for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
-        if "metrics" not in file:
-            continue
-        treatment_name = file.split("_")[0]
-        metrics = pd.read_csv(
-            f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
-        )
-        metric_m = pd.DataFrame(metrics)
+    if bp == 2048:
+        # AgroNT Model
+        metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
+        metric_m = pd.DataFrame(metrics.T)
         metric_m["replicate"] = 0
-        metric_m["model"] = "6-mer"
-        metric_m["treatment"] = treatment_name
-        # reset index
-        metric_m.reset_index(inplace=True)
-        # set index treatment
-        metric_m.set_index("treatment", inplace=True)
+        metric_m["model"] = "AgroNT"
         my_concat = pd.concat([my_concat, metric_m])
 
-    # DAPseq
-    for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
-        if "metrics" not in file:
-            continue
-        treatment_name = file.split("_")[0]
-        metrics = pd.read_csv(
-            f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
-        )
-        metric_m = pd.DataFrame(metrics)
-        metric_m["replicate"] = 0
-        metric_m["model"] = "DAPseq"
-        metric_m["treatment"] = treatment_name
-        # reset index
-        metric_m.reset_index(inplace=True)
-        # set index treatment
-        metric_m.set_index("treatment", inplace=True)
-        my_concat = pd.concat([my_concat, metric_m])
+        # 6-mer
+        for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
+            if "metrics" not in file:
+                continue
+            treatment_name = file.split("_")[0]
+            metrics = pd.read_csv(
+                f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
+            )
+            metric_m = pd.DataFrame(metrics)
+            metric_m["replicate"] = 0
+            metric_m["model"] = "6-mer"
+            metric_m["treatment"] = treatment_name
+            # reset index
+            metric_m.reset_index(inplace=True)
+            # set index treatment
+            metric_m.set_index("treatment", inplace=True)
+            my_concat = pd.concat([my_concat, metric_m])
+
+        # DAPseq
+        for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
+            if "metrics" not in file:
+                continue
+            treatment_name = file.split("_")[0]
+            metrics = pd.read_csv(
+                f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
+            )
+            metric_m = pd.DataFrame(metrics)
+            metric_m["replicate"] = 0
+            metric_m["model"] = "DAPseq"
+            metric_m["treatment"] = treatment_name
+            # reset index
+            metric_m.reset_index(inplace=True)
+            # set index treatment
+            metric_m.set_index("treatment", inplace=True)
+            my_concat = pd.concat([my_concat, metric_m])
 
     # Reset index
     my_concat.reset_index(inplace=True)
@@ -860,28 +865,44 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         width=0.6,
         showfliers=False,
     )
+    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
+    if bp == 2048:
+        # Stripplot (dots) for all other models
+        strip = sns.stripplot(
+            data=my_concat[
+                (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
+            ],
+            x="treatment",
+            y="sign_accuracy",
+            hue="model",
+            dodge=True,
+            jitter=True,
+            alpha=0.8,
+            linewidth=0.5,
+            size=10,
+            palette={
+                "6-mer": "#1f77b4",
+                "DAPseq": "#ff7f0e",
+                "AgroNT": "#d62728",
+                "Random": "#999999",
+            },
+        )
+        strip.spines["top"].set_visible(False)
+        strip.spines["right"].set_visible(False)
+        # Manually create a legend including CNN
+        handles, labels = strip.get_legend_handles_labels()
+        handles.insert(0, cnn_patch)
+        labels.insert(0, "CNN")
 
-    # Stripplot (dots) for all other models
-    strip = sns.stripplot(
-        data=my_concat[
-            (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
-        ],
-        x="treatment",
-        y="sign_accuracy",
-        hue="model",
-        dodge=True,
-        jitter=True,
-        alpha=0.8,
-        linewidth=0.5,
-        size=10,
-        palette={
-            "6-mer": "#1f77b4",
-            "DAPseq": "#ff7f0e",
-            "AgroNT": "#d62728",
-            "Random": "#999999",
-        },
-    )
-
+        plt.legend(
+            handles=handles,
+            labels=labels,
+            title="Model",
+            loc="upper right",
+            bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
+            frameon=False if outcome == "log2FC" else True,)
+    else:
+        plt.legend(handles = [cnn_patch])
 
     plt.xticks(rotation=45, ha="right")
     if outcome == "log2FC":
@@ -889,14 +910,8 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     else:
         plt.ylabel("LFC.A direction correctly predicted (proportion)")
     plt.xlabel("Treatment")
-    strip.spines["top"].set_visible(False)
-    strip.spines["right"].set_visible(False)
-   
-    # Manually create a legend including CNN
-    handles, labels = strip.get_legend_handles_labels()
-    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
-    handles.insert(0, cnn_patch)
-    labels.insert(0, "CNN")
+
+
     # Add vertical grid lines between treatments
     # Add customized vertical grid lines between treatments
     ax = plt.gca()
@@ -907,23 +922,18 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     for i in range(len(treatments)+1):
         ax.axvline(x=i-0.5, color='gray', linestyle='--', linewidth=0.5, alpha=0.7, zorder=0)
 
-    plt.legend(
-        handles=handles,
-        labels=labels,
-        title="Model",
-        loc="upper right",
-        bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
-        frameon=False if outcome == "log2FC" else True,)
-
     # plt.title("Comparison of Test Metrics Across Models")
     plt.tight_layout()
     if outcome == "log2FC":
-        plt.savefig(f"Images/figure_3b.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/figure_3b_{bp}.pdf", bbox_inches="tight")
     else:
-        plt.savefig(f"Images/SUP_figure_5.pdf", bbox_inches="tight") 
+        plt.savefig(f"Images/SUP_figure_5_{bp}.pdf", bbox_inches="tight") 
 
-def figure_3c(figsize=(10, 7), outcome="log2FC"):
-    DNA_specs = [814, 200, 200, 814]
+def figure_3c(figsize=(10, 7), outcome="log2FC",  bp = 2048):
+    if bp == 2048:
+        DNA_specs = [814, 200, 200, 814]
+    elif bp == 4096:
+        DNA_specs = [1019, 1019, 1019, 1019]
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
 
 
@@ -955,13 +965,13 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
     )
 
     Y_hats = []
-    cnn_config_url = f"Results/CNN/{outcome}/2048/exons_masked_False/config.json"
+    cnn_config_url = f"Results/CNN/{outcome}/{bp}/exons_masked_False/config.json"
     with open(cnn_config_url, "r") as f:
         cnn_config = json.load(f)
 
     for i in range(0, 5):
         model_weights = (
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/best_model.pth"
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/best_model.pth"
         )
         # load the model
         model = myCNN(
@@ -986,7 +996,7 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
             mRNA_test=pd.concat([mRNA_test_CNN]),
             device=torch.device("cuda"),
             treatments=treatments,
-            store_folder=f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}",  # does not matter
+            store_folder=f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}",  # does not matter
             save_results=False,
         )
 
@@ -1042,9 +1052,9 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
 
     # save the figure
     if outcome == "log2FC":
-        plt.savefig(f"Images/figure_3c.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/figure_3c_{bp}.pdf", bbox_inches="tight")
     else:
-        plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight") # TODO
+        plt.savefig(f"Images/figure_SUP3_amplitude_{bp}.pdf", bbox_inches="tight") # TODO
 
 def figure_4a(figsize=(10, 7), metric="AUC"):
     res = pd.read_csv("Results/Results_table.csv")
@@ -1563,14 +1573,14 @@ def figure_5b(figsize=(10, 7)):
     plt.close('all')
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
-def figure_5d(figsize=(10, 7)):
+def figure_5d(figsize=(10, 7), bp = 2048):
     '''
     PCA coefficients TF-modisco
     '''
 
     coefs = pd.DataFrame()
     for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
-        coef = pd.read_csv(f"Results/Interpretation/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
         coef = coef.rename(columns={"n-seqlets": treatment})
         if coefs.empty:
             coefs = coef
@@ -1586,7 +1596,7 @@ def figure_5d(figsize=(10, 7)):
     # add the rest
 
     for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
-        coef = pd.read_csv(f"Results/Interpretation/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
         coef = coef.rename(columns={"n-seqlets": hormone})
         coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
     # Set TF as index and fill NaN values with 0
@@ -1663,7 +1673,7 @@ def figure_5d(figsize=(10, 7)):
     ax.axvline(0, color='black', lw=1, ls='--')
     
     # Save plot
-    plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
+    plt.savefig(f"Images/figure_5d_{bp}.pdf", bbox_inches="tight")
     plt.close('all')
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
@@ -2282,6 +2292,14 @@ def figure_S7(figsize=(10, 7)):
     plt.tight_layout()
     plt.savefig(f"Images/SUP_figure_7.pdf", bbox_inches="tight")
 
+
+def figure_LFT_4096_a():
+    pass
+def figure_LFT_4096_b():
+    pass
+def figure_LFT_4096_c():
+    pass
+
 if __name__ == "__main__":
     set_plot_style()
     #figure_1a()
@@ -2289,13 +2307,19 @@ if __name__ == "__main__":
     #
     #figure_S2()
     #figure_2a()
+    #exit()
     #figure_2b()
     #
     #figure_5c(outcome = "quantiles_per_treatment") # 2.1
     #
-    #figure_3c()
-    #figure_3a()
-    #figure_3b()
+    
+    figure_3a(bp = 4096)
+    figure_3c(bp = 4096)
+    figure_3b(bp = 4096)
+
+    figure_3a(bp = 2048)
+    figure_3c(bp = 2048)
+    figure_3b(bp = 2048)
     #
     #figure_4a()
     #figure_4b()
