@@ -294,12 +294,12 @@ def pwm_convolve_pair(pwm1: np.ndarray, pwm2: np.ndarray) -> float:
 
 if __name__ == "__main__":
     import os
-
-    os.makedirs("Results/Interpretation/tfmodisco_coef")
-    for treatment in os.listdir("Results/Interpretation/log2FC"):
+    bp = 4096
+    os.makedirs(f"Results/Interpretation_{bp}/tfmodisco_coef", exist_ok=True)
+    for treatment in os.listdir(f"Results/Interpretation_{bp}/log2FC"):
         if treatment == "queries":
             continue
         
-        patterns = get_patterns_seqlets(f"Results/Interpretation/log2FC/{treatment}/modisco_run/modisco_results.h5")
+        patterns = get_patterns_seqlets(f"Results/Interpretation_{bp}/log2FC/{treatment}/modisco_run/modisco_results.h5")
         df, result = get_argmax_similarities(patterns, "Data/RAW/JASPAR2024_CORE_non-redundant_pfms_meme.txt")
-        result.to_csv(f"Results/Interpretation/tfmodisco_coef/{treatment}.csv")
+        result.to_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{treatment}.csv")
