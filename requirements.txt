@@ -19,8 +19,7 @@ statannotations==0.7.1
 statsmodels==0.14.1
 tqdm==4.66.1
 transformers==4.29.2
+modisco-lite==2.3.2
 
-# TF-modisco lite
-git+https://github.com/jmschrei/tfmodisco-lite.git#egg=modisco-lite
 # SHAP hypothetical scores fork
 git+https://github.com/neggor/shap_hypothetical.git@shap_0.44.1#egg=shap

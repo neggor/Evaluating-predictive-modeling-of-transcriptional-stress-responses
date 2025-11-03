@@ -213,7 +213,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    #linear_models()
-    run_cnn()
+    linear_models()
+    #run_cnn()
     #run_agroNT()
     #run_RF()

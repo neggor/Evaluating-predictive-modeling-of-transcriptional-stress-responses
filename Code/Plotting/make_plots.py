@@ -24,7 +24,19 @@ from adjustText import adjust_text
 from tqdm import tqdm
 from matplotlib.lines import Line2D
 import requests
-
+from Bio import SeqIO
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+from Code.Training.train_linear import (
+    handle_data_train_linear_models,
+    handle_data_test_linear_models,
+    fit_regression,
+    test_linear,
+)
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
 mapping = {
     "B": "MeJA",
     "C": "SA",
@@ -2292,6 +2304,82 @@ def figure_S7(figsize=(10, 7)):
     plt.tight_layout()
     plt.savefig(f"Images/SUP_figure_7.pdf", bbox_inches="tight")
 
+def fit_simple_log_reg(X_train, X_test, Y_train, Y_test):
+    pass
+
+def figure_S9(figsize=(12, 6)):
+    # ------------------ User settings ------------------
+    fasta_file_TSS = "Data/RAW/DNA/Ath/promoters_814up_199down_TSS.fasta"
+    fasta_file_TTS = "Data/RAW/DNA/Ath/promoters_199up_814down_TTS.fasta"
+    csv_file       = "Data/Processed/Basal/up_down_q_tpm.csv"
+    motif          = "AAAAAA"
+
+    (
+        mRNA_train,
+        mRNA_validation,
+        mRNA_test,
+        TSS_sequences,
+        TTS_sequences,
+        metadata,
+    ) = load_data(
+        train_proportion=0.8,
+        val_proportion=0.1,
+        DNA_specs=[814, 200, 200, 814],
+        treatments=["up_down_q_TPM"],
+        problem_type="TPM_cuartiles",
+        mask_exons=False,
+        dna_format= "6-mer",
+    )
+
+    
+    # ------------------ Read gene class CSV ------------------
+    df = pd.read_csv(csv_file)
+    gene_class_dict = dict(zip(df['Unnamed: 0'], df['class']))
+
+    # ------------------ Helper function ------------------
+    def get_positions(fasta_file, upstream_len):
+        positions_by_class = {0: [], 1: []}
+        for record in SeqIO.parse(fasta_file, "fasta"):
+            gene_id = str(record.id).split("::")[0]
+            if gene_id not in gene_class_dict:
+                continue
+            cls = gene_class_dict[gene_id]
+            seq = str(record.seq).upper()
+            idx = seq.find(motif)
+            while idx != -1:
+                rel_pos = idx - upstream_len
+                positions_by_class[cls].append(rel_pos)
+                idx = seq.find(motif, idx + 1)
+        positions_by_class[0] = np.array(positions_by_class[0])
+        positions_by_class[1] = np.array(positions_by_class[1])
+        return positions_by_class
+
+    # ------------------ Get motif positions ------------------
+    positions_TSS = get_positions(fasta_file_TSS, 814)
+    positions_TTS = get_positions(fasta_file_TTS, 200)
+
+    # ------------------ Plot histograms ------------------
+    fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True, dpi=300)
+
+    # TSS plot
+    axes[0].hist(positions_TSS[1], bins=50, alpha=0.7, color='blue', label='Class 1')
+    axes[0].hist(positions_TSS[0], bins=50, alpha=0.7, color='orange', label='Class 0')
+    axes[0].axvline(0, color='red', linestyle='--', label="TSS")
+    axes[0].set_xlabel("Position relative to TSS (bp)")
+    axes[0].set_ylabel("Number of occurrences")
+    axes[0].set_title(f"TSS region motif '{motif}'")
+    axes[0].legend()
+
+    # TTS plot
+    axes[1].hist(positions_TTS[1], bins=50, alpha=0.7, color='blue', label='Class 1')
+    axes[1].hist(positions_TTS[0], bins=50, alpha=0.7, color='orange', label='Class 0')
+    axes[1].axvline(0, color='red', linestyle='--', label="TTS")
+    axes[1].set_xlabel("Position relative to TTS (bp)")
+    axes[1].set_title(f"TTS region motif '{motif}'")
+    axes[1].legend()
+
+    plt.tight_layout()
+    plt.savefig(f"Images/SUP_figure_9.pdf", bbox_inches="tight")
 
 def figure_LFT_4096_a():
     pass
@@ -2302,6 +2390,7 @@ def figure_LFT_4096_c():
 
 if __name__ == "__main__":
     set_plot_style()
+    figure_S9()
     #figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     #

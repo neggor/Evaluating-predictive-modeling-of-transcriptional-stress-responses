@@ -7,10 +7,10 @@
     "upstream_TTS": 200,
     "downstream_TSS": 200,
     "downstream_TTS": 814,
-    "dna_format": "DAPseq",
+    "dna_format": "6-mer",
     "mask_exons": false,
     "problem_type": "TPM_cuartiles",
     "linear_model_kind": "logistic_l1",
-    "model_name": "linear_TPM_cuartiles_DAPseq",
+    "model_name": "linear_TPM_cuartiles_6-mer",
     "separated_segments": false
 }
