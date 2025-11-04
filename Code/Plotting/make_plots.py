@@ -1585,7 +1585,7 @@ def figure_5b(figsize=(10, 7)):
     plt.close('all')
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
-def figure_5d(figsize=(10, 7), bp = 2048):
+def figure_5d(figsize=(10, 7), bp = 4096):
     '''
     PCA coefficients TF-modisco
     '''
@@ -2381,16 +2381,11 @@ def figure_S9(figsize=(12, 6)):
     plt.tight_layout()
     plt.savefig(f"Images/SUP_figure_9.pdf", bbox_inches="tight")
 
-def figure_LFT_4096_a():
-    pass
-def figure_LFT_4096_b():
-    pass
-def figure_LFT_4096_c():
-    pass
+
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_S9()
+    #figure_S9()
     #figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     #

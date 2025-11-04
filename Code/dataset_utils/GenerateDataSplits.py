@@ -819,11 +819,12 @@ if __name__ == "__main__":
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(
             treatments=["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
-            problem_type="TPM",
+            problem_type="log2FC",
         )
     )
     print(mRNA_train)
     print(mRNA_train.shape, mRNA_validation.shape, mRNA_test.shape)
+    exit()
     # make the TSS_sequences a dataframe with the gene names as index
     TSS_sequences = pd.DataFrame.from_dict( TSS_sequences, orient="index")
     # put metahada TFs_TSS
