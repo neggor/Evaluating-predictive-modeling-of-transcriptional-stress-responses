@@ -134,7 +134,7 @@ def run_modisco(DNA_specs, nb_num, offset, n_seqlets, treatments, mapping):
 
 def run_report(treatments, bp): ## TODO fix this for the bp distinction kind of stuff
     outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
-    import pdb; pdb.set_trace()
+    #import pdb; pdb.set_trace()
     for outcome_type in outcome_types:
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
@@ -163,5 +163,5 @@ if __name__ == "__main__":
         "U": "OGs",
         "T": "Pep1",
     }
-    run_modisco(DNA_specs, 4096, offset, n_seqlets, treatments, mapping)
+    #run_modisco(DNA_specs, 4096, offset, n_seqlets, treatments, mapping)
     run_report(treatments, 4096)
