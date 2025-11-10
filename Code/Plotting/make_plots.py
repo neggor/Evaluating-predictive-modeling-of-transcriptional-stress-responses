@@ -1585,7 +1585,7 @@ def figure_5b(figsize=(10, 7)):
     plt.close('all')
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
-def figure_5d(figsize=(10, 7), bp = 4096):
+def figure_5d(figsize=(10, 7), bp = 4096, n_tfbm = 15):
     '''
     PCA coefficients TF-modisco
     '''
@@ -1623,7 +1623,7 @@ def figure_5d(figsize=(10, 7), bp = 4096):
     pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
     # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-    top_n = 15
+    top_n = n_tfbm
     important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
     # get the motifs of the important points
@@ -1647,21 +1647,25 @@ def figure_5d(figsize=(10, 7), bp = 4096):
                 fontsize=11, 
                 alpha=1
             ))
+
+
     loadings = pca.components_  # Get PC1 and PC2 loadings
     loadings[1, :] = loadings[1, :] * -1
     scaling_factor = 8  # Adjust arrow length
     for i, treatment in enumerate(coefs.columns):
+        if treatment == "ABA":
+            continue
         texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
     # Adjust text positions to avoid overlaps
     adjust_text(
-    texts,
-    arrowprops=dict(arrowstyle="-", color='blue', alpha=1),
-    only_move={'points': 'y', 'texts': 'y'},   # allow minimal movement (optional)
-    force_points=0.05,   # keep points from pushing text too far
-    force_text=0.05,     # keep texts from pushing each other too far
-    expand_points=(1.05, 1.05),  # limit expansion around points
-    expand_text=(1.05, 1.05),    # limit expansion around text
-    lim=1000  # number of iterations (higher = more precise, but slower)
+        texts,
+        arrowprops=dict(arrowstyle="-", color='blue', alpha=1),
+        #only_move={'points': 'y', 'texts': 'y'},   # allow minimal movement (optional)
+        #force_points=0.05,   # keep points from pushing text too far
+        #force_text=0.05,     # keep texts from pushing each other too far
+        #expand_points=(1.05, 1.05),  # limit expansion around points
+        #expand_text=(1.05, 1.05),    # limit expansion around text
+        lim=1000  # number of iterations (higher = more precise, but slower)
     )
     
     # Plot loadings (treatment contributions)
@@ -1683,7 +1687,6 @@ def figure_5d(figsize=(10, 7), bp = 4096):
     # add a x and y lines at 0
     ax.axhline(0, color='black', lw=1, ls='--')
     ax.axvline(0, color='black', lw=1, ls='--')
-    
     # Save plot
     plt.savefig(f"Images/figure_5d_{bp}.pdf", bbox_inches="tight")
     plt.close('all')
@@ -1977,6 +1980,33 @@ def figure_S3(figsize = (10, 7)):
         # Concatenate al mRNA data
         mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
 
+        if outcome == "DE_per_treatment":
+            DE_counts = {}
+            for t in treatments:
+                mRNA_t = mRNA[t]
+                DE_counts[mapping[t]] = np.sum(mRNA_t == 1)
+            DE_table = pd.DataFrame.from_dict(DE_counts, orient="index", columns=["# DE genes"])
+            DE_table["% DE genes"] = 100 * DE_table["# DE genes"] / len(mRNA)
+            print("\nNumber of DE genes per treatment:")
+            print(DE_table.sort_values("# DE genes", ascending=False).round(2))
+
+        if outcome == "quantiles_per_treatment":
+            # Count how many genes fall in the top quantile (coded as 1)
+            quantile_counts = {}
+            for t in treatments:
+                mRNA_t = mRNA[t]
+                quantile_counts[mapping[t]] = np.sum(mRNA_t == 1)
+            quantile_table = pd.DataFrame.from_dict(
+                quantile_counts, orient="index", columns=["# genes in top quantile"]
+            )
+            quantile_table["% genes in top quantile"] = (
+                100 * quantile_table["# genes in top quantile"] / len(mRNA)
+            )
+            print("\nNumber of genes in top quantile per treatment:")
+            print(quantile_table.sort_values("# genes in top quantile", ascending=False).round(2))
+
+        print(f"\n--- {outcome} ---")
+
         print(mRNA)
         # Make a heatmap of the intersection of sensitive genes divided by the union of sensitive genes
         # for the different treatments
@@ -1989,6 +2019,8 @@ def figure_S3(figsize = (10, 7)):
                 intersection = np.sum(((mRNA_t1 == 1) & (mRNA_t2 == 1))[mask])
                 union = np.sum((((mRNA_t1 == 1) | (mRNA_t2 == 1)))[mask])
                 overlaps[treatments.index(t1), treatments.index(t2)] = intersection / union
+
+        # generate a table with the number of DE genes per treatment
 
         plt.figure(figsize=figsize)
         sns.heatmap(
@@ -2391,7 +2423,6 @@ if __name__ == "__main__":
     #
     #figure_S2()
     #figure_2a()
-    #exit()
     #figure_2b()
     #
     #figure_5c(outcome = "quantiles_per_treatment") # 2.1
@@ -2413,19 +2444,20 @@ if __name__ == "__main__":
     #figure_5a()
     #figure_5b()
     #figure_5c()
-    figure_5d(bp = 4096)
-    exit()
+    #figure_5d(bp = 2048, n_tfbm= 8)
+    #exit()
     ## Reset for last figure
-    sns.reset_defaults()
-    sns.set_theme()
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5d()
-    exit()
-    #SUP figures
-    set_plot_style()
-    figure_2a(metric="MCC") # SUP 1
-    figure_S2()
+    #sns.reset_defaults()
+    #sns.set_theme()
+    #mpl.rcParams.update(mpl.rcParamsDefault)
+    #figure_5d()
+    #exit()
+    ##SUP figures
+    #set_plot_style()
+    #figure_2a(metric="MCC") # SUP 1
+    #figure_S2()
     figure_S3()
+    exit()
     figure_S4(figsize=(10, 7))
     figure_3b(outcome="amplitude") # SUP 5
     figure_S6(figsize=(10, 7))

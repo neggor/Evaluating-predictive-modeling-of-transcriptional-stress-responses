@@ -25,7 +25,13 @@ pip install -r requirements.txt
 
 ```
 ## 📁 Gather the processed data:
-mRNA counts are already processed into the time-series summaries and are available at https://figshare.com/articles/dataset/DESeq2_padj_results_ALL_csv_zip/29457890?file=55920620
+mRNA counts are already processed into the time-series summaries and are available at https://figshare.com/articles/dataset/DESeq2_padj_results_ALL_csv_zip/29457890?file=55920620 . Upper and lower quariles of log(max(TPM) + 1) classes also available in that link.
+
+Store DESeq2_padj_results_ALL.csv in Data/mRNA/Processed.
+
+Store up_down_q_tpm.csv in Data/Processed/Basal
+
+
 - Prepare the rest of the DNA and DAP-seq data with:
 ```bash
 bash Code/prepare_data.sh

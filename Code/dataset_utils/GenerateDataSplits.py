@@ -606,8 +606,6 @@ class DataHandler:
             mRNA_data_matrix["padj"] = mRNA_data_matrix["padj"].fillna(1)
             fdr = 0.01
             print("FDA threshold: ", fdr)
-            print("Percentage DEG per hormone: ")
-
             for h in treatment:
                 mRNA_data_matrix.loc[mRNA_data_matrix["treatment"] == h, "class"] = 3
                 # get percentile
