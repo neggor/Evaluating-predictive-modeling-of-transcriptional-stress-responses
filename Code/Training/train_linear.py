@@ -39,22 +39,23 @@ def handle_data_train_linear_models(
                 )
             except KeyError:
                 print(f"Gene {gene} not found in the sequences")
-        for gene in mRNA_validation["Gene"]:
-            try:
-                X_train_TSS.append(TSS_sequences[gene])
-                X_train_TTS.append(TTS_sequences[gene])
-                y_train.append(
-                    mRNA_validation[mRNA_validation["Gene"] == gene]
-                    .drop(columns=["Gene", "family_id"])
-                    .values[0]
-                )
-                family_id.append(
-                    mRNA_validation[mRNA_validation["Gene"] == gene][
-                        "family_id"
-                    ].values[0]
-                )
-            except KeyError:
-                print(f"Gene {gene} not found in the sequences")
+        if mRNA_validation is not None:
+            for gene in mRNA_validation["Gene"]:
+                try:
+                    X_train_TSS.append(TSS_sequences[gene])
+                    X_train_TTS.append(TTS_sequences[gene])
+                    y_train.append(
+                        mRNA_validation[mRNA_validation["Gene"] == gene]
+                        .drop(columns=["Gene", "family_id"])
+                        .values[0]
+                    )
+                    family_id.append(
+                        mRNA_validation[mRNA_validation["Gene"] == gene][
+                            "family_id"
+                        ].values[0]
+                    )
+                except KeyError:
+                    print(f"Gene {gene} not found in the sequences")
 
         X_train_TSS = np.array(X_train_TSS)
         X_train_TTS = np.array(X_train_TTS)

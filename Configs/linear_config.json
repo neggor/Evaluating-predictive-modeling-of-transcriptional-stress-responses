@@ -1,26 +1,16 @@
 {
-    "n_labels": 11,
+    "n_labels": 1,
     "treatments": [
-        "B",
-        "C",
-        "D",
-        "G",
-        "X",
-        "Y",
-        "Z",
-        "W",
-        "V",
-        "U",
-        "T"
+        "up_down_q_TPM"
     ],
     "upstream_TSS": 814,
     "upstream_TTS": 200,
     "downstream_TSS": 200,
     "downstream_TTS": 814,
-    "dna_format": "DAPseq",
+    "dna_format": "6-mer",
     "mask_exons": false,
-    "problem_type": "DE_per_treatment",
+    "problem_type": "TPM_cuartiles",
     "linear_model_kind": "logistic_l1",
-    "model_name": "linear_DE_per_treatment_DAPseq",
+    "model_name": "linear_TPM_cuartiles_6-mer",
     "separated_segments": false
 }

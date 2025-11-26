@@ -5,8 +5,7 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment"]
-
+outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
 
 # 1 Run linear models
 def linear_models():
@@ -23,8 +22,13 @@ def linear_models():
             config["dna_format"] = dna_format
             config["model_name"] = f"linear_{problem_type}_{dna_format}"
             config["linear_model_kind"] = (
-                "lasso" if problem_type in ["log2FC", "amplitude"] else "logistic_l1"
+                "lasso" if problem_type in ["log2FC", "amplitude", "TPM"] else "logistic_l1"
             )
+            if "TPM" in problem_type:
+                config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
+            else:
+                config["treatments"] =  ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
+            config["n_labels"] = len(config["treatments"])
             store_folder = f"Results/linear_models/{problem_type}/{dna_format}"
             # create the store folder if it does not exist
             if not os.path.exists(store_folder):
@@ -63,7 +67,12 @@ def run_cnn():
     with open(config_file, "r") as f:
         config = json.load(f)
     for problem_type in outcome_types:
-        for dna_length in [2048, 4096]:
+        if "TPM" in problem_type:
+                config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
+        else:
+            config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
+        config["n_labels"] = len(config["treatments"])
+        for dna_length in [2048, 4096, 8192]:
             for exons_masked in [True, False]:
                 if exons_masked and dna_length != 2048:
                     continue
@@ -75,11 +84,18 @@ def run_cnn():
                     config["upstream_TTS"] = 200
                     config["downstream_TSS"] = 200
                     config["downstream_TTS"] = 814
+
                 elif dna_length == 4096:
-                    config["upstream_TSS"] = 1500
-                    config["upstream_TTS"] = 538
-                    config["downstream_TSS"] = 538
-                    config["downstream_TTS"] = 1500
+                    config["upstream_TSS"] = 1019
+                    config["upstream_TTS"] = 1019
+                    config["downstream_TSS"] = 1019
+                    config["downstream_TTS"] = 1019
+
+                elif dna_length == 8192:
+                    config["upstream_TSS"] = 1024*2
+                    config["upstream_TTS"] = 1024*2
+                    config["downstream_TSS"] = 1019*2
+                    config["downstream_TTS"] = 1019*2
                 else:
                     raise ValueError(f"Unsupported dna_length: {dna_length}")
                 config["mask_exons"] = exons_masked
@@ -123,6 +139,8 @@ def run_agroNT():
         config = json.load(f)
 
     for problem_type in outcome_types:
+        if "TPM" in problem_type:
+            continue
         config["problem_type"] = problem_type
         store_folder = f"Results/agroNT/{problem_type}"
         # create the store folder if it does not exist
@@ -194,7 +212,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    #linear_models()
-    #run_cnn()
-    #run_agroNT()
-    run_RF()
+    linear_models()
+    run_cnn()
+    run_agroNT()
+    #run_RF()

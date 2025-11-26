@@ -8,8 +8,9 @@ def generate_table():
         "amplitude",
         "log2FC",
         "DE_per_treatment",
+        "TPM_cuartiles"
     ]
-    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
+    treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T", "mean", "up_down_q_TPM"]
     mapping = {
         "B": "MeJA",
         "C": "SA",
@@ -22,6 +23,8 @@ def generate_table():
         "V": "nlp20",
         "U": "OGs",
         "T": "Pep1",
+        "mean": "TPM",
+        "up_down_q_TPM":"up_down_q_TPM"
     }
     metrics_df = pd.DataFrame()
     # initialize the columns, outcome_type, in_type, model_type, rc, treatment, metric, value
@@ -71,7 +74,7 @@ def generate_table():
                 metrics_df = pd.concat([metrics_df, tmp_df], ignore_index=True)
         # CNN models
         for exons in [True, False]:
-            for length in [2048, 4096]:
+            for length in [2048, 4096, 8192]:
                 for model_num in range(5):
                     file = f"Results/CNN/{outcome_type}/{length}/exons_masked_{exons}/model_{model_num}/test_metrics.csv"
                     # Results/CNN/amplitude/2048/exons_masked_False/model_0/test_metrics.csv
@@ -83,7 +86,6 @@ def generate_table():
                         # each column is a treatment
                         if tr not in res_df.columns:
                             continue
-
                         tr_metrics = res_df.loc[:, tr]
                         # create a temporary dataframe for each metric
                         tmp_df = pd.DataFrame(

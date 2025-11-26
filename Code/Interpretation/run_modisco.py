@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 
-def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
+def run_modisco(DNA_specs, nb_num, offset, n_seqlets, treatments, mapping):
 
     outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
     queries = {}
@@ -12,21 +12,21 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
     for outcome_type in outcome_types:
         for file in os.listdir(
-                f"Results/Interpretation/{outcome_type}/queries"
+                f"Results/Interpretation_{nb_num}/{outcome_type}/queries"
             ):
                 if file.endswith(".npy"):
                     gene = file.split("_")[0]
                     queries[gene] = np.load(
-                        f"Results/Interpretation/{outcome_type}/queries/{file}"
+                        f"Results/Interpretation_{nb_num}/{outcome_type}/queries/{file}"
                     )
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
             #if the report folder exists, continue
             if os.path.exists(
-               f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report"
+               f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/report"
             ):
                print(
-                   f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report already exists. Skipping..."
+                   f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/report already exists. Skipping..."
                )
                continue
             # Load the genes hyp scores and queries
@@ -35,12 +35,12 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
             hyp_scores = {}
             
             for file in os.listdir(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/hypothetical_scores"
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/hypothetical_scores"
             ):
                 if file.endswith(".npy"):
                     gene = file.split("_")[0]
                     hyp_scores[gene] = np.load(
-                        f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/hypothetical_scores/{file}"
+                        f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/hypothetical_scores/{file}"
                     )
 
 
@@ -98,27 +98,27 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
             # store in modisco_run subfolder
             os.makedirs(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run",
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run",
                 exist_ok=True,
             )
             np.save(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy",
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy",
                 hyp_shap_values_array,
             )
             np.save(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy",
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy",
                 queries_array,
             )
             # write the csv file
             df = pd.DataFrame(data={"gene": gene_list})
             df.to_csv(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/gene_list.csv",
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/gene_list.csv",
                 index=True,
             )
             # run modisco
-            cmd = f"modisco motifs --sequences Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy \
-                --attributions Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy \
-                    -n {n_seqlets} -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5 -w {sum(DNA_specs) - 2 * offset}\
+            cmd = f"modisco motifs --sequences Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy \
+                --attributions Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy \
+                    -n {n_seqlets} -o Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5 -w {sum(DNA_specs) - 2 * offset}\
                         --verbose "  # Literally the window must be the size of the sequence
                 
             print("Running:", cmd)
@@ -126,20 +126,21 @@ def run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping):
 
             # now remove the .npy
             os.remove(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy"
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/hyp_shap_values.npy"
             )
             os.remove(
-                f"Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy"
+                f"Results/Interpretation_{nb_num}/{outcome_type}/{mapping[treatment]}/modisco_run/queries.npy"
             )
 
-def run_report(treatments):
+def run_report(treatments, bp): ## TODO fix this for the bp distinction kind of stuff
     outcome_types = ["log2FC"]#, "quantiles_per_treatment"]
+    #import pdb; pdb.set_trace()
     for outcome_type in outcome_types:
         # replicates, treatments, nucleobases, positions
         for i, treatment in enumerate(treatments):
             
-            cmd_report = f"modisco report -i Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
-                        -o Results/Interpretation/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
+            cmd_report = f"modisco report -i Results/Interpretation_{bp}/{outcome_type}/{mapping[treatment]}/modisco_run/modisco_results.h5\
+                        -o Results/Interpretation_{bp}/{outcome_type}/{mapping[treatment]}/modisco_run/report/ -m Data/RAW/MOTIF/JASPAR_2024_PLANT_motifs.txt"
             print("Running:", cmd_report)
             os.system(cmd_report)
 
@@ -162,5 +163,5 @@ if __name__ == "__main__":
         "U": "OGs",
         "T": "Pep1",
     }
-    #run_modisco(DNA_specs, offset, n_seqlets, treatments, mapping)
-    run_report(treatments)
+    #run_modisco(DNA_specs, 4096, offset, n_seqlets, treatments, mapping)
+    run_report(treatments, 4096)

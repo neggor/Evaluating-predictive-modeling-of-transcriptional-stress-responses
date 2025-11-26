@@ -24,7 +24,19 @@ from adjustText import adjust_text
 from tqdm import tqdm
 from matplotlib.lines import Line2D
 import requests
-
+from Bio import SeqIO
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+from Code.Training.train_linear import (
+    handle_data_train_linear_models,
+    handle_data_test_linear_models,
+    fit_regression,
+    test_linear,
+)
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
 mapping = {
     "B": "MeJA",
     "C": "SA",
@@ -37,10 +49,12 @@ mapping = {
     "V": "nlp20",
     "U": "OGs",
     "T": "Pep1",
+    "mean": "TPM",
+    "up_down_q_TPM":"up_down_q_TPM"
 }
 
-magentaorgange_palette = ["#D35FB7", "#FF8C00"]
-coraldarkteal_palette = ["#FF7F50", "#2CA58D"]
+magentaorgange_palette = ["#D35FB7", "#FF8C00", "#FFD700"]
+coraldarkteal_palette = ["#FF7F50", "#2CA58D", "#355C7D"] 
 
 def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
     """
@@ -66,11 +80,11 @@ def get_tf_consensus_from_jaspar(tf_name, species="Arabidopsis thaliana"):
     query_url = "https://jaspar.elixir.no/api/v1/matrix/"
     params = {
         "search": tf_name,
-        "tax_group": "plants",
+        #"tax_group": "plants",
         "page_size": 1,
-        "species": species,
+        #"species": species,
     }
-    print(f"Querying JASPAR for TF: {tf_name} in species: {species}")
+    print(f"Querying JASPAR for TF: {tf_name}")# in species: {species}")
     response = requests.get(query_url, params=params)
     response.raise_for_status()
     results = response.json()["results"]
@@ -223,8 +237,9 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     res = res[res["rc"] != "False"]
     res = res[
         (
-            (res["outcome_type"] == "quantiles_per_treatment")
+           (res["outcome_type"] == "quantiles_per_treatment")
             | (res["outcome_type"] == "DE_per_treatment")
+            | (res["outcome_type"] == "TPM_cuartiles")
         )
         & (res["metric"] == metric)
     ]
@@ -232,9 +247,27 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         {
             "DE_per_treatment": "S.DE",
             "quantiles_per_treatment": "S.Q",
+            "TPM_cuartiles":"log(maxTPM + 1).Q"
         }
     )
-    print(res)
+    mask = (res["in_type"] == "CNN") & (res["treatment"] == "up_down_q_TPM")
+
+    agg_row = pd.DataFrame({
+        "outcome_type": [res.loc[mask, "outcome_type"].iloc[0]],
+        "in_type": [res.loc[mask, "in_type"].iloc[0]],
+        "treatment": [res.loc[mask, "treatment"].iloc[0]],
+        "metric": [res.loc[mask, "metric"].iloc[0]],
+        "value": [res.loc[mask, "value"].mean()],
+        "model_type": [res.loc[mask, "model_type"].iloc[0]],
+        "exons": [res.loc[mask, "exons"].iloc[0]],
+        "length": [res.loc[mask, "length"].iloc[0]],
+        "rc": [res.loc[mask, "rc"].iloc[0]],
+        "replicate": ["avg"]  # mark as aggregated
+    })
+
+    # Drop original rows and append the aggregated row
+    res = pd.concat([res[~mask], agg_row], ignore_index=True)
+
     # get the pvalues for quantiles and DE, comparing AgroNT to CNN and Linear
     plt.figure(figsize=figsize, dpi=300)
     print(res)
@@ -242,17 +275,51 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     print(res.dropna(subset=["value"]))
     # Reorder the outcome_type to make "S.DE" appear first and "S.Q" second
     res["outcome_type"] = pd.Categorical(
-        res["outcome_type"], categories=["S.DE", "S.Q"], ordered=True
+        res["outcome_type"], categories=["log(maxTPM + 1).Q", "S.DE", "S.Q"], ordered=True
     )
+    
+
     # print the maximum MCC for each in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].max())
-    ax = sns.boxplot(x="outcome_type", y="value", data=res, hue="in_type")
+    ax = sns.boxplot(x="outcome_type", y="value", data=res[(res["outcome_type"] == "S.DE") | (res["outcome_type"] == "S.Q")], hue="in_type")
+    
+    #ax = sns.boxplot(
+    #x="outcome_type",
+    #y="value",
+    #data=res[(res["outcome_type"] == "TPM.Q") & (res["model_type"] != "linear")],
+    #hue="in_type",
+    #width=0.6,      # make boxes narrower so dots can fit
+    #dodge=True,     # separate hues horizontally
+    #legend=False,
+    #color="#2ca02c"
+    #)
+
+    # Stripplot (dots) for singletons
+    sns.stripplot(
+        x="outcome_type",
+        y="value",
+        data=res[(res["outcome_type"] == "log(maxTPM + 1).Q")], #& (res["model_type"] == "linear")],
+        hue="in_type",
+        dodge=True,     # keeps dots side by side with corresponding box
+        size=12,
+        #jitter=0.15,    # horizontal spread
+        marker="o",
+        edgecolor="black",
+        linewidth=1,
+        legend=False,
+        ax=ax
+    )
+    # now dots for the linear ones
+
+
     # print the average of the values per in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].mean())
+   # import pdb; pdb.set_trace()
+
     sns.swarmplot(
         x="outcome_type",
         y="value",
-        data=res,
+        data=res[(res["outcome_type"] == "S.DE") | (res["outcome_type"] == "S.Q")],
         hue="in_type",
         dodge=True,
         marker=".",
@@ -288,10 +355,14 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
                 (res["outcome_type"].unique()[1], "CNN"),
                 (res["outcome_type"].unique()[1], "L. (6mer)"),
             ),
-            # (
-            #    (res["outcome_type"].unique()[1], "CNN"),
-            #    (res["outcome_type"].unique()[1], "L. (AgroNT emb.)"),
-            # )
+            #(
+            #   (res["outcome_type"].unique()[1], "L. (6mer)"),
+            #   (res["outcome_type"].unique()[1], "L. (DAPseq)"),
+            #),
+            #(
+            #   (res["outcome_type"].unique()[0], "L. (6mer)"),
+            #   (res["outcome_type"].unique()[0], "L. (DAPseq)"),
+            #)
         ]
 
         annotator = Annotator(
@@ -301,7 +372,8 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
             test="Mann-Whitney", text_format="star", loc="inside", fontsize=10
         )
         annotator.apply_and_annotate()
-    plt.legend(loc="upper left", frameon=False, ncol=1)
+
+    plt.legend(loc="center left",  bbox_to_anchor=(0.0, 0.73), frameon=False, ncol=1)
     plt.ylabel(f"{metric}-ROC" if metric == "AUC" else metric)
     plt.xlabel("")
     ax.spines["top"].set_visible(False)
@@ -581,11 +653,15 @@ def figure_2b(figsize=(10, 7), pvals=True, metric="Spearman"):
     plt.grid(axis="y", color="black", alpha=0.3, linestyle="--", linewidth=0.5)
     plt.savefig("Images/figure_2b.pdf", bbox_inches="tight")
 
-def figure_3a(outcome="log2FC"):
+def figure_3a(outcome="log2FC", bp = 2048):
     if outcome not in ["log2FC", "amplitude"]:
         raise ValueError("outcome must be either log2FC or amplitude")
 
-    DNA_specs = [814, 200, 200, 814]
+    if bp == 2048:
+        DNA_specs = [814, 200, 200, 814]
+    elif bp == 4096:
+        DNA_specs = [1019, 1019, 1019, 1019]
+
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
     Y_hats = []
     training_specs = {
@@ -615,13 +691,13 @@ def figure_3a(outcome="log2FC"):
         dna_format="One_Hot_Encoding",
     )
 
-    cnn_config_url = f"Results/CNN/{outcome}/2048/exons_masked_False/config.json"
+    cnn_config_url = f"Results/CNN/{outcome}/{bp}/exons_masked_False/config.json"
     with open(cnn_config_url, "r") as f:
         cnn_config = json.load(f)
 
     for i in range(0, 5):
         model_weights = (
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/best_model.pth"
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/best_model.pth"
         )
         # load the model
         model = myCNN(
@@ -647,7 +723,7 @@ def figure_3a(outcome="log2FC"):
             mRNA_test=pd.concat([mRNA_test_CNN]),
             device=torch.device("cuda"),
             treatments=treatments,
-            store_folder=f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}",
+            store_folder=f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}",
             save_results=False,
         )
 
@@ -717,11 +793,11 @@ def figure_3a(outcome="log2FC"):
         rect=[0.03, 0.03, 1, 0.95], h_pad=1.6, w_pad=1.6
     )  # Adjust layout to fit suptitle and increase horizontal separation
     # Save the figure
-    plt.savefig(f"Images/figure_3a.pdf", bbox_inches="tight")
+    plt.savefig(f"Images/figure_3a_{bp}.pdf", bbox_inches="tight")
     # also as a png
-    plt.savefig(f"Images/figure_3a.png", bbox_inches="tight")
+    plt.savefig(f"Images/figure_3a_{bp}.png", bbox_inches="tight")
 
-def figure_3b(figsize=(10, 7), outcome="log2FC"):
+def figure_3b(figsize=(10, 7), outcome="log2FC", bp = 2048):
     if outcome not in ["log2FC", "amplitude"]:
         raise ValueError("outcome must be either log2FC or amplitude")
 
@@ -734,7 +810,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     # CNN Model
     for i in range(0, 5):
         metrics = pd.read_csv(
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/test_metrics.csv",
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/test_metrics.csv",
             index_col=0,
         )
         metric_m = pd.DataFrame(metrics.T)
@@ -742,48 +818,49 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         metric_m["model"] = "CNN"
         my_concat = pd.concat([my_concat, metric_m])
 
-    # AgroNT Model
-    metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
-    metric_m = pd.DataFrame(metrics.T)
-    metric_m["replicate"] = 0
-    metric_m["model"] = "AgroNT"
-    my_concat = pd.concat([my_concat, metric_m])
-
-    # 6-mer
-    for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
-        if "metrics" not in file:
-            continue
-        treatment_name = file.split("_")[0]
-        metrics = pd.read_csv(
-            f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
-        )
-        metric_m = pd.DataFrame(metrics)
+    if bp == 2048:
+        # AgroNT Model
+        metrics = pd.read_csv(f"Results/agroNT/{outcome}/test_metrics.csv", index_col=0)
+        metric_m = pd.DataFrame(metrics.T)
         metric_m["replicate"] = 0
-        metric_m["model"] = "6-mer"
-        metric_m["treatment"] = treatment_name
-        # reset index
-        metric_m.reset_index(inplace=True)
-        # set index treatment
-        metric_m.set_index("treatment", inplace=True)
+        metric_m["model"] = "AgroNT"
         my_concat = pd.concat([my_concat, metric_m])
 
-    # DAPseq
-    for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
-        if "metrics" not in file:
-            continue
-        treatment_name = file.split("_")[0]
-        metrics = pd.read_csv(
-            f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
-        )
-        metric_m = pd.DataFrame(metrics)
-        metric_m["replicate"] = 0
-        metric_m["model"] = "DAPseq"
-        metric_m["treatment"] = treatment_name
-        # reset index
-        metric_m.reset_index(inplace=True)
-        # set index treatment
-        metric_m.set_index("treatment", inplace=True)
-        my_concat = pd.concat([my_concat, metric_m])
+        # 6-mer
+        for file in os.listdir(f"Results/linear_models/{outcome}/6-mer"):
+            if "metrics" not in file:
+                continue
+            treatment_name = file.split("_")[0]
+            metrics = pd.read_csv(
+                f"Results/linear_models/{outcome}/6-mer/{file}", index_col=0
+            )
+            metric_m = pd.DataFrame(metrics)
+            metric_m["replicate"] = 0
+            metric_m["model"] = "6-mer"
+            metric_m["treatment"] = treatment_name
+            # reset index
+            metric_m.reset_index(inplace=True)
+            # set index treatment
+            metric_m.set_index("treatment", inplace=True)
+            my_concat = pd.concat([my_concat, metric_m])
+
+        # DAPseq
+        for file in os.listdir(f"Results/linear_models/{outcome}/DAPseq/"):
+            if "metrics" not in file:
+                continue
+            treatment_name = file.split("_")[0]
+            metrics = pd.read_csv(
+                f"Results/linear_models/{outcome}/DAPseq/{file}", index_col=0
+            )
+            metric_m = pd.DataFrame(metrics)
+            metric_m["replicate"] = 0
+            metric_m["model"] = "DAPseq"
+            metric_m["treatment"] = treatment_name
+            # reset index
+            metric_m.reset_index(inplace=True)
+            # set index treatment
+            metric_m.set_index("treatment", inplace=True)
+            my_concat = pd.concat([my_concat, metric_m])
 
     # Reset index
     my_concat.reset_index(inplace=True)
@@ -800,28 +877,44 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
         width=0.6,
         showfliers=False,
     )
+    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
+    if bp == 2048:
+        # Stripplot (dots) for all other models
+        strip = sns.stripplot(
+            data=my_concat[
+                (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
+            ],
+            x="treatment",
+            y="sign_accuracy",
+            hue="model",
+            dodge=True,
+            jitter=True,
+            alpha=0.8,
+            linewidth=0.5,
+            size=10,
+            palette={
+                "6-mer": "#1f77b4",
+                "DAPseq": "#ff7f0e",
+                "AgroNT": "#d62728",
+                "Random": "#999999",
+            },
+        )
+        strip.spines["top"].set_visible(False)
+        strip.spines["right"].set_visible(False)
+        # Manually create a legend including CNN
+        handles, labels = strip.get_legend_handles_labels()
+        handles.insert(0, cnn_patch)
+        labels.insert(0, "CNN")
 
-    # Stripplot (dots) for all other models
-    strip = sns.stripplot(
-        data=my_concat[
-            (my_concat["model"] != "CNN") & (my_concat["model"] != "Random")
-        ],
-        x="treatment",
-        y="sign_accuracy",
-        hue="model",
-        dodge=True,
-        jitter=True,
-        alpha=0.8,
-        linewidth=0.5,
-        size=10,
-        palette={
-            "6-mer": "#1f77b4",
-            "DAPseq": "#ff7f0e",
-            "AgroNT": "#d62728",
-            "Random": "#999999",
-        },
-    )
-
+        plt.legend(
+            handles=handles,
+            labels=labels,
+            title="Model",
+            loc="upper right",
+            bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
+            frameon=False if outcome == "log2FC" else True,)
+    else:
+        plt.legend(handles = [cnn_patch])
 
     plt.xticks(rotation=45, ha="right")
     if outcome == "log2FC":
@@ -829,14 +922,8 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     else:
         plt.ylabel("LFC.A direction correctly predicted (proportion)")
     plt.xlabel("Treatment")
-    strip.spines["top"].set_visible(False)
-    strip.spines["right"].set_visible(False)
-   
-    # Manually create a legend including CNN
-    handles, labels = strip.get_legend_handles_labels()
-    cnn_patch = mpatches.Patch(color="#2ca02c", label="CNN")
-    handles.insert(0, cnn_patch)
-    labels.insert(0, "CNN")
+
+
     # Add vertical grid lines between treatments
     # Add customized vertical grid lines between treatments
     ax = plt.gca()
@@ -847,23 +934,18 @@ def figure_3b(figsize=(10, 7), outcome="log2FC"):
     for i in range(len(treatments)+1):
         ax.axvline(x=i-0.5, color='gray', linestyle='--', linewidth=0.5, alpha=0.7, zorder=0)
 
-    plt.legend(
-        handles=handles,
-        labels=labels,
-        title="Model",
-        loc="upper right",
-        bbox_to_anchor=(0.19, 1) if outcome == "log2FC" else (1., 0.45),
-        frameon=False if outcome == "log2FC" else True,)
-
     # plt.title("Comparison of Test Metrics Across Models")
     plt.tight_layout()
     if outcome == "log2FC":
-        plt.savefig(f"Images/figure_3b.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/figure_3b_{bp}.pdf", bbox_inches="tight")
     else:
-        plt.savefig(f"Images/SUP_figure_5.pdf", bbox_inches="tight") 
+        plt.savefig(f"Images/SUP_figure_5_{bp}.pdf", bbox_inches="tight") 
 
-def figure_3c(figsize=(10, 7), outcome="log2FC"):
-    DNA_specs = [814, 200, 200, 814]
+def figure_3c(figsize=(10, 7), outcome="log2FC",  bp = 2048):
+    if bp == 2048:
+        DNA_specs = [814, 200, 200, 814]
+    elif bp == 4096:
+        DNA_specs = [1019, 1019, 1019, 1019]
     treatments = ["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
 
 
@@ -895,13 +977,13 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
     )
 
     Y_hats = []
-    cnn_config_url = f"Results/CNN/{outcome}/2048/exons_masked_False/config.json"
+    cnn_config_url = f"Results/CNN/{outcome}/{bp}/exons_masked_False/config.json"
     with open(cnn_config_url, "r") as f:
         cnn_config = json.load(f)
 
     for i in range(0, 5):
         model_weights = (
-            f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}/best_model.pth"
+            f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}/best_model.pth"
         )
         # load the model
         model = myCNN(
@@ -926,7 +1008,7 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
             mRNA_test=pd.concat([mRNA_test_CNN]),
             device=torch.device("cuda"),
             treatments=treatments,
-            store_folder=f"Results/CNN/{outcome}/2048/exons_masked_False/model_{i}",  # does not matter
+            store_folder=f"Results/CNN/{outcome}/{bp}/exons_masked_False/model_{i}",  # does not matter
             save_results=False,
         )
 
@@ -943,7 +1025,11 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
 
     # get the correlation matrix
     # correlation_matrix = np.corrcoef(Y_hat.T)
-    correlation_matrix = stats.spearmanr(Y_hat).statistic
+    spearman_test = stats.spearmanr(Y_hat)
+    correlation_matrix = spearman_test.statistic
+    # The max pvalue:
+    np.max(spearman_test.pvalue)
+    #import pdb; pdb.set_trace()
     # plot the correlation matrix
     plt.figure(figsize=figsize, dpi=300)
     sns.heatmap(
@@ -978,9 +1064,9 @@ def figure_3c(figsize=(10, 7), outcome="log2FC"):
 
     # save the figure
     if outcome == "log2FC":
-        plt.savefig(f"Images/figure_3c.pdf", bbox_inches="tight")
+        plt.savefig(f"Images/figure_3c_{bp}.pdf", bbox_inches="tight")
     else:
-        plt.savefig(f"Images/figure_SUP3_amplitude.pdf", bbox_inches="tight") # TODO
+        plt.savefig(f"Images/figure_SUP3_amplitude_{bp}.pdf", bbox_inches="tight") # TODO
 
 def figure_4a(figsize=(10, 7), metric="AUC"):
     res = pd.read_csv("Results/Results_table.csv")
@@ -1039,7 +1125,15 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
             (res_length["outcome_type"].unique()[0], "2048"),
         ),
         (
+            (res_length["outcome_type"].unique()[0], "8192"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
             (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "8192"),
             (res_length["outcome_type"].unique()[1], "2048"),
         ),
     ]
@@ -1118,7 +1212,15 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
             (res_length["outcome_type"].unique()[0], "2048"),
         ),
         (
+            (res_length["outcome_type"].unique()[0], "8192"),
+            (res_length["outcome_type"].unique()[0], "2048"),
+        ),
+        (
             (res_length["outcome_type"].unique()[1], "4096"),
+            (res_length["outcome_type"].unique()[1], "2048"),
+        ),
+        (
+            (res_length["outcome_type"].unique()[1], "8192"),
             (res_length["outcome_type"].unique()[1], "2048"),
         ),
     ]
@@ -1389,117 +1491,224 @@ def figure_5a(figsize=(10, 7)):
     print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
 def figure_5b(figsize=(10, 7)):
-        '''
-        PCA coefficients 6-mer log2fc
-        '''
+    '''
+    PCA coefficients DAPseq log2fc
+    '''
 
-        coefs = pd.DataFrame()
-        for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
-            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
-            coef = coef.rename(columns={"Coefficient": treatment})
-            if coefs.empty:
-                coefs = coef
-            else:
-                coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
-        
-        coefs = coefs.set_index("TF")
-        coefs =  coefs.mean(axis=1)
-        
-        # Now rename column as PTI
-        coefs = coefs.rename("PTI")
-
-        # add the rest
-
-        for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
-            coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
-            coef = coef.rename(columns={"Coefficient": hormone})
+    coefs = pd.DataFrame()
+    for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{treatment}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": treatment})
+        if coefs.empty:
+            coefs = coef
+        else:
             coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
-        
-        # Set TF as index and fill NaN values with 0
-        coefs = coefs.set_index("TF").fillna(0)
-        # preprocess by standardizing the data
-        coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
-        # Perform PCA
-        pca = PCA(n_components=2)
-        coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
-        coefs_pca[:, 0] = coefs_pca[:, 0] #* -1
-        # Create DataFrame for plotting
-        pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+    
+    coefs = coefs.set_index("TF")
+    coefs =  coefs.mean(axis=1)
+    
+    # Now rename column as PTI
+    coefs = coefs.rename("PTI")
 
-        # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
-        top_n = 15
-        important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
+    # add the rest
 
-        # get the motifs of the important points
-        consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
-        #import pdb; pdb.set_trace()
-        # Create the biplot
-        fig, ax = plt.subplots(figsize=figsize, dpi=300)
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
+        coef = pd.read_csv(f"Results/linear_models/log2FC/DAPseq/{hormone}_coefficients.csv")
+        coef = coef.rename(columns={"Coefficient": hormone})
+        coefs = pd.merge(coefs, coef, on="TF", how="outer").fillna(0)
+    
+    # Set TF as index and fill NaN values with 0
+    coefs = coefs.set_index("TF").fillna(0)
+    # preprocess by standardizing the data
+    coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+    # Perform PCA
+    pca = PCA(n_components=2)
+    coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+    coefs_pca[:, 0] = coefs_pca[:, 0] #* -1
+    # Create DataFrame for plotting
+    pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
 
-        # Plot samples (treatments)
-        sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+    # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+    top_n = 15
+    important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
 
-        # Store text labels for adjustment
-        texts = []
-        for i, txt in enumerate(pca_df.index):
-            if txt in important_points:
-                texts.append(ax.text(
-                    pca_df["PC1"][i], 
-                    pca_df["PC2"][i], 
-                    f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
-                    fontsize=11, 
-                    alpha=1
-                ))
-        loadings = pca.components_  # Get PC1 and PC2 loadings
-        loadings[0, :] = loadings[0, :]# * -1
-        scaling_factor = 14  # Adjust arrow length
-        for i, treatment in enumerate(coefs.columns):
-            texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
-        # Adjust text positions to avoid overlaps
-        adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
-        
-        # Plot loadings (treatment contributions)
-        for i, treatment in enumerate(coefs.columns):
-            ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
-                    color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
-        # Labels and title
-        ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
-        ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
-        #ax.set_title("PCA Biplot of DAP-seq Coefficients")
-        # increase font x and y ticks
-        ax.tick_params(axis='both', which='major', labelsize=14)
+    # get the motifs of the important points
+    consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
+    #import pdb; pdb.set_trace()
+    # Create the biplot
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
 
-        # add the spine right and top
-        ax.spines['right'].set_visible(True)
-        ax.spines['top'].set_visible(True)
-        # remove the grid
-        ax.grid(False)
-        # add a x and y lines at 0
-        ax.axhline(0, color='black', lw=1, ls='--')
-        ax.axvline(0, color='black', lw=1, ls='--')
-        
-        # Save plot
-        plt.savefig("Images/figure_5b.pdf", bbox_inches="tight")
-        plt.close('all')
-        print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+    # Plot samples (treatments)
+    sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+    # Store text labels for adjustment
+    texts = []
+    for i, txt in enumerate(pca_df.index):
+        if txt in important_points:
+            texts.append(ax.text(
+                pca_df["PC1"][i], 
+                pca_df["PC2"][i], 
+                f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                fontsize=11, 
+                alpha=1
+            ))
+    loadings = pca.components_  # Get PC1 and PC2 loadings
+    loadings[0, :] = loadings[0, :]# * -1
+    scaling_factor = 14  # Adjust arrow length
+    for i, treatment in enumerate(coefs.columns):
+        texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+    # Adjust text positions to avoid overlaps
+    adjust_text(texts, arrowprops=dict(arrowstyle="-", color='blue', alpha=1))
+    
+    # Plot loadings (treatment contributions)
+    for i, treatment in enumerate(coefs.columns):
+        ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+    # Labels and title
+    ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+    ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+    #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+    # increase font x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
+    # add the spine right and top
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+    # remove the grid
+    ax.grid(False)
+    # add a x and y lines at 0
+    ax.axhline(0, color='black', lw=1, ls='--')
+    ax.axvline(0, color='black', lw=1, ls='--')
+    
+    # Save plot
+    plt.savefig("Images/figure_5b.pdf", bbox_inches="tight")
+    plt.close('all')
+    print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
+
+def figure_5d(figsize=(10, 7), bp = 4096, n_tfbm = 15):
+    '''
+    PCA coefficients TF-modisco
+    '''
+
+    coefs = pd.DataFrame()
+    for treatment in ["3-OH10","chitooct","elf18","flg22","nlp20","OGs","Pep1"]:
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{treatment}.csv")[["Best_TF", "n-seqlets"]]        
+        coef = coef.rename(columns={"n-seqlets": treatment})
+        if coefs.empty:
+            coefs = coef
+        else:
+            coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
+    
+    coefs = coefs.set_index("Best_TF")
+    coefs =  coefs.mean(axis=1)
+    
+    # Now rename column as PTI
+    coefs = coefs.rename("PTI")
+
+    # add the rest
+
+    for hormone in ["MeJA", "SA", "SA+MeJA", "ABA"]:
+        coef = pd.read_csv(f"Results/Interpretation_{bp}/tfmodisco_coef/{hormone}.csv")[["Best_TF", "n-seqlets"]]
+        coef = coef.rename(columns={"n-seqlets": hormone})
+        coefs = pd.merge(coefs, coef, on="Best_TF", how="outer").fillna(0)
+    # Set TF as index and fill NaN values with 0
+    coefs = coefs.set_index("Best_TF").fillna(0)
+    # preprocess by standardizing the data
+    coefs.loc[:, :] = StandardScaler().fit_transform(coefs.values)
+    # Perform PCA
+    pca = PCA(n_components=2)
+    coefs_pca = pca.fit_transform(coefs)  # Keep TFs as rows
+    coefs_pca[:, 1] = coefs_pca[:, 1] * -1
+    # Create DataFrame for plotting
+    pca_df = pd.DataFrame(coefs_pca, columns=["PC1", "PC2"], index=coefs.index)
+
+    # Select top 100 most variable treatments (highest absolute variance in PC1 or PC2)
+    top_n = n_tfbm
+    important_points = pca_df.apply(np.linalg.norm, axis=1).nlargest(top_n).index.tolist()
+
+    # get the motifs of the important points
+    consensus_motifs = {tf:get_tf_consensus_from_jaspar(tf, "Arabidopsis thaliana") for tf in important_points}
+    #import pdb; pdb.set_trace()
+    # Create the biplot
+    fig, ax = plt.subplots(figsize=figsize, dpi=300)
+
+    # Plot samples (treatments)
+    sns.scatterplot(x=pca_df["PC1"], y=pca_df["PC2"], s=8, color="black", ax=ax, alpha=0.5)
+
+    # Store text labels for adjustment
+    texts = []
+    for i, txt in enumerate(pca_df.index):
+        if txt in important_points:
+            texts.append(ax.text(
+                pca_df["PC1"][i], 
+                pca_df["PC2"][i], 
+                f"{txt}\n({consensus_motifs[txt]})" if txt in consensus_motifs else txt, 
+                #txt,
+                fontsize=11, 
+                alpha=1
+            ))
+
+
+    loadings = pca.components_  # Get PC1 and PC2 loadings
+    loadings[1, :] = loadings[1, :] * -1
+    scaling_factor = 8  # Adjust arrow length
+    for i, treatment in enumerate(coefs.columns):
+        if treatment == "ABA":
+            continue
+        texts.append(ax.text(loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor, treatment, fontsize=18, alpha=1, color='red'))
+    # Adjust text positions to avoid overlaps
+    adjust_text(
+        texts,
+        arrowprops=dict(arrowstyle="-", color='blue', alpha=1),
+        #only_move={'points': 'y', 'texts': 'y'},   # allow minimal movement (optional)
+        #force_points=0.05,   # keep points from pushing text too far
+        #force_text=0.05,     # keep texts from pushing each other too far
+        #expand_points=(1.05, 1.05),  # limit expansion around points
+        #expand_text=(1.05, 1.05),    # limit expansion around text
+        lim=1000  # number of iterations (higher = more precise, but slower)
+    )
+    
+    # Plot loadings (treatment contributions)
+    for i, treatment in enumerate(coefs.columns):
+        ax.arrow(0, 0, loadings[0, i] * scaling_factor, loadings[1, i] * scaling_factor,
+                color="green", alpha=1, head_width=0.5, head_length=0.5, linewidth=2)
+    # Labels and title
+    ax.set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0] * 100:.2f}%)", fontsize=16)
+    ax.set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1] * 100:.2f}%)", fontsize=16)
+    #ax.set_title("PCA Biplot of DAP-seq Coefficients")
+    # increase font x and y ticks
+    ax.tick_params(axis='both', which='major', labelsize=14)
+
+    # add the spine right and top
+    ax.spines['right'].set_visible(True)
+    ax.spines['top'].set_visible(True)
+    # remove the grid
+    ax.grid(False)
+    # add a x and y lines at 0
+    ax.axhline(0, color='black', lw=1, ls='--')
+    ax.axvline(0, color='black', lw=1, ls='--')
+    # Save plot
+    plt.savefig(f"Images/figure_5d_{bp}.pdf", bbox_inches="tight")
+    plt.close('all')
+    print(f"Explained variance: {np.cumsum(pca.explained_variance_ratio_)}")
 
 def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     # Define DNA regions
     DNA_specs = [814, 200, 200, 814]  # Promoter, UTR, UTR, Terminator
 
     # Load treatment folders
-    treatments_folders = os.listdir(f"Results/Interpretation/{outcome}")
+    treatments_folders = os.listdir(f"Results/Interpretation_2048/{outcome}")
 
     contrib_scores = {}
     for treatment in treatments_folders:
         if treatment == "queries":
             continue
-        gene_files = os.listdir(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores")
+        gene_files = os.listdir(f"Results/Interpretation_2048/{outcome}/{treatment}/hypothetical_scores")
         hyp_scores = []
         
         for gene_file in tqdm(gene_files):
             gene = gene_file.split("_")[0]
-            hyp_scores.append(np.load(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores/{gene_file}"))
+            hyp_scores.append(np.load(f"Results/Interpretation_2048/{outcome}/{treatment}/hypothetical_scores/{gene_file}"))
         
         hyp_scores = np.array(hyp_scores)
         # Store contribution scores
@@ -1601,7 +1810,7 @@ def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     else:
         plt.savefig("Images/figure_2_1.pdf", bbox_inches="tight")
 
-def figure_5d(figsize=(10, 7)):
+def figure_S8(figsize=(10, 7)):
     fig, ax = plt.subplots(figsize=figsize, dpi=300)
     # read the cluster table
     cluster_table = pd.read_csv("Results/Interpretation/cluster_patterns/cluster_table.csv", index_col=0)
@@ -1682,30 +1891,27 @@ def figure_5d(figsize=(10, 7)):
 
     plt.savefig("Images/figure_5d.pdf", bbox_inches="tight")
 
-def figure_S2(figsize=(10, 7)):
+def figure_S2(figsize=(10, 7), pvals=True):
     '''
     Compare performance between hormones and PTI for AUC and MCC
     '''
     res = pd.read_csv("Results/Results_table.csv")
-    # Change the "in_type" column name to "Model type"
     df = res.rename(columns={"in_type": "Model type"})
-    
-    
+
     hormone_treatments = ["MeJA", "SA", "SA+MeJA", "ABA"]
     df["treatment_group"] = df["treatment"].apply(lambda x: "Hormone" if x in hormone_treatments else "PTI")
 
-    # Filter the DataFrame to the relevant subset for plotting
+    # Filter to relevant subset
     filtered_df = df[
         (df["outcome_type"].isin(["DE_per_treatment", "quantiles_per_treatment"])) &
         (df["metric"].isin(["AUC", "MCC"]))
     ].copy()
 
-    # Create treatment groups
-    hormones = ["MeJA", "SA", "SA+MeJA", "ABA"]
-    filtered_df["treatment_group"] = filtered_df["treatment"].apply(lambda x: "Hormone" if x in hormones else "PTI")
+    filtered_df["treatment_group"] = filtered_df["treatment"].apply(
+        lambda x: "Hormone" if x in hormone_treatments else "PTI"
+    )
 
-    # Plot using seaborn
-    plt.figure(figsize=figsize, dpi=300)
+    # Create the main plot
     g = sns.catplot(
         data=filtered_df,
         x="metric",
@@ -1718,10 +1924,37 @@ def figure_S2(figsize=(10, 7)):
         aspect=1
     )
 
+    # Annotate p-values per subplot
+    if pvals:
+        pairs = [
+            (("AUC", "Hormone"), ("AUC", "PTI")),
+            (("MCC", "Hormone"), ("MCC", "PTI"))
+        ]
+
+        for ax, outcome in zip(g.axes[0], ["DE_per_treatment", "quantiles_per_treatment"]):
+            sub_df = filtered_df[filtered_df["outcome_type"] == outcome]
+
+            annotator = Annotator(
+                ax=ax,
+                data=sub_df,
+                x="metric",
+                y="value",
+                hue="treatment_group",
+                pairs=pairs
+            )
+            annotator.configure(
+                test="Mann-Whitney",
+                text_format="star",
+                loc="inside",   # you can change to 'outside' for clarity
+                fontsize=10
+            )
+            annotator.apply_and_annotate()
+
     g.set_axis_labels("Metric", "Value")
     g.set_titles("{col_name}")
     plt.tight_layout()
     plt.savefig("Images/SUP_figure_2.pdf", bbox_inches="tight")
+    plt.show()
 
 def figure_S3(figsize = (10, 7)):
     '''
@@ -1747,6 +1980,33 @@ def figure_S3(figsize = (10, 7)):
         # Concatenate al mRNA data
         mRNA = pd.concat([mRNA_train, mRNA_validation, mRNA_test])
 
+        if outcome == "DE_per_treatment":
+            DE_counts = {}
+            for t in treatments:
+                mRNA_t = mRNA[t]
+                DE_counts[mapping[t]] = np.sum(mRNA_t == 1)
+            DE_table = pd.DataFrame.from_dict(DE_counts, orient="index", columns=["# DE genes"])
+            DE_table["% DE genes"] = 100 * DE_table["# DE genes"] / len(mRNA)
+            print("\nNumber of DE genes per treatment:")
+            print(DE_table.sort_values("# DE genes", ascending=False).round(2))
+
+        if outcome == "quantiles_per_treatment":
+            # Count how many genes fall in the top quantile (coded as 1)
+            quantile_counts = {}
+            for t in treatments:
+                mRNA_t = mRNA[t]
+                quantile_counts[mapping[t]] = np.sum(mRNA_t == 1)
+            quantile_table = pd.DataFrame.from_dict(
+                quantile_counts, orient="index", columns=["# genes in top quantile"]
+            )
+            quantile_table["% genes in top quantile"] = (
+                100 * quantile_table["# genes in top quantile"] / len(mRNA)
+            )
+            print("\nNumber of genes in top quantile per treatment:")
+            print(quantile_table.sort_values("# genes in top quantile", ascending=False).round(2))
+
+        print(f"\n--- {outcome} ---")
+
         print(mRNA)
         # Make a heatmap of the intersection of sensitive genes divided by the union of sensitive genes
         # for the different treatments
@@ -1759,6 +2019,8 @@ def figure_S3(figsize = (10, 7)):
                 intersection = np.sum(((mRNA_t1 == 1) & (mRNA_t2 == 1))[mask])
                 union = np.sum((((mRNA_t1 == 1) | (mRNA_t2 == 1)))[mask])
                 overlaps[treatments.index(t1), treatments.index(t2)] = intersection / union
+
+        # generate a table with the number of DE genes per treatment
 
         plt.figure(figsize=figsize)
         sns.heatmap(
@@ -2074,42 +2336,106 @@ def figure_S7(figsize=(10, 7)):
     plt.tight_layout()
     plt.savefig(f"Images/SUP_figure_7.pdf", bbox_inches="tight")
 
+def figure_S9(figsize=(12, 6)):
+    # ------------------ User settings ------------------
+    fasta_file_TSS = "Data/RAW/DNA/Ath/promoters_814up_199down_TSS.fasta"
+    fasta_file_TTS = "Data/RAW/DNA/Ath/promoters_199up_814down_TTS.fasta"
+    csv_file       = "Data/Processed/Basal/up_down_q_tpm.csv"
+    motif          = "AAAAAA"
+
+    (
+        mRNA_train,
+        mRNA_validation,
+        mRNA_test,
+        TSS_sequences,
+        TTS_sequences,
+        metadata,
+    ) = load_data(
+        train_proportion=0.8,
+        val_proportion=0.1,
+        DNA_specs=[814, 200, 200, 814],
+        treatments=["up_down_q_TPM"],
+        problem_type="TPM_cuartiles",
+        mask_exons=False,
+        dna_format= "6-mer",
+    )
+
+    
+    # ------------------ Read gene class CSV ------------------
+    df = pd.read_csv(csv_file)
+    gene_class_dict = dict(zip(df['Unnamed: 0'], df['class']))
+
+    # ------------------ Helper function ------------------
+    def get_positions(fasta_file, upstream_len):
+        positions_by_class = {0: [], 1: []}
+        for record in SeqIO.parse(fasta_file, "fasta"):
+            gene_id = str(record.id).split("::")[0]
+            if gene_id not in gene_class_dict:
+                continue
+            cls = gene_class_dict[gene_id]
+            seq = str(record.seq).upper()
+            idx = seq.find(motif)
+            while idx != -1:
+                rel_pos = idx - upstream_len
+                positions_by_class[cls].append(rel_pos)
+                idx = seq.find(motif, idx + 1)
+        positions_by_class[0] = np.array(positions_by_class[0])
+        positions_by_class[1] = np.array(positions_by_class[1])
+        return positions_by_class
+
+    # ------------------ Get motif positions ------------------
+    positions_TSS = get_positions(fasta_file_TSS, 814)
+    positions_TTS = get_positions(fasta_file_TTS, 200)
+
+    # ------------------ Plot histograms ------------------
+    fig, axes = plt.subplots(1, 2, figsize=figsize, sharey=True, dpi=300)
+
+    # TSS plot
+    axes[0].hist(positions_TSS[1], bins=50, alpha=0.7, color='blue', label='Class 1')
+    axes[0].hist(positions_TSS[0], bins=50, alpha=0.7, color='orange', label='Class 0')
+    axes[0].axvline(0, color='red', linestyle='--', label="TSS")
+    axes[0].set_xlabel("Position relative to TSS (bp)")
+    axes[0].set_ylabel("Number of occurrences")
+    axes[0].set_title(f"TSS region motif '{motif}'")
+    axes[0].legend()
+
+    # TTS plot
+    axes[1].hist(positions_TTS[1], bins=50, alpha=0.7, color='blue', label='Class 1')
+    axes[1].hist(positions_TTS[0], bins=50, alpha=0.7, color='orange', label='Class 0')
+    axes[1].axvline(0, color='red', linestyle='--', label="TTS")
+    axes[1].set_xlabel("Position relative to TTS (bp)")
+    axes[1].set_title(f"TTS region motif '{motif}'")
+    axes[1].legend()
+
+    plt.tight_layout()
+    plt.savefig(f"Images/SUP_figure_9.pdf", bbox_inches="tight")
+
+
+
 if __name__ == "__main__":
     set_plot_style()
-    #figure_1a()
-    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    #
-    #figure_2a()
-    #figure_2b()
-    #
-    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
-    #
-    #figure_3c()
-    #figure_3a()
-    #figure_3b()
-    #
-    figure_4a()
-    figure_4b()
-    figure_4c()
-    figure_4d()
-    #
-    #figure_5a()
-    #figure_5b()
-    #figure_5c()
-    exit()
-    ## Reset for last figure
-    sns.reset_defaults()
-    sns.set_theme()
-    mpl.rcParams.update(mpl.rcParamsDefault)
-    figure_5d()
-    exit()
-    #SUP figures
-    set_plot_style()
-    figure_2a(metric="MCC") # SUP 1
-    figure_S2()
-    figure_S3()
+    figure_1a()
+    #figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    figure_2a()
+    figure_2b()
+    figure_5c(outcome = "quantiles_per_treatment") # 3
+    figure_3a(bp = 2048) # 4a
+    figure_3c(bp = 2048) # 4b
+    figure_3b(bp = 2048) # 4c
+    figure_3a(bp = 4096) # S8a
+    figure_3c(bp = 4096) # S8b
+    figure_3b(bp = 4096) # S8c
+    figure_4a() # 5a
+    figure_4b() # 5b
+    figure_4c() # 5c
+    figure_4d() # 5d
+    figure_5a() # 6a
+    figure_5b() # 6b
+    figure_5c() # 6c
+    figure_5d(bp = 2048, n_tfbm= 8) # 6d
+    figure_5d(bp = 4096, n_tfbm= 8) # S9
     figure_S4(figsize=(10, 7))
     figure_3b(outcome="amplitude") # SUP 5
     figure_S6(figsize=(10, 7))
     figure_S7(figsize=(10, 7))
-    
+    figure_S3()

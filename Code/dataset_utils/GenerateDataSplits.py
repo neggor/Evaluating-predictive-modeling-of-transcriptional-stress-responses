@@ -564,7 +564,6 @@ class DataHandler:
             wide_lgFC = wide_lgFC.rename(columns={"gene": "Gene"})
 
             self.metadata["n_labels"] = len(treatment)
-
             return wide_lgFC
 
         if problem_type == "amplitude":
@@ -607,8 +606,6 @@ class DataHandler:
             mRNA_data_matrix["padj"] = mRNA_data_matrix["padj"].fillna(1)
             fdr = 0.01
             print("FDA threshold: ", fdr)
-            print("Percentage DEG per hormone: ")
-
             for h in treatment:
                 mRNA_data_matrix.loc[mRNA_data_matrix["treatment"] == h, "class"] = 3
                 # get percentile
@@ -646,6 +643,13 @@ class DataHandler:
             )  # bacause this is going to be elementwise sigmoid activation, there can be several 1s at the same time
             return wide_de
 
+        elif problem_type == "TPM_cuartiles":
+            Y = pd.read_csv("Data/Processed/Basal/up_down_q_tpm.csv")
+            Y.columns = ["Gene", "up_down_q_TPM"]
+            return Y
+
+
+
     def get_data(self, treatments: list, problem_type: str):
         """
         Get the data for training, validation and testing.
@@ -660,7 +664,8 @@ class DataHandler:
         self.mRNA = self._get_class(treatments, problem_type)
         # ENFORCE that the columns follow the order of the treatments
         # VERY IMPORTANT!
-        self.mRNA = self.mRNA[["Gene"] + treatments]  #!!! IMPORTANT
+        if problem_type != "TPM_cuartiles" and problem_type != "TPM":
+            self.mRNA = self.mRNA[["Gene"] + treatments]  #!!! IMPORTANT
 
         if self.dna_format == "DAPseq":
             # enforcing it TODO
@@ -762,11 +767,12 @@ class DataHandler:
             )
 
         # assert that the order of the columns is the same as the treatments
-        assert all(mRNA_train.columns[1:-1] == treatments)
-        if mRNA_validation is not None:
-            assert all(mRNA_validation.columns[1:-1] == treatments)
-        if mRNA_test is not None:
-            assert all(mRNA_test.columns[1:-1] == treatments)
+        if problem_type != "TPM_cuartiles" and problem_type != "TPM":
+            assert all(mRNA_train.columns[1:-1] == treatments)
+            if mRNA_validation is not None:
+                assert all(mRNA_validation.columns[1:-1] == treatments)
+            if mRNA_test is not None:
+                assert all(mRNA_test.columns[1:-1] == treatments)
 
         if self.dna_format == "DAPseq":
             return (
@@ -791,7 +797,7 @@ class DataHandler:
 
 if __name__ == "__main__":
     # To test
-    DNA_specification = [1500, 500, 500, 1500]
+    DNA_specification = [50, 50, 50, 15]
     gene_families_file = "Data/Processed/gene_families.csv"
     data_path = "Data/Processed"
     train_proportion = 0.85
@@ -811,11 +817,12 @@ if __name__ == "__main__":
     mRNA_train, mRNA_validation, mRNA_test, TSS_sequences, TTS_sequences, metadata = (
         data_handler.get_data(
             treatments=["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
-            problem_type="DE_per_treatment",
+            problem_type="log2FC",
         )
     )
     print(mRNA_train)
     print(mRNA_train.shape, mRNA_validation.shape, mRNA_test.shape)
+    exit()
     # make the TSS_sequences a dataframe with the gene names as index
     TSS_sequences = pd.DataFrame.from_dict( TSS_sequences, orient="index")
     # put metahada TFs_TSS
