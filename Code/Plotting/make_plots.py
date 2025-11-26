@@ -1697,18 +1697,18 @@ def figure_5c(figsize=(10, 7), outcome = "log2FC"):
     DNA_specs = [814, 200, 200, 814]  # Promoter, UTR, UTR, Terminator
 
     # Load treatment folders
-    treatments_folders = os.listdir(f"Results/Interpretation/{outcome}")
+    treatments_folders = os.listdir(f"Results/Interpretation_2048/{outcome}")
 
     contrib_scores = {}
     for treatment in treatments_folders:
         if treatment == "queries":
             continue
-        gene_files = os.listdir(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores")
+        gene_files = os.listdir(f"Results/Interpretation_2048/{outcome}/{treatment}/hypothetical_scores")
         hyp_scores = []
         
         for gene_file in tqdm(gene_files):
             gene = gene_file.split("_")[0]
-            hyp_scores.append(np.load(f"Results/Interpretation/{outcome}/{treatment}/hypothetical_scores/{gene_file}"))
+            hyp_scores.append(np.load(f"Results/Interpretation_2048/{outcome}/{treatment}/hypothetical_scores/{gene_file}"))
         
         hyp_scores = np.array(hyp_scores)
         # Store contribution scores
@@ -2336,9 +2336,6 @@ def figure_S7(figsize=(10, 7)):
     plt.tight_layout()
     plt.savefig(f"Images/SUP_figure_7.pdf", bbox_inches="tight")
 
-def fit_simple_log_reg(X_train, X_test, Y_train, Y_test):
-    pass
-
 def figure_S9(figsize=(12, 6)):
     # ------------------ User settings ------------------
     fasta_file_TSS = "Data/RAW/DNA/Ath/promoters_814up_199down_TSS.fasta"
@@ -2417,49 +2414,28 @@ def figure_S9(figsize=(12, 6)):
 
 if __name__ == "__main__":
     set_plot_style()
-    #figure_S9()
-    #figure_1a()
-    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    #
-    #figure_S2()
-    #figure_2a()
-    #figure_2b()
-    #
-    #figure_5c(outcome = "quantiles_per_treatment") # 2.1
-    #
-    
-    #figure_3a(bp = 4096)
-    #figure_3c(bp = 4096)
-    #figure_3b(bp = 4096)
-#
-    #figure_3a(bp = 2048)
-    #figure_3c(bp = 2048)
-    #figure_3b(bp = 2048)
-    #
-    #figure_4a()
-    #figure_4b()
-    #figure_4c()
-    #figure_4d()
-    #
-    #figure_5a()
-    #figure_5b()
-    #figure_5c()
-    #figure_5d(bp = 2048, n_tfbm= 8)
-    #exit()
-    ## Reset for last figure
-    #sns.reset_defaults()
-    #sns.set_theme()
-    #mpl.rcParams.update(mpl.rcParamsDefault)
-    #figure_5d()
-    #exit()
-    ##SUP figures
-    #set_plot_style()
-    #figure_2a(metric="MCC") # SUP 1
-    #figure_S2()
-    figure_S3()
-    exit()
+    figure_1a()
+    #figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    figure_2a()
+    figure_2b()
+    figure_5c(outcome = "quantiles_per_treatment") # 3
+    figure_3a(bp = 2048) # 4a
+    figure_3c(bp = 2048) # 4b
+    figure_3b(bp = 2048) # 4c
+    figure_3a(bp = 4096) # S8a
+    figure_3c(bp = 4096) # S8b
+    figure_3b(bp = 4096) # S8c
+    figure_4a() # 5a
+    figure_4b() # 5b
+    figure_4c() # 5c
+    figure_4d() # 5d
+    figure_5a() # 6a
+    figure_5b() # 6b
+    figure_5c() # 6c
+    figure_5d(bp = 2048, n_tfbm= 8) # 6d
+    figure_5d(bp = 4096, n_tfbm= 8) # S9
     figure_S4(figsize=(10, 7))
     figure_3b(outcome="amplitude") # SUP 5
     figure_S6(figsize=(10, 7))
     figure_S7(figsize=(10, 7))
-    
+    figure_S3()

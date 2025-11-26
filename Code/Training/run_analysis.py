@@ -6,7 +6,6 @@ import json
 import pandas as pd
 
 outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
-#outcome_types = ["TPM_cuartiles"]
 
 # 1 Run linear models
 def linear_models():
