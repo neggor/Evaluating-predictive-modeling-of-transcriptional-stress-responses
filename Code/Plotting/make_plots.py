@@ -2018,6 +2018,10 @@ def figure_S3(figsize = (10, 7)):
                 mask = (mRNA_t1 != 3) & (mRNA_t2 != 3)
                 intersection = np.sum(((mRNA_t1 == 1) & (mRNA_t2 == 1))[mask])
                 union = np.sum((((mRNA_t1 == 1) | (mRNA_t2 == 1)))[mask])
+                if t1 == "X" and t2 == "Y":
+                    print(t1, t2, intersection, outcome)
+                if t1 == "X" and t2 == "Y":
+                    print(t1, t2, union, outcome)
                 overlaps[treatments.index(t1), treatments.index(t2)] = intersection / union
 
         # generate a table with the number of DE genes per treatment
@@ -2414,28 +2418,28 @@ def figure_S9(figsize=(12, 6)):
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1a()
-    #figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    figure_2a()
-    figure_2b()
-    figure_5c(outcome = "quantiles_per_treatment") # 3
-    figure_3a(bp = 2048) # 4a
-    figure_3c(bp = 2048) # 4b
-    figure_3b(bp = 2048) # 4c
-    figure_3a(bp = 4096) # S8a
-    figure_3c(bp = 4096) # S8b
-    figure_3b(bp = 4096) # S8c
-    figure_4a() # 5a
-    figure_4b() # 5b
-    figure_4c() # 5c
-    figure_4d() # 5d
-    figure_5a() # 6a
-    figure_5b() # 6b
-    figure_5c() # 6c
-    figure_5d(bp = 2048, n_tfbm= 8) # 6d
-    figure_5d(bp = 4096, n_tfbm= 8) # S9
-    figure_S4(figsize=(10, 7))
-    figure_3b(outcome="amplitude") # SUP 5
-    figure_S6(figsize=(10, 7))
-    figure_S7(figsize=(10, 7))
+    #figure_1a()
+    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    #figure_2a()
+    #figure_2b()
+    #figure_5c(outcome = "quantiles_per_treatment") # 3
+    #figure_3a(bp = 2048) # 4a
+    #figure_3c(bp = 2048) # 4b
+    #figure_3b(bp = 2048) # 4c
+    #figure_3a(bp = 4096) # S8a
+    #figure_3c(bp = 4096) # S8b
+    #figure_3b(bp = 4096) # S8c
+    #figure_4a() # 5a
+    #figure_4b() # 5b
+    #figure_4c() # 5c
+    #figure_4d() # 5d
+    #figure_5a() # 6a
+    #figure_5b() # 6b
+    #figure_5c() # 6c
+    #figure_5d(bp = 2048, n_tfbm= 8) # 6d
+    #figure_5d(bp = 4096, n_tfbm= 8) # S9
+    #figure_S4(figsize=(10, 7))
+    #figure_3b(outcome="amplitude") # SUP 5
+    #figure_S6(figsize=(10, 7))
+    #figure_S7(figsize=(10, 7))
     figure_S3()
