@@ -5,8 +5,8 @@ import subprocess
 import json
 import pandas as pd
 
-outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
-
+#outcome_types = ["log2FC", "amplitude", "quantiles_per_treatment", "DE_per_treatment", "TPM_cuartiles"]
+outcome_types = ["TPM_cuartiles"]
 # 1 Run linear models
 def linear_models():
 
@@ -212,7 +212,7 @@ def run_RF():
 
 
 if __name__ == "__main__":
-    linear_models()
-    run_cnn()
+    #linear_models()
+    #run_cnn()
     run_agroNT()
     #run_RF()
