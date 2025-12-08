@@ -2409,19 +2409,18 @@ def figure_S9(figsize=(12, 6)):
 
 
 if __name__ == "__main__":
-    #set_plot_style()
-    #figure_1a()
+    set_plot_style()
+    figure_1a()
     ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     figure_2a()
-    exit()
-    #figure_2b()
-    #figure_5c(outcome = "quantiles_per_treatment") # 3
-    #figure_3a(bp = 2048) # 4a
-    #figure_3c(bp = 2048) # 4b
-    #figure_3b(bp = 2048) # 4c
-    #figure_3a(bp = 4096) # S8a
-    #figure_3c(bp = 4096) # S8b
-    #figure_3b(bp = 4096) # S8c
+    figure_2b()
+    figure_5c(outcome = "quantiles_per_treatment") # 3
+    figure_3a(bp = 2048) # 4a
+    figure_3c(bp = 2048) # 4b
+    figure_3b(bp = 2048) # 4c
+    figure_3a(bp = 4096) # S8a
+    figure_3c(bp = 4096) # S8b
+    figure_3b(bp = 4096) # S8c
     figure_4a() # 5a
     figure_4b() # 5b
     figure_4c() # 5c

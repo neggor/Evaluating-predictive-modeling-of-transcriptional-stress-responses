@@ -352,7 +352,7 @@ def finetune_agroNT(
 
     elif (
         config["problem_type"] == "quantiles_per_treatment"
-        or config["problem_type"] == "DE_per_treatment"
+        or config["problem_type"] == "DE_per_treatment" or config["problem_type"] == "TPM_cuartiles"
     ):
         model = AutoModelForSequenceClassification.from_pretrained(
             "InstaDeepAI/agro-nucleotide-transformer-1b",
