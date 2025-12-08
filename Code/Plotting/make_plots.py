@@ -251,6 +251,7 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         }
     )
 
+
     # get the pvalues for quantiles and DE, comparing AgroNT to CNN and Linear
     plt.figure(figsize=figsize, dpi=300)
     print(res)
