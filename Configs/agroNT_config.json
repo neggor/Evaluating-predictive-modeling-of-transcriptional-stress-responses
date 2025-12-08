@@ -1,7 +1,7 @@
 {
     "lr": 5e-05,
     "weight_decay": 1e-05,
-    "n_epochs": 1,
+    "n_epochs": 25,
     "n_labels": 11,
     "treatments":["B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"],
     "batch_size": 15,
