@@ -226,9 +226,9 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     res["in_type"] = res["in_type"].replace(
         {
             "One-Hot": "CNN",
-            "DAPseq": "L. (DAPseq)",
+            "DAPseq": "L. (DAP-seq)",
             "String": "AgroNT",
-            "6-mer": "L. (6mer)",
+            "6-mer": "L. (6-mer)",
             "embeddings": "L. (AgroNT emb.)",
         }
     )
@@ -250,23 +250,6 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
             "TPM_cuartiles":"log(maxTPM + 1).Q"
         }
     )
-    mask = (res["in_type"] == "CNN") & (res["treatment"] == "up_down_q_TPM")
-
-    agg_row = pd.DataFrame({
-        "outcome_type": [res.loc[mask, "outcome_type"].iloc[0]],
-        "in_type": [res.loc[mask, "in_type"].iloc[0]],
-        "treatment": [res.loc[mask, "treatment"].iloc[0]],
-        "metric": [res.loc[mask, "metric"].iloc[0]],
-        "value": [res.loc[mask, "value"].mean()],
-        "model_type": [res.loc[mask, "model_type"].iloc[0]],
-        "exons": [res.loc[mask, "exons"].iloc[0]],
-        "length": [res.loc[mask, "length"].iloc[0]],
-        "rc": [res.loc[mask, "rc"].iloc[0]],
-        "replicate": ["avg"]  # mark as aggregated
-    })
-
-    # Drop original rows and append the aggregated row
-    res = pd.concat([res[~mask], agg_row], ignore_index=True)
 
     # get the pvalues for quantiles and DE, comparing AgroNT to CNN and Linear
     plt.figure(figsize=figsize, dpi=300)
@@ -282,34 +265,46 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     # print the maximum MCC for each in_type
     print(res.groupby(["in_type", "outcome_type"])["value"].max())
     ax = sns.boxplot(x="outcome_type", y="value", data=res[(res["outcome_type"] == "S.DE") | (res["outcome_type"] == "S.Q")], hue="in_type")
-    
-    #ax = sns.boxplot(
-    #x="outcome_type",
-    #y="value",
-    #data=res[(res["outcome_type"] == "TPM.Q") & (res["model_type"] != "linear")],
-    #hue="in_type",
-    #width=0.6,      # make boxes narrower so dots can fit
-    #dodge=True,     # separate hues horizontally
-    #legend=False,
-    #color="#2ca02c"
-    #)
+    df = res[res["outcome_type"] == "log(maxTPM + 1).Q"]
 
-    # Stripplot (dots) for singletons
+    order = df["outcome_type"].unique()
+    hue_order = df["in_type"].unique()
+    palette = sns.color_palette("tab10", len(hue_order))
+
+    # ---- BOXPLOT → NON-LINEAR ----
+    ax = sns.boxplot(
+        x="outcome_type",
+        y="value",
+        data=df[df["model_type"] != "linear"],
+        order=order,
+        hue="in_type",
+        hue_order=hue_order,
+        palette=palette,
+        width=0.6,
+        dodge=True,
+        legend=False,
+        fliersize=0,
+        linewidth=1
+    )
+
+    # ---- DOTS → LINEAR ----
     sns.stripplot(
         x="outcome_type",
         y="value",
-        data=res[(res["outcome_type"] == "log(maxTPM + 1).Q")], #& (res["model_type"] == "linear")],
+        data=df[df["model_type"] == "linear"],
+        order=order,
         hue="in_type",
-        dodge=True,     # keeps dots side by side with corresponding box
+        hue_order=hue_order,
+        palette=palette,
+        dodge=True,
         size=12,
-        #jitter=0.15,    # horizontal spread
         marker="o",
         edgecolor="black",
         linewidth=1,
         legend=False,
         ax=ax
     )
-    # now dots for the linear ones
+    #now dots for the linear ones
 
 
     # print the average of the values per in_type
@@ -333,11 +328,11 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         pairs = [
             (
                 (res["outcome_type"].unique()[0], "CNN"),
-                (res["outcome_type"].unique()[0], "L. (DAPseq)"),
+                (res["outcome_type"].unique()[0], "L. (DAP-seq)"),
             ),
             (
                 (res["outcome_type"].unique()[1], "CNN"),
-                (res["outcome_type"].unique()[1], "L. (DAPseq)"),
+                (res["outcome_type"].unique()[1], "L. (DAP-seq)"),
             ),
             (
                 (res["outcome_type"].unique()[0], "CNN"),
@@ -349,11 +344,11 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
             ),
             (
                 (res["outcome_type"].unique()[0], "CNN"),
-                (res["outcome_type"].unique()[0], "L. (6mer)"),
+                (res["outcome_type"].unique()[0], "L. (6-mer)"),
             ),
             (
                 (res["outcome_type"].unique()[1], "CNN"),
-                (res["outcome_type"].unique()[1], "L. (6mer)"),
+                (res["outcome_type"].unique()[1], "L. (6-mer)"),
             ),
             #(
             #   (res["outcome_type"].unique()[1], "L. (6mer)"),
@@ -854,7 +849,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC", bp = 2048):
             )
             metric_m = pd.DataFrame(metrics)
             metric_m["replicate"] = 0
-            metric_m["model"] = "DAPseq"
+            metric_m["model"] = "DAP-seq"
             metric_m["treatment"] = treatment_name
             # reset index
             metric_m.reset_index(inplace=True)
@@ -894,7 +889,7 @@ def figure_3b(figsize=(10, 7), outcome="log2FC", bp = 2048):
             size=10,
             palette={
                 "6-mer": "#1f77b4",
-                "DAPseq": "#ff7f0e",
+                "DAP-seq": "#ff7f0e",
                 "AgroNT": "#d62728",
                 "Random": "#999999",
             },
@@ -1074,7 +1069,7 @@ def figure_4a(figsize=(10, 7), metric="AUC"):
     res = res.rename(columns={"in_type": "Model type"})
     # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
     res["Model type"] = res["Model type"].replace(
-        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAP-seq)"}
     )
     # remove the 6mer, DAPseq and AgroNT
     res = res[res["Model type"] == "CNN"]
@@ -1160,7 +1155,7 @@ def figure_4b(figsize=(10, 7), metric="Spearman"):
     res = res.rename(columns={"in_type": "Model type"})
     # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
     res["Model type"] = res["Model type"].replace(
-        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAP-seq)"}
     )
     # remove the 6mer, DAPseq and AgroNT
     res = res[res["Model type"] == "CNN"]
@@ -1252,7 +1247,7 @@ def figure_4c(figsize=(10, 7), metric="AUC"):
     res = res.rename(columns={"in_type": "Model type"})
     # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
     res["Model type"] = res["Model type"].replace(
-        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAP-seq)"}
     )
     # remove the 6mer, DAPseq and AgroNT
     res = res[res["Model type"] == "CNN"]
@@ -1329,7 +1324,7 @@ def figure_4d(figsize=(10, 7), metric="Spearman"):
     res = res.rename(columns={"in_type": "Model type"})
     # Now change One-hot encoding to CNN, 6mer to Linear (6mer) and DAPseq to Linear (DAPseq)
     res["Model type"] = res["Model type"].replace(
-        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAPseq)"}
+        {"One-Hot": "CNN", "6-mer": "L. (6mer)", "DAPseq": "L. (DAP-seq)"}
     )
     # remove the 6mer, DAPseq and AgroNT
     res = res[res["Model type"] == "CNN"]
@@ -2413,18 +2408,19 @@ def figure_S9(figsize=(12, 6)):
 
 
 if __name__ == "__main__":
-    set_plot_style()
-    figure_1a()
-    #figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    #set_plot_style()
+    #figure_1a()
+    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
     figure_2a()
-    figure_2b()
-    figure_5c(outcome = "quantiles_per_treatment") # 3
-    figure_3a(bp = 2048) # 4a
-    figure_3c(bp = 2048) # 4b
-    figure_3b(bp = 2048) # 4c
-    figure_3a(bp = 4096) # S8a
-    figure_3c(bp = 4096) # S8b
-    figure_3b(bp = 4096) # S8c
+    exit()
+    #figure_2b()
+    #figure_5c(outcome = "quantiles_per_treatment") # 3
+    #figure_3a(bp = 2048) # 4a
+    #figure_3c(bp = 2048) # 4b
+    #figure_3b(bp = 2048) # 4c
+    #figure_3a(bp = 4096) # S8a
+    #figure_3c(bp = 4096) # S8b
+    #figure_3b(bp = 4096) # S8c
     figure_4a() # 5a
     figure_4b() # 5b
     figure_4c() # 5c
