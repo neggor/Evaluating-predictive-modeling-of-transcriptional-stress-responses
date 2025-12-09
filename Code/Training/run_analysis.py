@@ -140,7 +140,10 @@ def run_agroNT():
 
     for problem_type in outcome_types:
         if "TPM" in problem_type:
-            continue
+                config["treatments"] = ["up_down_q_TPM"] if problem_type == "TPM_cuartiles" else ["mean"]
+        else:
+            config["treatments"] =  [ "B", "C", "D", "G", "X", "Y", "Z", "W", "V", "U", "T"]
+        config["n_labels"] = len(config["treatments"])
         config["problem_type"] = problem_type
         store_folder = f"Results/agroNT/{problem_type}"
         # create the store folder if it does not exist

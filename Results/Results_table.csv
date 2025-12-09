@@ -4135,3 +4135,7 @@ TPM_cuartiles,One-Hot,up_down_q_TPM,MCC,0.564631293934677,CNN,all,8192,True,4
 TPM_cuartiles,One-Hot,up_down_q_TPM,Accuracy,0.8062992125984252,CNN,all,8192,True,4
 TPM_cuartiles,One-Hot,up_down_q_TPM,AUC,0.8701555472457456,CNN,all,8192,True,4
 TPM_cuartiles,One-Hot,up_down_q_TPM,F1,0.8547815820543092,CNN,all,8192,True,4
+TPM_cuartiles,String,up_down_q_TPM,AUC,0.946276987157237,AgroNT,not apply,not apply,not apply,not apply
+TPM_cuartiles,String,up_down_q_TPM,Accuracy,0.8796844181459567,AgroNT,not apply,not apply,not apply,not apply
+TPM_cuartiles,String,up_down_q_TPM,MCC,0.738077630911459,AgroNT,not apply,not apply,not apply,not apply
+TPM_cuartiles,String,up_down_q_TPM,F1,0.9070405364218226,AgroNT,not apply,not apply,not apply,not apply

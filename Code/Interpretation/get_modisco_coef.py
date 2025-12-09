@@ -213,7 +213,7 @@ def get_argmax_similarities(patterns: dict, tfbms_data: str):
 
     for pattern_name, (pattern_PWM, val) in patterns.items():
         sign = -1 if pattern_name.startswith("neg") else 1
-        pattern_values.append(sign * int(val))
+        pattern_values.append(sign * int(val)) # sing aware!
         pattern_lengths.append(pattern_PWM.shape[0])  # PWM shape (L,4)
 
         # get best TF and its length
