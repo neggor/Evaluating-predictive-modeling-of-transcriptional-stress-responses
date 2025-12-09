@@ -272,11 +272,11 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
     hue_order = df["in_type"].unique()
     palette = sns.color_palette("tab10", len(hue_order))
 
-    # ---- BOXPLOT → NON-LINEAR ----
+    # ---- BOXPLOT -> CNN ----
     ax = sns.boxplot(
         x="outcome_type",
         y="value",
-        data=df[df["model_type"] != "linear"],
+        data=df[df["model_type"] == "CNN"],
         order=order,
         hue="in_type",
         hue_order=hue_order,
@@ -288,11 +288,11 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
         linewidth=1
     )
 
-    # ---- DOTS → LINEAR ----
+    # ---- DOTS -> LINEAR, AgroNT ----
     sns.stripplot(
         x="outcome_type",
         y="value",
-        data=df[df["model_type"] == "linear"],
+        data=df[df["model_type"] != "CNN"],
         order=order,
         hue="in_type",
         hue_order=hue_order,
@@ -371,6 +371,9 @@ def figure_2a(figsize=(10, 7), pvals=True, metric="AUC"):
 
     plt.legend(loc="center left",  bbox_to_anchor=(0.0, 0.73), frameon=False, ncol=1)
     plt.ylabel(f"{metric}-ROC" if metric == "AUC" else metric)
+    if metric == "AUC":
+        plt.ylim((0.5, 1))
+        ax.set_yticks(np.arange(0.5, 1.01, 0.05))   # ticks every 0.05
     plt.xlabel("")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
@@ -2160,7 +2163,7 @@ def figure_S6(figsize=(10, 7)):
             )
             metric_m = pd.DataFrame(metrics)
             metric_m["replicate"] = 0
-            metric_m["model"] = "DAPseq"
+            metric_m["model"] = "DAP-seq"
             metric_m["treatment"] = treatment_name
             # reset index
             metric_m.reset_index(inplace=True)
@@ -2199,7 +2202,7 @@ def figure_S6(figsize=(10, 7)):
             size=10,
             palette={
                 "6-mer": "#1f77b4",
-                "DAPseq": "#ff7f0e",
+                "DAP-seq": "#ff7f0e",
                 "AgroNT": "#d62728",
                 "Random": "#999999",
             },
@@ -2410,27 +2413,29 @@ def figure_S9(figsize=(12, 6)):
 
 if __name__ == "__main__":
     set_plot_style()
-    figure_1a()
-    ##figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
-    figure_2a()
-    figure_2b()
-    figure_5c(outcome = "quantiles_per_treatment") # 3
-    figure_3a(bp = 2048) # 4a
-    figure_3c(bp = 2048) # 4b
-    figure_3b(bp = 2048) # 4c
-    figure_3a(bp = 4096) # S8a
-    figure_3c(bp = 4096) # S8b
-    figure_3b(bp = 4096) # S8c
-    figure_4a() # 5a
-    figure_4b() # 5b
-    figure_4c() # 5c
-    figure_4d() # 5d
-    figure_5a() # 6a
-    figure_5b() # 6b
-    figure_5c() # 6c
-    figure_5d(bp = 2048, n_tfbm= 8) # 6d
-    figure_5d(bp = 4096, n_tfbm= 8) # S9
-    figure_S4(figsize=(10, 7))
+    #figure_1a()
+    ###figure_1b() Data for this is not made publicly available (is figure 1c in the paper)
+    #figure_2a()
+    #figure_2a(metric="MCC") # SUP1
+    #figure_2b()
+    #exit()
+    #figure_5c(outcome = "quantiles_per_treatment") # 3
+    #figure_3a(bp = 2048) # 4a
+    #figure_3c(bp = 2048) # 4b
+    #figure_3b(bp = 2048) # 4c
+    #figure_3a(bp = 4096) # S8a
+    #figure_3c(bp = 4096) # S8b
+    #figure_3b(bp = 4096) # S8c
+    #figure_4a() # 5a
+    #figure_4b() # 5b
+    #figure_4c() # 5c
+    #figure_4d() # 5d
+    #figure_5a() # 6a
+    #figure_5b() # 6b
+    #figure_5c() # 6c
+    #figure_5d(bp = 2048, n_tfbm= 8) # 6d
+    #figure_5d(bp = 4096, n_tfbm= 8) # S9
+    #figure_S4(figsize=(10, 7))
     figure_3b(outcome="amplitude") # SUP 5
     figure_S6(figsize=(10, 7))
     figure_S7(figsize=(10, 7))
